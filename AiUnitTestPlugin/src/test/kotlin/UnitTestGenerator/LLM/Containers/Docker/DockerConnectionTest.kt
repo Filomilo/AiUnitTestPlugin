@@ -1,0 +1,58 @@
+package UnitTestGenerator.LLM.Containers.Docker
+
+import UnitTestGenerator.LLM.Containers.ContainerConfiguration
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class DockerConnectionTest {
+
+    val testContainer: String = "hello-world"
+
+    @Test
+    fun pullImage() {
+    }
+
+    @Test
+    fun getRunningVmList() {
+    }
+
+    @Test
+    fun getVmList() {
+    }
+
+    @Test
+    fun close() {
+    }
+
+    @Test
+    fun contianerListToIdList() {
+    }
+
+    @Test
+    fun createVmCorrect() {
+
+        assertDoesNotThrow {
+            val amtOfConatinersBefore: Int = DockerConnection.getVmList().size;
+            var containerid: String = DockerConnection.createContainer(
+                ContainerConfiguration.builder().image(testContainer).ramBytes(128 * 1024 * 1024).build()
+            )
+            val amtOfConatinersAfterCreation: Int = DockerConnection.getVmList().size;
+
+            DockerConnection.destroyContainer(containerid)
+            val amtOfConatinersAfterestrcution: Int = DockerConnection.getVmList().size;
+            assertEquals(
+                amtOfConatinersBefore + 1,
+                amtOfConatinersAfterCreation,
+                "New Vm failed to be created"
+            )
+            assertEquals(
+                amtOfConatinersBefore,
+                amtOfConatinersAfterestrcution,
+                "New Vm failed to bew removed after creation"
+            )
+        }
+
+    }
+}
