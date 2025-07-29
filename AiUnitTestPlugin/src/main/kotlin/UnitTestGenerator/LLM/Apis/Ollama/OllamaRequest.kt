@@ -1,74 +1,69 @@
-package UnitTestGenerator.LLM.Apis.Ollama;
+package UnitTestGenerator.LLM.Apis.Ollama
 
-import kotlinx.serialization.Serializable;
-
-import java.util.List;
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 
 @Serializable
-public class OllamaRequest {
-
+data class OllamaRequest(
     /**
      * (required) the model name
      */
-    String model;
+    val model: String,
 
     /**
      * the prompt to generate a response for
      */
-    String prompt;
+    val prompt: String? = null,
 
     /**
      * the text after the model response
      */
-    String suffix;
+    val suffix: String? = null,
 
     /**
      * (optional) a list of base64-encoded images (for multimodal models such as llava)
      */
-    List<String> images;
+    val images: List<String>? = null,
 
     /**
      * (for thinking models) should the model think before responding?
      */
-    Boolean think;
+    val think: Boolean? = null,
 
-    ////////////////////////////////////////////////// ADVANCED
-
+    ///////////////// ADVANCED ///////////////////////
 
     /**
      * the format to return a response in. Format can be json or a JSON schema
      */
-    Object format;
+    @Contextual val format: Any? = null,
 
     /**
      * additional model parameters listed in the documentation for the Modelfile such as temperature
      */
-    Object options;
+    @Contextual  val options: Any? = null,
 
     /**
      * system message to (overrides what is defined in the Modelfile)
      */
-    Object system;
+    @Contextual val system: Any? = null,
 
     /**
      * the prompt template to use (overrides what is defined in the Modelfile)
      */
-    Object template;
+    @Contextual  val template: Any? = null,
 
     /**
      * if false the response will be returned as a single response object, rather than a stream of objects
      */
-    Boolean stream;
+    val stream: Boolean? = null,
 
     /**
      * if true no formatting will be applied to the prompt. You may choose to use the raw parameter if you are specifying a full templated prompt in your request to the API
      */
-    Boolean raw;
+    val raw: Boolean? = null,
 
     /**
      * controls how long the model will stay loaded into memory following the request (default: 5m)
      */
-    Boolean keep_alive;
-
-
-}
+    val keep_alive: Boolean? = null
+)

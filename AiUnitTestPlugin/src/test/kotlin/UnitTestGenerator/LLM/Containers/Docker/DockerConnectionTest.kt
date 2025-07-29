@@ -36,7 +36,10 @@ class DockerConnectionTest {
         assertDoesNotThrow {
             val amtOfConatinersBefore: Int = DockerConnection.getVmList().size;
             var containerid: String = DockerConnection.createContainer(
-                ContainerConfiguration.builder().image(testContainer).ramBytes(128 * 1024 * 1024).build()
+                ContainerConfiguration(
+                    image = testContainer,
+                    ramBytes = 128 * 1024 * 1024
+                )
             )
             val amtOfConatinersAfterCreation: Int = DockerConnection.getVmList().size;
 
