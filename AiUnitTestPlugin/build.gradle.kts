@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
     id("org.jetbrains.intellij") version "1.17.3"
-    id("io.freefair.lombok") version "8.6"
+
     id("java")
 }
 
@@ -23,9 +23,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
 
-    implementation("com.squareup.okhttp3:okhttp:5.1.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     runtimeOnly("com.squareup.okio:okio-jvm:3.15.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:2.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
 //    implementation("com.squareup.okhttp3:okhttp:5.0.0")
 }
 // Configure Gradle IntelliJ Plugin
