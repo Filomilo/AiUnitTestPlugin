@@ -1,6 +1,6 @@
-package UnitTestGenerator.LLM.Containers
+package UnitTestGenerator.LLM.Containers.Config
 
-enum class VmStatus {
+enum class ContainerStatus {
     AWAITING_ACCES,
     CREATING_VM,
     STARTING_MACHINE,

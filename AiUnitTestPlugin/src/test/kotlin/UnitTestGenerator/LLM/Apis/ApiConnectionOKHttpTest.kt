@@ -3,11 +3,11 @@ package UnitTestGenerator.LLM.Apis
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 
-class ApiConnectionTest{
+class ApiConnectionOKHttpTest{
     @Test
     fun testApis(){
-        assertNotNull(      ApiConnection.getClient())
-    val elem=ApiConnection.getClient()
+        assertNotNull(      ApiConnectionOKHttp.getClient())
+    val elem=ApiConnectionOKHttp.getClient()
         assertNotNull( elem)
     }
 

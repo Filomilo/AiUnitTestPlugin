@@ -1,6 +1,6 @@
 package UnitTestGenerator.LLM.Containers.Docker
 
-import UnitTestGenerator.LLM.Containers.ContainerConfiguration
+import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -34,17 +34,17 @@ class DockerConnectionTest {
     fun createVmCorrect() {
 
         assertDoesNotThrow {
-            val amtOfConatinersBefore: Int = DockerConnection.getVmList().size;
+            val amtOfConatinersBefore: Int = DockerConnection.getContainersList().size;
             var containerid: String = DockerConnection.createContainer(
                 ContainerConfiguration(
                     image = testContainer,
                     ramBytes = 128 * 1024 * 1024
                 )
             )
-            val amtOfConatinersAfterCreation: Int = DockerConnection.getVmList().size;
+            val amtOfConatinersAfterCreation: Int = DockerConnection.getContainersList().size;
 
             DockerConnection.destroyContainer(containerid)
-            val amtOfConatinersAfterestrcution: Int = DockerConnection.getVmList().size;
+            val amtOfConatinersAfterestrcution: Int = DockerConnection.getContainersList().size;
             assertEquals(
                 amtOfConatinersBefore + 1,
                 amtOfConatinersAfterCreation,

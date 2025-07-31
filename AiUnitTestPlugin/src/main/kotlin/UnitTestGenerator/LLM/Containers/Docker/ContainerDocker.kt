@@ -1,27 +1,36 @@
 package UnitTestGenerator.LLM.Containers.Docker
 
 import UnitTestGenerator.LLM.Containers.Container
-import UnitTestGenerator.LLM.Containers.VmStatus
+import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
+import UnitTestGenerator.LLM.Containers.Config.ContainerStatus
 
 class ContainerDocker : Container {
+
+    lateinit var id: String
+
+    constructor(containerConfiguration: ContainerConfiguration) {
+        this.id = DockerConnection.createContainer(containerConfiguration)
+    }
+
     override fun start() {
-        TODO("Not yet implemented")
+        DockerConnection.startContainer(this.id)
     }
 
     override fun stop() {
-        TODO("Not yet implemented")
+        DockerConnection.stopContainer(this.id)
     }
 
     override fun destroy() {
+        DockerConnection.destroyContainer(this.id)
+    }
+
+    override fun getStatus(): ContainerStatus {
         TODO("Not yet implemented")
     }
 
-    override fun getStatus(): VmStatus {
-        TODO("Not yet implemented")
+    override fun getOpenPort(): Int {
+        return DockerConnection.getOpenPort(this.id)
     }
 
-    override fun getRamMb(): Int {
-        TODO("Not yet implemented")
-    }
 
 }
