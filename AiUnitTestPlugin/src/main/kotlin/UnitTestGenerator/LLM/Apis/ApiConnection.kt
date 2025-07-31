@@ -1,12 +1,8 @@
 package UnitTestGenerator.LLM.Apis
 
-//import java.io.IOException;
-//import okhttp3.MediaType;
-//import okhttp3.OkHttpClient;
-//import okhttp3.Request;
-//import okhttp3.RequestBody;
-//import okhttp3.Response;
+interface ApiConnection {
+    suspend fun sendPost(url: String, content: String): String
+    suspend fun sendPut(url: String, content: String): String
+    suspend fun sendGet(url: String): String
 
-object ApiConnection {
-//    private val client = OkHttpClient()
 }

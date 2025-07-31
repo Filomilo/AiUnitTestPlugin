@@ -1,12 +1,13 @@
 package UnitTestGenerator.LLM.Containers.Docker
 
-import UnitTestGenerator.LLM.Containers.ContainerConfiguration
+import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
+import UnitTestGenerator.LLM.Containers.Config.ContainerStatus
+import UnitTestGenerator.LLM.Containers.ContainersManager
 import com.github.dockerjava.api.DockerClient
 import com.github.dockerjava.api.command.*
 import com.github.dockerjava.api.exception.ConflictException
 import com.github.dockerjava.api.exception.NotFoundException
-import com.github.dockerjava.api.model.Container
-import com.github.dockerjava.api.model.HostConfig
+import com.github.dockerjava.api.model.*
 import com.github.dockerjava.core.DefaultDockerClientConfig
 import com.github.dockerjava.core.DockerClientConfig
 import com.github.dockerjava.core.DockerClientImpl
@@ -16,7 +17,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.Duration
 
-object DockerConnection {
+object DockerConnection : ContainersManager {
     private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
 
 
@@ -47,20 +48,20 @@ object DockerConnection {
     }
 
 
-    public fun getRunningVmList(): List<String> {
+    override fun getRunningContainersList(): List<String> {
         val conatinerList = dockerClient.listContainersCmd().exec()
         val containersId: List<String> = contianerListToIdList(conatinerList)
         return containersId
     }
 
-    public fun getVmList(): List<String> {
+    override fun getContainersList(): List<String> {
         val conatinerList = dockerClient.listContainersCmd().withShowAll(true).exec()
         val containersId: List<String> = contianerListToIdList(conatinerList)
 
         return containersId
     }
 
-    public fun close() {
+    override fun close() {
         dockerClient.close()
     }
 
@@ -70,15 +71,27 @@ object DockerConnection {
     }
 
     @Throws(InterruptedException::class)
-    fun pullImageSync(image: String?) {
+    override fun pullImageSync(image: String?) {
         val pullImageCmd = dockerClient.pullImageCmd(image!!)
         val callback = pullImageCmd.exec(PullImageResultCallback())
         callback.awaitCompletion()
     }
 
-    fun createContainer(containerConfiguration: ContainerConfiguration): String {
+    override fun createContainer(containerConfiguration: ContainerConfiguration): String {
 //        TODO("not imlmetneds")
         val hostConfig = HostConfig.newHostConfig().withMemory(containerConfiguration.ramBytes)
+        if (containerConfiguration.portConfiguration.isNotEmpty()) {
+            containerConfiguration.portConfiguration.stream().forEach { x ->
+
+                hostConfig.withPortBindings(
+                    PortBinding(
+                        Ports.Binding.bindPort(x.internalPort),
+                        ExposedPort(x.internalPort)
+                    )
+                )
+            }
+
+        }
 
         var response: CreateContainerResponse
         try {
@@ -99,7 +112,7 @@ object DockerConnection {
 
     }
 
-    fun destroyContainer(containerid: String) {
+    override fun destroyContainer(containerid: String) {
         log.info("destroying vm with id: $containerid")
         try {
             dockerClient.removeContainerCmd(containerid).exec()
@@ -110,8 +123,40 @@ object DockerConnection {
         }
     }
 
-    fun stopContainer(id: String) {
+    override fun stopContainer(id: String) {
         log.info("stopping container $id")
         dockerClient.stopContainerCmd(id).exec()
+    }
+
+    override fun startContainer(id: String) {
+        dockerClient.startContainerCmd(id).exec()
+    }
+
+    fun getContianerFromID(id: String): Container? {
+        return try {
+            dockerClient
+                .listContainersCmd()
+                .withShowAll(true)
+                .withFilter("id", ArrayList(listOf(id)))
+                .exec()[0]
+        } catch (ex: IndexOutOfBoundsException) {
+            null
+        }
+    }
+
+    override fun getStatus(id: String): ContainerStatus {
+        try {
+            val status: String = getContianerFromID(id)!!.getStatus()
+            log.info("gettign status: $status")
+            if (status.contains("Up")) return ContainerStatus.RUNNING_MACHINE
+            if (status.contains("Exited")) return ContainerStatus.MACHINE_STOPPED
+        } catch (ex: NullPointerException) {
+            return ContainerStatus.DESTROYED
+        }
+        return ContainerStatus.DESTROYED
+    }
+
+    override fun getOpenPort(id: String): Int {
+        return getContianerFromID(id)!!.getPorts()[0].publicPort!!;
     }
 }
