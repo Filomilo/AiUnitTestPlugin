@@ -1,10 +1,13 @@
 package UnitTestGenerator.LLM.Apis.Ollama
 
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 
 @Serializable
-data class OllamaRequest(
+data class OllamaGenerateRequest(
     /**
      * (required) the model name
      */
@@ -13,7 +16,7 @@ data class OllamaRequest(
     /**
      * the prompt to generate a response for
      */
-    val prompt: String? = null,
+    @EncodeDefault(EncodeDefault.Mode.ALWAYS) val prompt: String = "",
 
     /**
      * the text after the model response
@@ -35,22 +38,22 @@ data class OllamaRequest(
     /**
      * the format to return a response in. Format can be json or a JSON schema
      */
-    @Contextual val format: Any? = null,
+    @Contextual val format: String? = null,
 
     /**
      * additional model parameters listed in the documentation for the Modelfile such as temperature
      */
-    @Contextual  val options: Any? = null,
+    @Contextual val options: JsonObject? = null,
 
     /**
      * system message to (overrides what is defined in the Modelfile)
      */
-    @Contextual val system: Any? = null,
+    @Contextual val system: String? = null,
 
     /**
      * the prompt template to use (overrides what is defined in the Modelfile)
      */
-    @Contextual  val template: Any? = null,
+    @Contextual val template: String? = null,
 
     /**
      * if false the response will be returned as a single response object, rather than a stream of objects
