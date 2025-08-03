@@ -79,29 +79,52 @@ object DockerConnection : ContainersManager {
 
     override fun createContainer(containerConfiguration: ContainerConfiguration): String {
 //        TODO("not imlmetneds")
-        val hostConfig = HostConfig.newHostConfig().withMemory(containerConfiguration.ramBytes)
-        if (containerConfiguration.portConfiguration.isNotEmpty()) {
-            containerConfiguration.portConfiguration.stream().forEach { x ->
+        val hostConfig = HostConfig.newHostConfig()
+        if (containerConfiguration.ramBytes != null) {
+            hostConfig.withMemory(containerConfiguration.ramBytes)
+        }
 
-                hostConfig.withPortBindings(
-                    PortBinding(
-                        Ports.Binding.bindPort(x.internalPort),
-                        ExposedPort(x.internalPort)
-                    )
+
+        if (containerConfiguration.portConfiguration.isNotEmpty()) {
+            val portBindings = containerConfiguration.portConfiguration.map { x ->
+                PortBinding(
+                    Ports.Binding("0.0.0.0", x.exposedPort.toString()),
+                    ExposedPort(x.internalPort)
                 )
             }
 
+            hostConfig
+                .withPortBindings(portBindings)
+        }
+        if (containerConfiguration.mountVolumes.isNotEmpty()) {
+            hostConfig.withMounts(
+                containerConfiguration.mountVolumes.map { x ->
+                    Mount().withType(MountType.VOLUME)
+                        .withSource(x.name)
+                        .withTarget(x.interalPath)
+                }.toList()
+            )
         }
 
         var response: CreateContainerResponse
+        var DockerContainerCmd: CreateContainerCmd =
+            dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig);
+        if (containerConfiguration.portConfiguration.isNotEmpty()) {
+            DockerContainerCmd.withExposedPorts(
+                (containerConfiguration.portConfiguration.map { x -> ExposedPort(x.exposedPort) }.toList())
+            )
+        }
         try {
-            response = dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig).exec()
+            response = DockerContainerCmd.exec()
         } catch (ex: NotFoundException) {
             log.warn("Docker image: ${containerConfiguration.image} Image locally attempting to pull it from repository")
             try {
                 pullImageSync(containerConfiguration.image)
-                response =
-                    dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig).exec()
+
+
+
+                response = DockerContainerCmd
+                    .exec()
             } catch (e: Exception) {
                 throw Exception("Couldn't create container: " + e.message)
             }
@@ -158,5 +181,11 @@ object DockerConnection : ContainersManager {
 
     override fun getOpenPort(id: String): Int {
         return getContianerFromID(id)!!.getPorts()[0].publicPort!!;
+    }
+
+    override fun destroyAll() {
+        this.getContainersList().forEach { x ->
+            destroyContainer(x)
+        }
     }
 }

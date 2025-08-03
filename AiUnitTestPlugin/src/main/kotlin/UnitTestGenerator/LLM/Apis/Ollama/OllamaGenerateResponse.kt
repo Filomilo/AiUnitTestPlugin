@@ -1,8 +1,10 @@
 package UnitTestGenerator.LLM.Apis.Ollama;
 
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 
-data class OllamaResponse(
+@Serializable
+data class OllamaGenerateResponse(
     var model: String,
 
     var created_at: Instant,
@@ -11,9 +13,10 @@ data class OllamaResponse(
     var response: String = "",
 
     var done: Boolean = false,
+    var done_reason: String,
 
     /** An encoding of the conversation used in this response, for keeping conversational memory */
-    var context: Array<Int> = emptyArray(),
+    var context: List<Int> = emptyList<Int>(),
 
     /** Time spent generating the response */
     var total_duration: Long = 0L,

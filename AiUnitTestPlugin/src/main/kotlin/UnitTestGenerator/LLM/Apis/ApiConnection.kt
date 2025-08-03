@@ -1,8 +1,9 @@
 package UnitTestGenerator.LLM.Apis
 
 interface ApiConnection {
-    suspend fun sendPost(url: String, content: String): String
-    suspend fun sendPut(url: String, content: String): String
-    suspend fun sendGet(url: String): String
+    fun sendPost(url: String, content: String): String
+    fun sendPut(url: String, content: String): String
+    fun sendGet(url: String): String
+    fun sendDelete(url: String, content: String): String
 
 }

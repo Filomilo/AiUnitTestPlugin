@@ -16,4 +16,5 @@ interface ContainersManager {
     fun startContainer(id: String)
     fun getStatus(id: String): ContainerStatus
     fun getOpenPort(id: String): Int
+    fun destroyAll()
 }

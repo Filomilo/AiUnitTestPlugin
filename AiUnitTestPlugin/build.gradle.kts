@@ -22,7 +22,7 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.9.0")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     runtimeOnly("com.squareup.okio:okio-jvm:3.15.0")
