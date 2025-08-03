@@ -79,7 +79,12 @@ object DockerConnection : ContainersManager {
 
     override fun createContainer(containerConfiguration: ContainerConfiguration): String {
 //        TODO("not imlmetneds")
-        val hostConfig = HostConfig.newHostConfig().withMemory(containerConfiguration.ramBytes)
+        val hostConfig = HostConfig.newHostConfig()
+        if (containerConfiguration.ramBytes != null) {
+            hostConfig.withMemory(containerConfiguration.ramBytes)
+        }
+
+
         if (containerConfiguration.portConfiguration.isNotEmpty()) {
             val portBindings = containerConfiguration.portConfiguration.map { x ->
                 PortBinding(
@@ -176,5 +181,11 @@ object DockerConnection : ContainersManager {
 
     override fun getOpenPort(id: String): Int {
         return getContianerFromID(id)!!.getPorts()[0].publicPort!!;
+    }
+
+    override fun destroyAll() {
+        this.getContainersList().forEach { x ->
+            destroyContainer(x)
+        }
     }
 }

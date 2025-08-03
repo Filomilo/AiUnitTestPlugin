@@ -69,4 +69,8 @@ data class OllamaGenerateRequest(
      * controls how long the model will stay loaded into memory following the request (default: 5m)
      */
     val keep_alive: Boolean? = null
-)
+) {
+//    override fun toString(): String {
+//        return "OllamaGenerateRequest(prompt='$prompt', model='$model')"
+//    }
+}

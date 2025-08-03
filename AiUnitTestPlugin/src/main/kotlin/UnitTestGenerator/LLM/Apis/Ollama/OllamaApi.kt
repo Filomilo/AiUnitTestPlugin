@@ -4,6 +4,7 @@ import UnitTestGenerator.LLM.Apis.ApiConnection
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import java.util.concurrent.TimeoutException
 
 class OllamaApi(urlBase: String) {
 
@@ -17,12 +18,16 @@ class OllamaApi(urlBase: String) {
      * Generate a response for a given prompt with a provided model. This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
      */
     fun generate(OllamaRequest: OllamaGenerateRequest): OllamaGenerateResponse {
-        val resultString = ApiConnectionFactory.getApiConnector().sendPost(
-            "${this.urlBase}api/generate",
-            Json.encodeToString(OllamaRequest)
-        )
-        val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
-        return resultParsed
+        try {
+            val resultString = ApiConnectionFactory.getApiConnector().sendPost(
+                "${this.urlBase}api/generate",
+                Json.encodeToString(OllamaRequest)
+            )
+            val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
+            return resultParsed
+        } catch (ex: Exception) {
+            throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
+        }
     }
 
     /**
@@ -79,8 +84,12 @@ class OllamaApi(urlBase: String) {
     /**
      * Delete a model and its data.
      */
-    fun delete(OllamaRequest: Any): Any {
-        TODO("Not implemented")
+    fun delete(OllamaRequest: OllamaDeleteRequest): Any {
+        val resultString = ApiConnectionFactory.getApiConnector().sendDelete(
+            "${this.urlBase}api/delete",
+            Json.encodeToString(OllamaRequest)
+        )
+        return ""
     }
 
     /**
@@ -93,6 +102,22 @@ class OllamaApi(urlBase: String) {
         )
         val resultParsed: OllamaPullResponse = Json.decodeFromString<OllamaPullResponse>(resultString)
         return resultParsed
+    }
+
+    fun ensureActive() {
+        val timeoutMillis = 5000
+        val startTime = System.currentTimeMillis()
+        var lastException: Exception? = null
+        while (System.currentTimeMillis() - startTime < timeoutMillis) {
+            try {
+                this.version()
+                return
+            } catch (e: Exception) {
+                lastException = e
+                Thread.sleep(100)
+            }
+        }
+        throw TimeoutException("Operation failed after 5 seconds. Last exception: ${lastException?.message}")
     }
 
 
@@ -120,8 +145,12 @@ class OllamaApi(urlBase: String) {
     /**
      * Retrieve the Ollama version
      */
-    fun version(OllamaRequest: Any): Any {
-        TODO("Not implemented")
+    fun version(): OllamaVersionResponse {
+        val resultString = ApiConnectionFactory.getApiConnector().sendGet(
+            "${this.urlBase}api/version"
+        )
+        val resultParsed: OllamaVersionResponse = Json.decodeFromString<OllamaVersionResponse>(resultString)
+        return resultParsed
     }
 
 
