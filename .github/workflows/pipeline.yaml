@@ -43,8 +43,8 @@ jobs:
                     ./gradlew build -x test 
     run-project-test:
       runs-on: ubuntu-latest
-      # env:
-      #     DOCKER_HOST: tcp://dockerrunner:2376
+      env:
+          DOCKER_HOST: unix:///var/run/docker.sock
       steps:
       - name: install depndecies
         run: |
