@@ -73,6 +73,9 @@ jobs:
           ls /etc/docker
           docker ps
           ls /sys/fs/cgroup/
+          run: echo "$DOCKER_HOST"
+
+
 
 
       - name: Checkout Repository
