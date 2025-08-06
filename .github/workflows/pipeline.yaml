@@ -43,6 +43,8 @@ jobs:
                     ./gradlew build -x test 
     run-project-test:
       runs-on: ubuntu-latest
+      env:
+          DOCKER_HOST: tcp://dockerrunner:2376
       steps:
       - name: install depndecies
         run: |
@@ -73,7 +75,7 @@ jobs:
           ls /etc/docker
           docker ps
           ls /sys/fs/cgroup/
-          run: echo "$DOCKER_HOST"
+          echo DOCKER_HOST::: "$DOCKER_HOST"
 
 
 
