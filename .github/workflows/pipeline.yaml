@@ -14,10 +14,9 @@ jobs:
         steps:
             - name: install depndecies
               run: |
-                    sudo -s 
-                    apt update
-                    apt install git
-                    apt-get install -y dos2unix
+                    sudo apt update
+                    sudo  apt install git
+                    sudo  apt-get install -y dos2unix
 
             - name: Set git to use LF
               run: |
