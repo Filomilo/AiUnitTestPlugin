@@ -50,8 +50,8 @@ sourceSets {
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "21"
-        targetCompatibility = "21"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
 
     patchPluginXml {
@@ -74,6 +74,6 @@ tasks {
 }
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // or 21, but must match both sides
+        languageVersion.set(JavaLanguageVersion.of(17)) // or 21, but must match both sides
     }
 }
