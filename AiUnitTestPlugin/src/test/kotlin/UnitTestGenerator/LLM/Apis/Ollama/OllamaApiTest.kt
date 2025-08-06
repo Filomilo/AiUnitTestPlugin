@@ -29,6 +29,8 @@ class OllamaApiTest {
         this.OllamaApi = OllamaApi(
             "http://localhost:$ollamaPort/"
         )
+        this.OllamaApi!!.ensureActive()
+
         this.OllamaApi!!.pull(OllamaPullRequest("llava"))
     }
 
@@ -51,6 +53,7 @@ class OllamaApiTest {
     @Test
     fun generate() {
         assertDoesNotThrow {
+
             val OllamaGenerateResponse: OllamaGenerateResponse = this.OllamaApi!!.generate(
                 OllamaGenerateRequest(
                     model = "llava",

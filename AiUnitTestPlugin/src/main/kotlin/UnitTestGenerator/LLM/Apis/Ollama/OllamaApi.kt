@@ -14,18 +14,26 @@ class OllamaApi(urlBase: String) {
         this.urlBase = urlBase
     }
 
+    private fun resolveException(body: String, modelReq: String? = null) {
+        if (body.contains("{\"error\":\"model 'NonExisitng' not found\"}")) {
+            throw NotExisitingModel(modelReq!!)
+        }
+    }
+
     /**
      * Generate a response for a given prompt with a provided model. This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
      */
     fun generate(OllamaRequest: OllamaGenerateRequest): OllamaGenerateResponse {
+        var resultString: String = ""
         try {
-            val resultString = ApiConnectionFactory.getApiConnector().sendPost(
+            resultString = ApiConnectionFactory.getApiConnector().sendPost(
                 "${this.urlBase}api/generate",
                 Json.encodeToString(OllamaRequest)
-            )
+            );
             val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
             return resultParsed
         } catch (ex: Exception) {
+            this.resolveException(ex.message!!, modelReq = OllamaRequest.model)
             throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
         }
     }

@@ -32,7 +32,7 @@ class OllamaContainerTest {
     fun start() {
         org.junit.jupiter.api.assertDoesNotThrow() {
             this.OllamaContainer!!.start();
-            assertEquals(this.OllamaContainer!!.getOpenPort(), 1143)
+            assertEquals(11434, this.OllamaContainer!!.getOpenPort())
             this.OllamaContainer!!.stop();
         }
     }
