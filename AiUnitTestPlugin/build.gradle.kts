@@ -70,6 +70,7 @@ tasks {
     }
     test {
         useJUnitPlatform()
+        maxHeapSize = "128m"
     }
 }
 kotlin {
