@@ -51,8 +51,8 @@ jobs:
       steps:
       - name: install depndecies
         run: |
-                     apt update
-                      apt install git
+                     apt update -y
+                      apt install git -y
                       apt-get install -y dos2unix
       - name: Set up JDK 17
         run: |
