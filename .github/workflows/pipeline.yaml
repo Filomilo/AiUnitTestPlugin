@@ -96,13 +96,13 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
       - name: pull ollama models
-        run: |
-           sudo chmod -R o+rx /var/lib/docker/volumes/ollama/_data
+        run: |  
             echo "Listing files in workspace:"
             ls -al
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
+            sudo chmod -R o+rx /var/lib/docker/volumes/ollama/_data
       # - name: run test
       #   run: |
       #             cd AiUnitTestPlugin
