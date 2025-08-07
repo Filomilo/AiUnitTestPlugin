@@ -97,7 +97,7 @@ jobs:
 
       - name: pull ollama models
         run: |
-         
+           sudo chmod -R o+rx /var/lib/docker/volumes/ollama/_data
             echo "Listing files in workspace:"
             ls -al
             dos2unix scripts/cache_ollama_models.sh
