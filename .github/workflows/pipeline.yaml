@@ -103,7 +103,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path:  /cache/ollama
-          key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
+          key: ollama_cache
+          # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
       - name: pull ollama models
         run: |  
