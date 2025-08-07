@@ -105,7 +105,7 @@ jobs:
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
-            sudo mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+           
 
       # - name: run test
       #   run: |
@@ -113,6 +113,11 @@ jobs:
       #             dos2unix gradlew
       #             chmod +x gradlew
       #             ./gradlew test 
+      - name: copy cache files
+        run: |
+            sudo mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+            sudo chmod 600 -R /cache/ollama
+
                   
 
 
