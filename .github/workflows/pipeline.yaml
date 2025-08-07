@@ -99,13 +99,14 @@ jobs:
         run: |  
             sudo mkdir -p /var/lib/docker/volumes/ollama
             sudo mkdir -p /cache/ollama/_data
-             sudo mv  -r /cache/ollama/_data /var/lib/docker/volumes/ollama
+             sudo mv /cache/ollama/_data /var/lib/docker/volumes/ollama
             echo "Listing files in workspace:"
             ls -al
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
-            sudo mv -r /var/lib/docker/volumes/ollama/_data /cache/ollama
+            sudo mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+
       # - name: run test
       #   run: |
       #             cd AiUnitTestPlugin
