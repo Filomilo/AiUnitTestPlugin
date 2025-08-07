@@ -120,6 +120,8 @@ jobs:
             sudo chown -R $USER /cache/ollama
             find /cache/ollama -type f -exec chmod u+r {} \;
             find /cache/ollama -type d -exec chmod u+rx {} \;
+            chmod 644 -R /cache/ollama/
+
 
                   
 
