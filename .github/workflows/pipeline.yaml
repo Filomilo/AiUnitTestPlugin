@@ -104,6 +104,7 @@ jobs:
             ./scripts/cache_ollama_models.sh
             sudo chmod -R o+rx /var/lib/docker/volumes/ollama/_data
             sudo chown -R 1001:1001 /var/lib/docker/volumes/ollama/_data && echo "pwn dat cache"
+            sudo chown -R 1001:1001 /data
       # - name: run test
       #   run: |
       #             cd AiUnitTestPlugin
