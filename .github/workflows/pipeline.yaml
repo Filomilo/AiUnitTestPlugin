@@ -117,6 +117,7 @@ jobs:
         run: |
             sudo mv /var/lib/docker/volumes/ollama/_data /cache/ollama
             sudo chmod 600 -R /cache/ollama
+            sudo chown -R $USER /cache/ollama
 
                   
 
