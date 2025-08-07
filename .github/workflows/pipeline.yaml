@@ -92,11 +92,11 @@ jobs:
 
       - name: Get free sapce
         run: |
-            docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-                echo "model list: "
-             docker exec ollama ollama list
-             docker stop ollama
-             docker rm ollama
+            # docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+            #     echo "model list: "
+            #  docker exec ollama ollama list
+            #  docker stop ollama
+            #  docker rm ollama
              df -h
       - name: Cache ollama models
         id: cache-ollama
@@ -106,16 +106,16 @@ jobs:
           key: ollama_cache
           # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
-      - name: pull ollama models
-        run: |  
-            mkdir -p /var/lib/docker/volumes/ollama
-            mkdir -p /cache/ollama/_data
-            mv /cache/ollama/_data /var/lib/docker/volumes/ollama
-            echo "Listing files in workspace:"
-            ls -al
-            dos2unix scripts/cache_ollama_models.sh
-            chmod +x scripts/cache_ollama_models.sh
-            ./scripts/cache_ollama_models.sh
+      # - name: pull ollama models
+      #   run: |  
+      #       mkdir -p /var/lib/docker/volumes/ollama
+      #       mkdir -p /cache/ollama/_data
+      #       mv /cache/ollama/_data /var/lib/docker/volumes/ollama
+      #       echo "Listing files in workspace:"
+      #       ls -al
+      #       dos2unix scripts/cache_ollama_models.sh
+      #       chmod +x scripts/cache_ollama_models.sh
+      #       ./scripts/cache_ollama_models.sh
            
 
       - name: run test
@@ -123,7 +123,7 @@ jobs:
                   cd AiUnitTestPlugin
                   dos2unix gradlew
                   chmod +x gradlew
-                  ./gradlew test 
+                  ./gradlew build  
       - name: copy cache files
         run: |
             mv /var/lib/docker/volumes/ollama/_data /cache/ollama
