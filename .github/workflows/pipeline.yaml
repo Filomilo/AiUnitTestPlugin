@@ -92,17 +92,19 @@ jobs:
         id: cache-ollama
         uses: actions/cache@v4
         with:
-          path: /var/lib/docker/volumes/ollama/_data
+          path:  /cache/ollama
           key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
       - name: pull ollama models
         run: |  
+            mkdir -p /var/lib/docker/volumes/ollama
+            cp -r /cache/ollama/_data /var/lib/docker/volumes/ollama
             echo "Listing files in workspace:"
             ls -al
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
-            sudo chown -R 1001:1001 /var/lib/docker/volumes/ollama/_data
+            cp -r /var/lib/docker/volumes/ollama/_data /cache/ollama
       # - name: run test
       #   run: |
       #             cd AiUnitTestPlugin
