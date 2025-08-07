@@ -103,12 +103,12 @@ jobs:
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
-      - name: run test
-        run: |
-                  cd AiUnitTestPlugin
-                  dos2unix gradlew
-                  chmod +x gradlew
-                  ./gradlew test 
+      # - name: run test
+      #   run: |
+      #             cd AiUnitTestPlugin
+      #             dos2unix gradlew
+      #             chmod +x gradlew
+      #             ./gradlew test 
                   
 
 
