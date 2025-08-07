@@ -98,7 +98,7 @@ jobs:
       - name: pull ollama models
         run: |  
             sudo mkdir -p /var/lib/docker/volumes/ollama
-            sudo mkdir /cache/ollama/_data
+            sudo mkdir -p /cache/ollama/_data
              sudo cp -r /cache/ollama/_data /var/lib/docker/volumes/ollama
             echo "Listing files in workspace:"
             ls -al
