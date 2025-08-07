@@ -26,7 +26,7 @@ class LlmRepositoryTest {
 
     @AfterEach
     fun tearDown() {
-//        this.containerManager.destroyAll()
+        this.containerManager.destroyAll()
 
     }
 
@@ -38,7 +38,7 @@ class LlmRepositoryTest {
                 var answer: String = x.executePrompt("why is sky blue?")
                 assertNotNull(answer)
                 assertTrue(answer.isNotEmpty())
-//                x.unload()
+                x.unload()
             }
         }
 
