@@ -43,6 +43,9 @@ jobs:
                     ./gradlew build -x test 
     run-project-test:
       runs-on: ubuntu-latest
+      container:
+        image: ubuntu-latest
+        options: --user root
       env:
           DOCKER_HOST: unix:///var/run/docker.sock
       steps:
