@@ -120,7 +120,7 @@ jobs:
         run: |
             mv /var/lib/docker/volumes/ollama/_data /cache/ollama
             chmod 600 -R /cache/ollama
-            chown -R $USER /cache/ollama
+            chown -R $(whoami) /cache/ollama
             find /cache/ollama -type f -exec chmod u+r {} \;
             find /cache/ollama -type d -exec chmod u+rx {} \;
             chmod 644 -R /cache/ollama/
