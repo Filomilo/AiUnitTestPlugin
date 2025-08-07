@@ -44,7 +44,7 @@ jobs:
     run-project-test:
       runs-on: ubuntu-latest
       container:
-        image: ubuntu-latest
+        image: ubuntu
         options: --user root
       env:
           DOCKER_HOST: unix:///var/run/docker.sock
