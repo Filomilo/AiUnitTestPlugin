@@ -92,8 +92,12 @@ jobs:
 
       - name: Get free sapce
         run: |
+            docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
              docker exec ollama ollama list
-              df -h
+             docker stop ollama
+             docker rm ollama
+             df -h
       - name: Cache ollama models
         id: cache-ollama
         uses: actions/cache@v4
