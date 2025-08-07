@@ -93,7 +93,7 @@ jobs:
       - name: Get free sapce
         run: |
             docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-
+                echo "model list: "
              docker exec ollama ollama list
              docker stop ollama
              docker rm ollama
