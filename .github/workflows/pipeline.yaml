@@ -123,7 +123,7 @@ jobs:
                   cd AiUnitTestPlugin
                   dos2unix gradlew
                   chmod +x gradlew
-                  ./gradlew build  
+                  ./gradlew test  -Xmx2g 
       - name: copy cache files
         run: |
             mv /var/lib/docker/volumes/ollama/_data /cache/ollama
