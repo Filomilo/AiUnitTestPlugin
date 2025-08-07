@@ -48,6 +48,7 @@ jobs:
         options: --user root
       env:
           DOCKER_HOST: unix:///var/run/docker.sock
+          GRADLE_OPTS: "-Xmx2g -Dorg.gradle.daemon=false"
       steps:
       - name: install depndecies
         run: |
