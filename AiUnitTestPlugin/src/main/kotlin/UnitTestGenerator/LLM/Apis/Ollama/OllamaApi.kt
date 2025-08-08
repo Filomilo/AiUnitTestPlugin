@@ -113,7 +113,7 @@ class OllamaApi(urlBase: String) {
     }
 
     fun ensureActive() {
-        val timeoutMillis = 5000
+        val timeoutMillis = 60 * 1000
         val startTime = System.currentTimeMillis()
         var lastException: Exception? = null
         while (System.currentTimeMillis() - startTime < timeoutMillis) {
@@ -125,7 +125,7 @@ class OllamaApi(urlBase: String) {
                 Thread.sleep(100)
             }
         }
-        throw TimeoutException("Operation failed after 5 seconds. Last exception: ${lastException?.message}")
+        throw TimeoutException("Operation failed after ${timeoutMillis / 1000} seconds. Last exception: ${lastException?.message}")
     }
 
 
