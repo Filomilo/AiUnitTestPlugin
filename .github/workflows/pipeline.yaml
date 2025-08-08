@@ -91,7 +91,9 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+      - name: Pull docker images
+        run: |
+            docker pull ollama/ollama
       - name: Get free sapce
         run: |
             # docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
