@@ -17,6 +17,7 @@ class LlmRepositoryTest {
 
     @BeforeEach
     fun setUp() {
+        this.containerManager.destroyAll()
         this.llmRepository = LlmRepository(
             containerManager,
             ApiConnectionFactory.getApiConnector()
