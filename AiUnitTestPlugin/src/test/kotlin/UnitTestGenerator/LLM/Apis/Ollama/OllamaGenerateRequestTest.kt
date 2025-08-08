@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 
 class OllamaGenerateRequestTest {
-    @Disabled("temporaryl")
+    //    @Disabled("temporaryl")
     @Test
     fun testToJson() {
 
