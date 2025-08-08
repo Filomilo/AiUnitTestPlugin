@@ -25,7 +25,7 @@ class OllamaContainerTest {
         assertEquals(
             amountOFContainersAfter,
             amountOFContainers + 1,
-            "Expetcted amount of contaienrts to increase but there are ${amountOFContainersAfter} containers and expeccted ${amountOFContainers + 1}, containres avaivlebes are ${
+            "Expetcted amount of contaienrts to increase but there are ${amountOFContainersAfter} containers and expeccted ${amountOFContainers + 1}, containres avaivlebes are\n\n ${
                 DockerConnection.getContainersList().stream().toArray().joinToString { ",${System.lineSeparator()}" }
             }"
         )
