@@ -3,7 +3,7 @@ package UnitTestGenerator.LLM
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
 import UnitTestGenerator.LLM.Containers.ContainersManager
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
-import org.junit.Ignore
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ class LlmRepositoryTest {
     }
 
     @Test
-    @Ignore("temporaryl")
+    @Disabled("temporaryl")
     fun promptEveryModel() {
         org.junit.jupiter.api.assertDoesNotThrow {
             this.llmRepository!!.ListOfLlmProcessors.forEach { x ->

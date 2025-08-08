@@ -119,21 +119,28 @@ jobs:
       #       chmod +x scripts/cache_ollama_models.sh
       #       ./scripts/cache_ollama_models.sh
            
-
+      # - name: Cache Gradle
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: gradle-${{ runner.os }}-
       - name: run test
         run: |
                   cd AiUnitTestPlugin
                   dos2unix gradlew
                   chmod +x gradlew
                   ./gradlew test --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
-      - name: copy cache files
-        run: |
-            mv /var/lib/docker/volumes/ollama/_data /cache/ollama
-            chmod 600 -R /cache/ollama
-            chown -R $(whoami) /cache/ollama
-            find /cache/ollama -type f -exec chmod u+r {} \;
-            find /cache/ollama -type d -exec chmod u+rx {} \;
-            chmod 644 -R /cache/ollama/
+      # - name: copy cache files
+      #   run: |
+      #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+      #       chmod 600 -R /cache/ollama
+      #       chown -R $(whoami) /cache/ollama
+      #       find /cache/ollama -type f -exec chmod u+r {} \;
+      #       find /cache/ollama -type d -exec chmod u+rx {} \;
+      #       chmod 644 -R /cache/ollama/
 
 
                   

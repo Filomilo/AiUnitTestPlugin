@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -25,7 +26,7 @@ class OllamaContainerTest {
             amountOFContainersAfter,
             amountOFContainers + 1,
             "Expetcted amount of contaienrts to increase but there are ${amountOFContainersAfter} containers and expeccted ${amountOFContainers + 1}, containres avaivlebes are ${
-                DockerConnection.getContainersList().stream().toArray().joinToString { ",\n" }
+                DockerConnection.getContainersList().stream().toArray().joinToString { ",${System.lineSeparator()}" }
             }"
         )
     }
@@ -38,7 +39,7 @@ class OllamaContainerTest {
         assertEquals(amountOFContainersAfter, amountOFContainers - 1)
     }
 
-    @Ignore("temporaryl")
+    @Disabled("temporaryl")
     @Test
     fun start() {
         log.info("Startt")
