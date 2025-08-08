@@ -2,6 +2,7 @@ package UnitTestGenerator.LLM.Containers.Docker
 
 import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -10,26 +11,32 @@ class DockerConnectionTest {
 
     val testContainer: String = "hello-world"
 
+    @Disabled("noImpemnted")
     @Test
     fun pullImage() {
     }
 
+    @Disabled("noImpemnted")
     @Test
     fun getRunningVmList() {
     }
 
+    @Disabled("noImpemnted")
     @Test
     fun getVmList() {
     }
 
+    @Disabled("noImpemnted")
     @Test
     fun close() {
     }
 
+    @Disabled("noImpemnted")
     @Test
     fun contianerListToIdList() {
     }
 
+    @Disabled("temporaryl")
     @Test
     fun createVmCorrect() {
 

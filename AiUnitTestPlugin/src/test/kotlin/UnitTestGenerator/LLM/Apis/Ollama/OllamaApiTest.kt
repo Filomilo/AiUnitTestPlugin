@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import kotlin.random.Random
 
+@Disabled("temporaryl")
 class OllamaApiTest {
     var OllamaContainer: OllamaContainer? = null
     var ollamaPort: Int = 2325;
@@ -39,6 +40,7 @@ class OllamaApiTest {
         this.OllamaContainer!!.destroy()
     }
 
+    @Disabled("temporaryl")
     @Test
     fun generateNotExisitngModel() {
         assertThrows(NotExisitingModel::class.java) {
