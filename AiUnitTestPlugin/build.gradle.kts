@@ -72,7 +72,10 @@ tasks {
         useJUnitPlatform()
         maxHeapSize = "128m"
         maxParallelForks = 2
-        forkEvery = 100   // helps when tests leak memory
+        forkEvery = 100
+        testLogging {
+            showStandardStreams = true
+        }
     }
 }
 kotlin {

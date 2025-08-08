@@ -2,11 +2,14 @@ package UnitTestGenerator.LLM.Containers
 
 import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
 import UnitTestGenerator.LLM.Containers.Config.ContainerStatus
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 open class UniversalContainer(ContainersManager: ContainersManager, ContainerConfiguration: ContainerConfiguration) :
     Container {
     val ContainersManager: ContainersManager = ContainersManager
     val id: String
+    private val log: Logger = LoggerFactory.getLogger(UniversalContainer::class.java)
 
     init {
         id = ContainersManager.createContainer(ContainerConfiguration)
@@ -14,6 +17,7 @@ open class UniversalContainer(ContainersManager: ContainersManager, ContainerCon
 
 
     override fun start() {
+        log.info("${id} start")
         ContainersManager.startContainer(id)
     }
 

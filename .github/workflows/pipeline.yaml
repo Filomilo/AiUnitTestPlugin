@@ -57,6 +57,7 @@ jobs:
                       apt-get install -y dos2unix
       - name: Set up JDK 17
         run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
            apt-get install -y openjdk-17-jdk
 
       - name: install docker
@@ -99,12 +100,12 @@ jobs:
             #  docker stop ollama
             #  docker rm ollama
              df -h
-      - name: Cache ollama models
-        id: cache-ollama
-        uses: actions/cache@v4
-        with:
-          path:  /cache/ollama
-          key: ollama_cache
+      # - name: Cache ollama models
+      #   id: cache-ollama
+      #   uses: actions/cache@v4
+      #   with:
+      #     path:  /cache/ollama
+      #     key: ollama_cache
           # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
       # - name: pull ollama models
