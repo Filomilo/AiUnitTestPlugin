@@ -129,7 +129,7 @@ jobs:
       #     restore-keys: gradle-${{ runner.os }}-
       - name: run test
         env:
-            GRADLE_ENTERPRISE_ACCEPT_TERMS_OF_SERVICE: "yes"
+            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
 
         run: |
