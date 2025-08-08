@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
     id("org.jetbrains.intellij") version "1.17.3"
-    id("com.gradle.enterprise") version "3.14.1"
+
     id("java")
 }
 
