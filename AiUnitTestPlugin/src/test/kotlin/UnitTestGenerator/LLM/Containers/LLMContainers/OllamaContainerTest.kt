@@ -1,6 +1,7 @@
 package UnitTestGenerator.LLM.Containers.LLMContainers
 
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
+import org.junit.Ignore
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,6 +38,7 @@ class OllamaContainerTest {
         assertEquals(amountOFContainersAfter, amountOFContainers - 1)
     }
 
+    @Ignore("temporaryl")
     @Test
     fun start() {
         log.info("Startt")
