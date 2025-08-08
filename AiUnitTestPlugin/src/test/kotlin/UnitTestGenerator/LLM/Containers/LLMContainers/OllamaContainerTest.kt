@@ -22,13 +22,13 @@ class OllamaContainerTest {
         this.OllamaContainer = OllamaContainer(DockerConnection);
         assertNotNull(this.OllamaContainer)
         var amountOFContainersAfter: Int = DockerConnection.getContainersList().size;
-//        assertEquals(
-//            amountOFContainersAfter,
-//            amountOFContainers + 1,
-//            "Expetcted amount of contaienrts to increase but there are ${amountOFContainersAfter} containers and expeccted ${amountOFContainers + 1}, containres avaivlebes are ${
-//                DockerConnection.getContainersList().stream().toArray().joinToString { ",${System.lineSeparator()}" }
-//            }"
-//        )
+        assertEquals(
+            amountOFContainersAfter,
+            amountOFContainers + 1,
+            "Expetcted amount of contaienrts to increase but there are ${amountOFContainersAfter} containers and expeccted ${amountOFContainers + 1}, containres avaivlebes are ${
+                DockerConnection.getContainersList().stream().toArray().joinToString { ",${System.lineSeparator()}" }
+            }"
+        )
     }
 
     @AfterEach

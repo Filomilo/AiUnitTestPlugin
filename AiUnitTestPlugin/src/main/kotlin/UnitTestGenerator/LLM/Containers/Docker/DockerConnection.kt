@@ -79,6 +79,7 @@ object DockerConnection : ContainersManager {
 
     override fun createContainer(containerConfiguration: ContainerConfiguration): String {
 //        TODO("not imlmetneds")
+        log.info("Creating Docker container with onfiguration :\n ${containerConfiguration}")
         val hostConfig = HostConfig.newHostConfig()
         if (containerConfiguration.ramBytes != null) {
             hostConfig.withMemory(containerConfiguration.ramBytes)
@@ -130,7 +131,7 @@ object DockerConnection : ContainersManager {
             }
         }
         val virtualMachineIdentifiaction = response.id
-
+        log.info("Created Docker container with id :\n ${virtualMachineIdentifiaction}")
         return virtualMachineIdentifiaction
 
     }
@@ -152,7 +153,11 @@ object DockerConnection : ContainersManager {
     }
 
     override fun startContainer(id: String) {
+        log.info("starting Docker container with id :\n ${id}")
+
         dockerClient.startContainerCmd(id).exec()
+        log.info("started Docker container with id :\n ${id}")
+
     }
 
     fun getContianerFromID(id: String): Container? {
