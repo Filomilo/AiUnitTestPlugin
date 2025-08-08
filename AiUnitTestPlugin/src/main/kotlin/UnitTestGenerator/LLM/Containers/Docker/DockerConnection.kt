@@ -131,7 +131,11 @@ object DockerConnection : ContainersManager {
             }
         }
         val virtualMachineIdentifiaction = response.id
-        log.info("Created Docker container with id :\n ${virtualMachineIdentifiaction}")
+        log.info(
+            "Created Docker container with id :\n ${virtualMachineIdentifiaction} and has status: ${
+                dockerClient.inspectContainerCmd(virtualMachineIdentifiaction).exec().state
+            }\""
+        )
         return virtualMachineIdentifiaction
 
     }
@@ -156,7 +160,11 @@ object DockerConnection : ContainersManager {
         log.info("starting Docker container with id :\n ${id}")
 
         dockerClient.startContainerCmd(id).exec()
-        log.info("started Docker container with id :\n ${id}")
+        log.info(
+            "started Docker container with id :\n ${id} : and has status: ${
+                dockerClient.inspectContainerCmd(id).exec().state
+            }"
+        )
 
     }
 
