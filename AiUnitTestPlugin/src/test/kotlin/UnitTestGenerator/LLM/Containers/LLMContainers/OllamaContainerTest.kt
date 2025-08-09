@@ -18,6 +18,7 @@ class OllamaContainerTest {
 
     @BeforeEach
     fun setUp() {
+        DockerConnection.destroyAll()
         var amountOFContainers: Int = DockerConnection.getContainersList().size;
         this.OllamaContainer = OllamaContainer(DockerConnection);
         assertNotNull(this.OllamaContainer)
@@ -39,7 +40,7 @@ class OllamaContainerTest {
         assertEquals(amountOFContainersAfter, amountOFContainers - 1)
     }
 
-    //    @Disabled("temporaryl")
+    @Disabled("temporaryl")
     @Test
     fun start() {
         log.info("Startt")
