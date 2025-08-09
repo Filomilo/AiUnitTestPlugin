@@ -100,7 +100,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: add conatienrs to network
-        run: ./scripts/addAllConatienersToNetowrk.sh
+        run: |
+            dos2unix scripts/addAllConatienersToNetowrk.sh
+            chmod +x scripts/addAllConatienersToNetowrk.sh
+            ./scripts/addAllConatienersToNetowrk.sh
       - name: Pull docker images
         run: |
             docker pull ollama/ollama
