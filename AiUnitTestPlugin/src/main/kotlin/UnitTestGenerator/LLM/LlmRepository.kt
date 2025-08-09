@@ -22,7 +22,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
         val port: Int = Random.nextInt(10000, 20000)
         val OllamaContainer: OllamaContainer = OllamaContainer(containerManger, port)
         OllamaContainer.start()
-        val OllamaApi: OllamaApi = OllamaApi("http://localhost:$port/")
+        val OllamaApi: OllamaApi = OllamaApi("http://localhost:11434/")
         OllamaApi.ensureActive()
         val Ollamamodels: Array<String> =
             arrayOf(
