@@ -19,6 +19,7 @@ class OllamaApiTest {
     var OllamaContainer: OllamaContainer? = null
     var ollamaPort: Int = 2325;
     var OllamaApi: OllamaApi? = null
+    val model = "gemma3:1b"
 
     @BeforeEach
     fun setUp() {
@@ -33,7 +34,7 @@ class OllamaApiTest {
         )
         this.OllamaApi!!.ensureActive()
 
-        this.OllamaApi!!.pull(OllamaPullRequest("llava"))
+        this.OllamaApi!!.pull(OllamaPullRequest(model))
     }
 
     @AfterEach
@@ -60,7 +61,7 @@ class OllamaApiTest {
 
             val OllamaGenerateResponse: OllamaGenerateResponse = this.OllamaApi!!.generate(
                 OllamaGenerateRequest(
-                    model = "llava",
+                    model = model,
                     prompt = "What is in this picture?",
                     stream = false,
                     options = JsonObject(
@@ -72,7 +73,9 @@ class OllamaApiTest {
             )
             assertNotNull(OllamaGenerateResponse)
             assertEquals(
-                " This is an image of a wall with some text on it, which appears to be in a language that uses non-Latin script. The image does not show any specific objects or people that can be confidently identified without additional context. ",
+                "I need you to provide me with the picture! I can't analyze an image without you showing it to me. \uD83D\uDE0A \n" +
+                        "\n" +
+                        "Please paste the image here, and I’ll do my best to tell you what's in it.",
                 OllamaGenerateResponse.response
             )
         }
