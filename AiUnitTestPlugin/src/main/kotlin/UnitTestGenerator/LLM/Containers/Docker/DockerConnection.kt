@@ -197,8 +197,8 @@ object DockerConnection : ContainersManager {
     }
 
     override fun destroyAll() {
-        this.getContainersList().forEach { x ->
-            destroyContainer(x)
-        }
+//        this.getContainersList().forEach { x ->
+//            destroyContainer(x)
+//        }
     }
 }
