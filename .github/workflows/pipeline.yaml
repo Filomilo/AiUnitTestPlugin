@@ -45,7 +45,7 @@ jobs:
       runs-on: ubuntu-latest
       container:
         image: ubuntu:latest  
-        options: --user root
+        options: --user root -v /var/run/docker.sock:/var/run/docker.sock
       env:
           DOCKER_HOST: unix:///var/run/docker.sock
           GRADLE_OPTS: "-Xmx2g -Dorg.gradle.daemon=false"
