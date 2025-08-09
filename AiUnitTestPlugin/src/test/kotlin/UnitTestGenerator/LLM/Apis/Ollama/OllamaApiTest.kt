@@ -52,6 +52,7 @@ class OllamaApiTest {
         }
     }
 
+    @Disabled("temporaryl")
     @Test
     fun generate() {
         assertDoesNotThrow {

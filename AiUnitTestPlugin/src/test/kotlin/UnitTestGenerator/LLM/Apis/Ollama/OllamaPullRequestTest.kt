@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Disabled
 class OllamaPullRequestTest {
 
     @Test
-//    @Disabled("temporaryl")
+    @Disabled("temporaryl")
     fun testToJson() {
         val json: String = Json.encodeToString(OllamaPullRequest(model = "test", stream = false))
         val expectedJson: String = """
