@@ -35,7 +35,7 @@ class OllamaApiTest {
         )
         this.OllamaContainer!!.start();
         this.OllamaApi = OllamaApi(
-            "http://localhost:11434/"
+            "http://localhost:$ollamaPort/"
         )
         Awaiters.awaitNotThrows(
             {
