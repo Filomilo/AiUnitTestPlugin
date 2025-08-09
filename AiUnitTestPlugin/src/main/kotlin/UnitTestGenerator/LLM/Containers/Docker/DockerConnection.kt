@@ -25,7 +25,7 @@ object DockerConnection : ContainersManager {
 
 
     private val dockerClient: DockerClient;
-
+    private var networkId: String;
 
     init {
         val dockerHost = System.getenv("DOCKER_HOST")
@@ -48,6 +48,19 @@ object DockerConnection : ContainersManager {
                 .build()
 
         this.dockerClient = DockerClientImpl.getInstance(dockerConfiguration, httpClient)
+        try {
+            val CreateContainerResponse: CreateNetworkResponse =
+                this.dockerClient.createNetworkCmd().withName("all").exec();
+            this.networkId = CreateContainerResponse.id;
+        } catch (Ex: Exception) {
+            log.info(Ex.message)
+            val networks = dockerClient.listNetworksCmd()
+                .withFilter("name", listOf("all"))
+                .exec()
+            this.networkId = networks.firstOrNull()!!.id
+        }
+
+
     }
 
 
@@ -113,6 +126,8 @@ object DockerConnection : ContainersManager {
         var response: CreateContainerResponse
         var DockerContainerCmd: CreateContainerCmd =
             dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig);
+        DockerContainerCmd.withNetworkDisabled(false)
+
         if (containerConfiguration.portConfiguration.isNotEmpty()) {
             DockerContainerCmd.withExposedPorts(
                 (containerConfiguration.portConfiguration.map { x -> ExposedPort(x.exposedPort) }.toList())
@@ -139,6 +154,9 @@ object DockerConnection : ContainersManager {
                 dockerClient.inspectContainerCmd(virtualMachineIdentifiaction).exec().state
             }\""
         )
+
+        dockerClient.connectToNetworkCmd().withContainerId(virtualMachineIdentifiaction)
+            .withNetworkId(this.networkId).exec();
         return virtualMachineIdentifiaction
 
     }

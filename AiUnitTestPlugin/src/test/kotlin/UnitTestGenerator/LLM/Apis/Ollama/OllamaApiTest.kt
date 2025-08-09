@@ -30,8 +30,8 @@ class OllamaApiTest {
     fun setUp() {
 
         this.ollamaPort = Random.nextInt(10000, 20000)
-        this.OllamaContainer = OllamaContainer(s
-            DockerConnection, port = ollamaPort, ramBytes = (1024*3)*8
+        this.OllamaContainer = OllamaContainer(
+            DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
         )
         this.OllamaContainer!!.start();
         this.OllamaApi = OllamaApi(
