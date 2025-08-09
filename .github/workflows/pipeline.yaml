@@ -86,14 +86,7 @@ jobs:
       - name: List docker networks
         run: docker network ls
 
-      - name: print docker info
-        run: |
-          docker info
-          ls /etc/docker
-          docker ps
-          ls /sys/fs/cgroup/
-          echo DOCKER_HOST::: "$DOCKER_HOST"
-
+     
 
 
 
@@ -104,6 +97,23 @@ jobs:
             dos2unix scripts/addAllConatienersToNetowrk.sh
             chmod +x scripts/addAllConatienersToNetowrk.sh
             ./scripts/addAllConatienersToNetowrk.sh
+
+
+      - name: print docker info
+        run: |
+          docker info
+          ls /etc/docker
+          docker ps
+          ls /sys/fs/cgroup/
+          echo DOCKER_HOST::: "$DOCKER_HOST"
+          echo mynet:::::::::::::::::::::::::
+          docker network inspect mynet
+
+
+
+
+
+
       - name: Pull docker images
         run: |
             docker pull ollama/ollama
