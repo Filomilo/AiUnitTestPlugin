@@ -57,7 +57,7 @@ object DockerConnection : ContainersManager {
     override fun getContainersList(): List<String> {
         val conatinerList = dockerClient.listContainersCmd().withShowAll(true).exec()
         val containersId: List<String> = contianerListToIdList(conatinerList)
-        log.info("Get conatienr list: \n\n${conatinerList.stream().toArray().joinToString(", \n")}")
+        log.info("Get conatienr list: \n\n${containersId.stream().toArray().joinToString(", \n")}")
         return containersId
     }
 
