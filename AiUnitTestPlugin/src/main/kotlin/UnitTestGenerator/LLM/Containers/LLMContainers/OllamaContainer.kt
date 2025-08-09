@@ -8,7 +8,7 @@ import UnitTestGenerator.LLM.Containers.Config.MountVolume
 class OllamaContainer(
     containerManager: ContainersManager,
     port: Int = 11434,
-    ramBytes: Long = 1024 * 1024 * 1024 * 16
+    ramBytes: Long = 1024 * 1024 * 1024 * 4
 ) : UniversalContainer(
     containerManager,
     ContainerConfiguration(
