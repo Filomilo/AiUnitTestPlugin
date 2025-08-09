@@ -48,21 +48,30 @@ object DockerConnection : ContainersManager {
                 .build()
 
         this.dockerClient = DockerClientImpl.getInstance(dockerConfiguration, httpClient)
-        try {
-            val CreateContainerResponse: CreateNetworkResponse =
-                this.dockerClient.createNetworkCmd()
-                    .withDriver("bridge")
-                    .withName("all").exec();
-            this.networkId = CreateContainerResponse.id;
-        } catch (Ex: Exception) {
-            log.info(Ex.message)
-            val networks = dockerClient.listNetworksCmd()
-                .withFilter("name", listOf("all"))
+//        try {
+//            val CreateContainerResponse: CreateNetworkResponse =
+//                this.dockerClient.createNetworkCmd()
+//                    .withDriver("bridge")
+//                    .withName("all").exec();
+//            this.networkId = CreateContainerResponse.id;
+//        } catch (Ex: Exception) {
+//            log.info(Ex.message)
+//            val networks = dockerClient.listNetworksCmd()
+//                .withFilter("name", listOf("all"))
+//
+//                .exec()
+        val networkName = System.getenv("DOCKER_NETWORK") ?: "mynetwork"
 
-                .exec()
-            this.networkId = networks.firstOrNull()!!.id
-        }
-
+        val networkResponseID: String = dockerClient.listNetworksCmd()
+            .withNameFilter(networkName)
+            .exec()
+            .firstOrNull()?.id ?: dockerClient.createNetworkCmd()
+            .withName(networkName)
+            .withDriver("bridge")
+            .exec().id
+        this.networkId = networkResponseID
+//        }
+        log.info("Network ID: $networkId")
 
     }
 

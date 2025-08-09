@@ -78,6 +78,14 @@ jobs:
         run: |
            dockerd > /var/log/dockerd.log 2>&1 &
            docker run hello-world
+
+
+      - name: Set up Docker user network
+        run: docker network create mynet || echo "Network already exists"
+
+      - name: List docker networks
+        run: docker network ls
+
       - name: print docker info
         run: |
           docker info
@@ -133,7 +141,7 @@ jobs:
         env:
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
-
+            DOCKER_NETWORK: mynet
         run: |
                   cd AiUnitTestPlugin
                   dos2unix gradlew
