@@ -50,12 +50,15 @@ object DockerConnection : ContainersManager {
         this.dockerClient = DockerClientImpl.getInstance(dockerConfiguration, httpClient)
         try {
             val CreateContainerResponse: CreateNetworkResponse =
-                this.dockerClient.createNetworkCmd().withName("all").exec();
+                this.dockerClient.createNetworkCmd()
+                    .withDriver("bridge")
+                    .withName("all").exec();
             this.networkId = CreateContainerResponse.id;
         } catch (Ex: Exception) {
             log.info(Ex.message)
             val networks = dockerClient.listNetworksCmd()
                 .withFilter("name", listOf("all"))
+
                 .exec()
             this.networkId = networks.firstOrNull()!!.id
         }
