@@ -85,7 +85,8 @@ jobs:
 
       - name: List docker networks
         run: docker network ls
-
+      - name: add conatienrs to network
+        run: ./scripts/addAllConatienersToNetowrk.sh
       - name: print docker info
         run: |
           docker info
