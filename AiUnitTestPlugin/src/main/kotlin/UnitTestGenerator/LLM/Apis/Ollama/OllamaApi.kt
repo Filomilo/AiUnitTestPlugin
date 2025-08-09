@@ -115,8 +115,8 @@ class OllamaApi(urlBase: String) {
     fun ensureActive() {
         Awaiters.awaitNotThrows({
             val tmp = this.version()
-            
-        }, Duration.ofSeconds(120), "Excpected ollam version to now throw")
+
+        }, Duration.ofMinutes(12), "Excpected ollam version to now throw")
     }
 
     /**
