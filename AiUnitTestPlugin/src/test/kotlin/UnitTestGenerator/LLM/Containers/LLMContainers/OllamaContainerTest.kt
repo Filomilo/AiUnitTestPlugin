@@ -18,7 +18,7 @@ class OllamaContainerTest {
 
     @BeforeEach
     fun setUp() {
-        DockerConnection.destroyAll()
+
         var amountOFContainers: Int = DockerConnection.getContainersList().size;
         this.OllamaContainer = OllamaContainer(DockerConnection);
         assertNotNull(this.OllamaContainer)

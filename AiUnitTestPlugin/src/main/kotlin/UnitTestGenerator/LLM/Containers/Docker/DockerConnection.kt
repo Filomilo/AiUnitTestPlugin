@@ -16,6 +16,9 @@ import com.github.dockerjava.transport.DockerHttpClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.Duration
+import com.github.dockerjava.api.async.ResultCallbackTemplate;
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
 
 object DockerConnection : ContainersManager {
     private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
@@ -160,6 +163,7 @@ object DockerConnection : ContainersManager {
         log.info("starting Docker container with id :\n ${id}")
 
         dockerClient.startContainerCmd(id).exec()
+
         log.info(
             "started Docker container with id :\n ${id} : and has status: ${
                 dockerClient.inspectContainerCmd(id).exec().state
@@ -167,6 +171,7 @@ object DockerConnection : ContainersManager {
         )
 
     }
+
 
     fun getContianerFromID(id: String): Container? {
         return try {
@@ -196,9 +201,25 @@ object DockerConnection : ContainersManager {
         return getContianerFromID(id)!!.getPorts()[0].publicPort!!;
     }
 
-    override fun destroyAll() {
-//        this.getContainersList().forEach { x ->
-//            destroyContainer(x)
-//        }
+
+    override fun getLogs(id: String): String {
+        val outputStream: ByteArrayOutputStream = ByteArrayOutputStream()
+
+
+        dockerClient.logContainerCmd(id)
+            .withStdOut(true)
+            .withStdErr(true)
+            .withFollowStream(false) // don't keep streaming forever
+            .withSince(0)            // get logs from container start
+            .exec(object : ResultCallbackTemplate<Nothing?, Frame>() {
+                override fun onNext(frame: Frame) {
+                    outputStream.writeBytes(frame.payload)
+                }
+            })
+            .awaitCompletion()
+        val outputString: String = outputStream.toString(StandardCharsets.UTF_8)
+
+        return outputString
+
     }
 }

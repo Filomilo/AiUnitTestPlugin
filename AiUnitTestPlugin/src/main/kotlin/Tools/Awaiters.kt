@@ -8,7 +8,7 @@ import java.util.concurrent.TimeoutException
 
 object Awaiters {
 
-    fun awaitTrue(function: () -> Boolean, timeout: Duration, message: String = "") {
+    fun awaitTrue(function: () -> Boolean, timeout: Duration = Duration.ofSeconds(10), message: String = "") {
         var res: Boolean = function()
         val time: Timestamp = Time.now()
         while (!res) {
@@ -23,7 +23,7 @@ object Awaiters {
     }
 
 
-    fun awaitNotThrows(function: () -> Unit, timeout: Duration, message: String = "") {
+    fun awaitNotThrows(function: () -> Unit, timeout: Duration = Duration.ofSeconds(10), message: String = "") {
 
         val time: Timestamp = Time.now()
         while (true) {

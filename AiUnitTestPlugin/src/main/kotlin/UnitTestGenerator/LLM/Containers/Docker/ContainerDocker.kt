@@ -32,5 +32,9 @@ class ContainerDocker : Container {
         return DockerConnection.getOpenPort(this.id)
     }
 
+    override fun getLogs(): String {
+        return DockerConnection.getLogs(this.id)
+    }
+
 
 }

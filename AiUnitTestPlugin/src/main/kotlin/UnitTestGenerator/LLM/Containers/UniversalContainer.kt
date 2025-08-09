@@ -37,4 +37,8 @@ open class UniversalContainer(ContainersManager: ContainersManager, ContainerCon
         return ContainersManager.getOpenPort(id);
     }
 
+    override fun getLogs(): String {
+        return ContainersManager.getLogs(id);
+    }
+
 }

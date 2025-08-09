@@ -1,5 +1,6 @@
 package UnitTestGenerator.LLM.Apis.Ollama
 
+import Tools.Awaiters
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
 import UnitTestGenerator.LLM.Containers.LLMContainers.OllamaContainer
 import kotlinx.serialization.encodeToString
@@ -12,6 +13,9 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import kotlin.math.log
 import kotlin.random.Random
 
 //@Disabled("temporaryl")
@@ -20,10 +24,11 @@ class OllamaApiTest {
     var ollamaPort: Int = 2325;
     var OllamaApi: OllamaApi? = null
     val model = "gemma3:1b"
+    private val log: Logger = LoggerFactory.getLogger(OllamaApiTest::class.java)
 
     @BeforeEach
     fun setUp() {
-        DockerConnection.destroyAll()
+
         this.ollamaPort = Random.nextInt(10000, 20000)
         this.OllamaContainer = OllamaContainer(
             DockerConnection, port = ollamaPort
@@ -31,6 +36,19 @@ class OllamaApiTest {
         this.OllamaContainer!!.start();
         this.OllamaApi = OllamaApi(
             "http://localhost:$ollamaPort/"
+        )
+        Awaiters.awaitNotThrows(
+            {
+                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+                this.OllamaApi!!.version();
+                log.info(
+                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
+                            "\n" +
+                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+                )
+
+            },
+            message = "Failed to wait for ollama api"
         )
         this.OllamaApi!!.ensureActive()
 
