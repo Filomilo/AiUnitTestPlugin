@@ -85,8 +85,7 @@ jobs:
 
       - name: List docker networks
         run: docker network ls
-      - name: add conatienrs to network
-        run: ./scripts/addAllConatienersToNetowrk.sh
+
       - name: print docker info
         run: |
           docker info
@@ -100,6 +99,8 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: add conatienrs to network
+        run: ./scripts/addAllConatienersToNetowrk.sh
       - name: Pull docker images
         run: |
             docker pull ollama/ollama
