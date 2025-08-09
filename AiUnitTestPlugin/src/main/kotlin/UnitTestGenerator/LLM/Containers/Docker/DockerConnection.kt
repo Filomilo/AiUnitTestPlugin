@@ -138,7 +138,7 @@ object DockerConnection : ContainersManager {
         var response: CreateContainerResponse
         var DockerContainerCmd: CreateContainerCmd =
             dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig);
-        DockerContainerCmd.withNetworkDisabled(false)
+//        DockerContainerCmd.withNetworkDisabled(false)
 
         if (containerConfiguration.portConfiguration.isNotEmpty()) {
             DockerContainerCmd.withExposedPorts(
