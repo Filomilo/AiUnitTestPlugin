@@ -1,10 +1,10 @@
 package UnitTestGenerator.LLM.Apis.Ollama
 
-import UnitTestGenerator.LLM.Apis.ApiConnection
+import Tools.Awaiters
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
-import java.util.concurrent.TimeoutException
+import java.time.Duration
 
 class OllamaApi(urlBase: String) {
 
@@ -113,21 +113,11 @@ class OllamaApi(urlBase: String) {
     }
 
     fun ensureActive() {
-        val timeoutMillis = 60 * 1000
-        val startTime = System.currentTimeMillis()
-        var lastException: Exception? = null
-        while (System.currentTimeMillis() - startTime < timeoutMillis) {
-            try {
-                this.version()
-                return
-            } catch (e: Exception) {
-                lastException = e
-                Thread.sleep(100)
-            }
-        }
-        throw TimeoutException("Operation failed after ${timeoutMillis / 1000} seconds. Last exception: ${lastException?.message}")
+        Awaiters.awaitNotThrows({
+            val tmp = this.version()
+            
+        }, Duration.ofSeconds(120), "Excpected ollam version to now throw")
     }
-
 
     /**
      * Generate embeddings from a model

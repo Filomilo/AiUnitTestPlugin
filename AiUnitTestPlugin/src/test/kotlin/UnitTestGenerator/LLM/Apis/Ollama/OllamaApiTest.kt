@@ -22,6 +22,7 @@ class OllamaApiTest {
 
     @BeforeEach
     fun setUp() {
+        DockerConnection.destroyAll()
         this.ollamaPort = Random.nextInt(10000, 20000)
         this.OllamaContainer = OllamaContainer(
             DockerConnection, port = ollamaPort

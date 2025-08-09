@@ -23,7 +23,7 @@ object Awaiters {
     }
 
 
-    fun awaitNotThrows(function: () -> Void, timeout: Duration, message: String = "") {
+    fun awaitNotThrows(function: () -> Unit, timeout: Duration, message: String = "") {
 
         val time: Timestamp = Time.now()
         while (true) {
