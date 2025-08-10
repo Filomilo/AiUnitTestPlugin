@@ -161,6 +161,7 @@ jobs:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
           DOCKER_NETWORK: my-net
         run: |
+          curl http://ollama:11434/api/version
           cd AiUnitTestPlugin
           dos2unix gradlew
           chmod +x gradlew
