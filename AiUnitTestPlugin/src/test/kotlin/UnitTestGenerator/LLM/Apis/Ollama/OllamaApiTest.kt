@@ -36,7 +36,7 @@ class OllamaApiTest {
 //        println(address.hostAddress)
 //        log.info("host adress: ${address} ::::::: ${address.hostAddress}")
         this.OllamaApi = OllamaApi(
-            "http://172.19.0.3:11434/"
+            "http://ollama:11434/"
         )
         Awaiters.awaitNotThrows(
             {
