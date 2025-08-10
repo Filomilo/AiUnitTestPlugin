@@ -141,7 +141,7 @@ jobs:
           cd AiUnitTestPlugin
           dos2unix gradlew
           chmod +x gradlew
-          ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+          ./gradlew build --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
       - name: copy cache files
         run: |
             mv /var/lib/docker/volumes/ollama/_data /cache/ollama
