@@ -83,9 +83,10 @@ jobs:
                 docker network create ollama-net
                 docker run -d --network ollama-net --name ollama ollama/ollama
                 docker run --rm --network ollama-net curlimages/curl http://ollama:11434/api/version
+                curl http://ollama:11434/api/version
               # docker run -d -v ollama:/root/.ollama -p 22222:11434 --name ollama ollama/ollama     
               # sleep 2
-              # curl 127.0.0.1:22222/api/version
+              # 
               # docker stop ollama
               # docker rm ollama
 
