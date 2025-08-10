@@ -3,20 +3,18 @@ package UnitTestGenerator.LLM.Apis.Ollama
 import Tools.Awaiters
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
 import UnitTestGenerator.LLM.Containers.LLMContainers.OllamaContainer
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import kotlin.math.log
+import java.net.InetAddress
 import kotlin.random.Random
+
 
 //@Disabled("temporaryl")
 class OllamaApiTest {
@@ -34,8 +32,11 @@ class OllamaApiTest {
             DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
         )
         this.OllamaContainer!!.start();
+        val address = InetAddress.getByName("ollama")
+        println(address.hostAddress)
+        log.info("host adress: ${address} ::::::: ${address.hostAddress}")
         this.OllamaApi = OllamaApi(
-            "http://localhost:11434/"
+            "http://ollama:11434/"
         )
         Awaiters.awaitNotThrows(
             {
