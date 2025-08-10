@@ -39,13 +39,13 @@ class OllamaApiTest {
         )
         Awaiters.awaitNotThrows(
             {
-//                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
                 this.OllamaApi!!.version();
-//                log.info(
-//                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
-//                            "\n" +
-//                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
-//                )
+                log.info(
+                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
+                            "\n" +
+                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+                )
 
             },
             message = "Failed to wait for ollama api"
