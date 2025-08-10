@@ -158,10 +158,19 @@ jobs:
 
       - name: printConnetionINfo
         run: |
+              echo "options ndots:1" > /etc/resolv.conf
               echo /etc/hosts:::::::::::::::::::::::
               cat /etc/hosts
               echo /etc/resolv.conf:::::::::::::::::::::::
               cat /etc/resolv.conf
+              echo getent hosts ollama:::::::::::::::::::::::
+              getent hosts ollama
+              echo nslookup ollama:::::::::::::::::::::::
+              nslookup ollama
+              echo getent hosts ollama:::::::::::::::::::::::
+              getent hosts ollama
+
+
 
       - name: run test
         env:
