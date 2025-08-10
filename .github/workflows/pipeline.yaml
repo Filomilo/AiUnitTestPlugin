@@ -158,7 +158,6 @@ jobs:
 
       - name: printConnetionINfo
         run: |
-              echo "options ndots:1" > /etc/resolv.conf
               echo /etc/hosts:::::::::::::::::::::::
               cat /etc/hosts
               echo /etc/resolv.conf:::::::::::::::::::::::
