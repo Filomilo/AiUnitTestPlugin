@@ -123,7 +123,7 @@ jobs:
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
       - name: Mark repo as safe
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE/AiUnitTestPlugin
+        run: git config --global --add safe.directory "*"
 
       - name: Cache Gradle
         uses: burrunan/gradle-cache-action@v3
