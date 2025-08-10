@@ -101,8 +101,6 @@ jobs:
                 ./scripts/CreateMllContainers.sh
 
 
-      - name: Mark repo as safe
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE/AiUnitTestPlugin
 
 
 
@@ -124,6 +122,8 @@ jobs:
             dos2unix scripts/cache_ollama_models.sh
             chmod +x scripts/cache_ollama_models.sh
             ./scripts/cache_ollama_models.sh
+      - name: Mark repo as safe
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE/AiUnitTestPlugin
 
       - name: Cache Gradle
         uses: burrunan/gradle-cache-action@v3
