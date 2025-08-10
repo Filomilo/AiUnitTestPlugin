@@ -18,7 +18,7 @@ import kotlin.random.Random
 
 //@Disabled("temporaryl")
 class OllamaApiTest {
-    //    var OllamaContainer: OllamaContainer? = null
+    var OllamaContainer: OllamaContainer? = null
     var ollamaPort: Int = 2325;
     var OllamaApi: OllamaApi? = null
     val model = "gemma3:1b"
@@ -28,25 +28,25 @@ class OllamaApiTest {
     fun setUp() {
 
         this.ollamaPort = Random.nextInt(10000, 20000)
-//        this.OllamaContainer = OllamaContainer(
-//            DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
-//        )
-//        this.OllamaContainer!!.start();
-//        val address = InetAddress.getByName("ollama")
-//        println(address.hostAddress)
-//        log.info("host adress: ${address} ::::::: ${address.hostAddress}")
+        this.OllamaContainer = OllamaContainer(
+            DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
+        )
+        this.OllamaContainer!!.start();
+        val address = InetAddress.getByName("ollama")
+        println(address.hostAddress)
+        log.info("host adress: ${address} ::::::: ${address.hostAddress}")
         this.OllamaApi = OllamaApi(
             "http://ollama:11434/"
         )
         Awaiters.awaitNotThrows(
             {
-//                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
                 this.OllamaApi!!.version();
-//                log.info(
-//                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
-//                            "\n" +
-//                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
-//                )
+                log.info(
+                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
+                            "\n" +
+                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+                )
 
             },
             message = "Failed to wait for ollama api"
@@ -58,7 +58,7 @@ class OllamaApiTest {
 
     @AfterEach
     fun tearDown() {
-//        this.OllamaContainer!!.destroy()
+        this.OllamaContainer!!.destroy()
     }
 
     //    @Disabled("temporaryl")
