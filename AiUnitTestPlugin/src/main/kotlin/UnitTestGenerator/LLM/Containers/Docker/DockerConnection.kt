@@ -174,8 +174,8 @@ object DockerConnection : ContainersManager {
             }\""
         )
 
-        dockerClient.connectToNetworkCmd().withContainerId(virtualMachineIdentifiaction)
-            .withNetworkId(this.networkId).exec();
+//        dockerClient.connectToNetworkCmd().withContainerId(virtualMachineIdentifiaction)
+//            .withNetworkId(this.networkId).exec();
         return virtualMachineIdentifiaction
 
     }
