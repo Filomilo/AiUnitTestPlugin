@@ -164,10 +164,6 @@ jobs:
               cat /etc/resolv.conf
               echo getent hosts ollama:::::::::::::::::::::::
               getent hosts ollama
-              echo nslookup ollama:::::::::::::::::::::::
-              nslookup ollama
-              echo getent hosts ollama:::::::::::::::::::::::
-              getent hosts ollama
               docker stop ollama
               docker rm ollama
 
