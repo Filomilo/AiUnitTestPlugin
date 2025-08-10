@@ -158,6 +158,8 @@ jobs:
 
       - name: printConnetionINfo
         run: |
+              echo docker ps --all
+              docker ps --all
               echo /etc/hosts:::::::::::::::::::::::
               cat /etc/hosts
               echo /etc/resolv.conf:::::::::::::::::::::::
