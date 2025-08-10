@@ -35,7 +35,7 @@ class OllamaApiTest {
 //        )
 //        this.OllamaContainer!!.start();
         this.OllamaApi = OllamaApi(
-            "curl http://ollama:11434/"
+            "http://ollama:11434/"
         )
         Awaiters.awaitNotThrows(
             {
