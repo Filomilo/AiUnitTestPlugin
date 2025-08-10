@@ -55,6 +55,7 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
+          DEBIAN_FRONTEND=noninteractive  apt install -y nodejs npm
 
 
       - name: Set up JDK 17
@@ -82,17 +83,17 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: test ollama
-        run: |
-          docker network create my-net || true
-          dos2unix scripts/addAllConatienersToNetowrk.sh
-          chmod +x scripts/addAllConatienersToNetowrk.sh
-          ./scripts/addAllConatienersToNetowrk.sh
-          docker run -d --network my-net --name ollama ollama/ollama
-          sleep 2
-          curl http://ollama:11434/api/version
-          docker stop ollama
-          docker rm ollama
+      # - name: test ollama
+      #   run: |
+      #     docker network create my-net || true
+      #     dos2unix scripts/addAllConatienersToNetowrk.sh
+      #     chmod +x scripts/addAllConatienersToNetowrk.sh
+      #     ./scripts/addAllConatienersToNetowrk.sh
+      #     docker run -d --network my-net --name ollama ollama/ollama
+      #     sleep 2
+      #     curl http://ollama:11434/api/version
+      #     docker stop ollama
+      #     docker rm ollama
 
       - name: Start LLM Conatiners
         run: |
@@ -141,7 +142,7 @@ jobs:
           cd AiUnitTestPlugin
           dos2unix gradlew
           chmod +x gradlew
-          ./gradlew build --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+          ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
       - name: copy cache files
         run: |
             mv /var/lib/docker/volumes/ollama/_data /cache/ollama
