@@ -101,6 +101,8 @@ jobs:
                 ./scripts/CreateMllContainers.sh
 
 
+      - name: Mark repo as safe
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE/AiUnitTestPlugin
 
 
 
