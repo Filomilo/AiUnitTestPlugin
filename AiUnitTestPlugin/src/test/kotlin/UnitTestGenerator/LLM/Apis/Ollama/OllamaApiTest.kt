@@ -32,9 +32,6 @@ class OllamaApiTest {
             DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
         )
         this.OllamaContainer!!.start();
-        val address = InetAddress.getByName("ollama")
-        println(address.hostAddress)
-        log.info("host adress: ${address} ::::::: ${address.hostAddress}")
         this.OllamaApi = OllamaApi(
             "http://ollama:11434/"
         )
