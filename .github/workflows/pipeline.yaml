@@ -57,7 +57,7 @@ jobs:
                       apt-get install -y dos2unix
       - name: Set up JDK 17
         run: |
-          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
            apt-get install -y openjdk-17-jdk
 
       - name: install docker
@@ -77,54 +77,66 @@ jobs:
       - name: start docker
         run: |
            dockerd > /var/log/dockerd.log 2>&1 &
-           docker run hello-world
+           
+      - name: test ollama
+        run: |
+              docker run -d -v ollama:/root/.ollama -p 22222:11434 --name ollama ollama/ollama     
+              curl localhost:22222/api/version
+              docker stop ollama
+              docker rm ollama
 
 
-      - name: Set up Docker user network
-        run: docker network create mynet || echo "Network already exists"
+      # - name: Set up Docker user network
+      #   run: docker network create mynet || echo "Network already exists"
 
-      - name: List docker networks
-        run: docker network ls
+      # - name: List docker networks
+      #   run: docker network ls
 
      
 
 
 
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: add conatienrs to network
-        run: |
-            dos2unix scripts/addAllConatienersToNetowrk.sh
-            chmod +x scripts/addAllConatienersToNetowrk.sh
-            ./scripts/addAllConatienersToNetowrk.sh
+      # - name: Checkout Repository
+      #   uses: actions/checkout@v2
+      # - name: add conatienrs to network
+      #   run: |
+      #       dos2unix scripts/addAllConatienersToNetowrk.sh
+      #       chmod +x scripts/addAllConatienersToNetowrk.sh
+      #       ./scripts/addAllConatienersToNetowrk.sh
 
 
-      - name: print docker info
-        run: |
-          docker info
-          ls /etc/docker
-          docker ps
-          ls /sys/fs/cgroup/
-          echo DOCKER_HOST::: "$DOCKER_HOST"
-          echo mynet:::::::::::::::::::::::::
-          docker network inspect mynet
-
-
-
+      # - name: print docker info
+      #   run: |
+      #     docker info
+      #     ls /etc/docker
+      #     docker ps
+      #     ls /sys/fs/cgroup/
+      #     echo DOCKER_HOST::: "$DOCKER_HOST"
+      #     echo mynet:::::::::::::::::::::::::
+      #     docker network inspect mynet
 
 
 
-      - name: Pull docker images
-        run: |
-            docker pull ollama/ollama
-      - name: Get free sapce
-        run: |
-            # docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-            #     echo "model list: "
-            #  docker exec ollama ollama list
-            #  docker stop ollama
-            #  docker rm ollama
-             df -h
+
+
+
+      # - name: Pull docker images
+      #   run: |
+      #       docker pull ollama/ollama
+      # - name: Get free sapce
+      #   run: |
+      #       # docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+      #       #     echo "model list: "
+      #       #  docker exec ollama ollama list
+      #       #  docker stop ollama
+      #       #  docker rm ollama
+      #        df -h
+
+
+
+
+
+
       # - name: Cache ollama models
       #   id: cache-ollama
       #   uses: actions/cache@v4
@@ -152,16 +164,16 @@ jobs:
       #       ~/.gradle/wrapper
       #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
       #     restore-keys: gradle-${{ runner.os }}-
-      - name: run test
-        env:
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
-            DOCKER_NETWORK: mynet
-        run: |
-                  cd AiUnitTestPlugin
-                  dos2unix gradlew
-                  chmod +x gradlew
-                  ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+      # - name: run test
+      #   env:
+      #       GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+      #       GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+      #       DOCKER_NETWORK: mynet
+      #   run: |
+      #             cd AiUnitTestPlugin
+      #             dos2unix gradlew
+      #             chmod +x gradlew
+      #             ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
       # - name: copy cache files
       #   run: |
       #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama
