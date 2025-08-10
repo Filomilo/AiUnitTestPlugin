@@ -2,11 +2,14 @@ package Tools
 
 import ai.grazie.utils.mpp.time.Time
 import ai.grazie.utils.mpp.time.Timestamp
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.lang.Thread.sleep
 import java.time.Duration
 import java.util.concurrent.TimeoutException
 
 object Awaiters {
+    private val log: Logger = LoggerFactory.getLogger(Awaiters::class.java)
 
     fun awaitTrue(function: () -> Boolean, timeout: Duration = Duration.ofSeconds(10), message: String = "") {
         var res: Boolean = function()
@@ -35,6 +38,7 @@ object Awaiters {
 
                 }
                 sleep(100)
+                log.info("Await no exception failed: ${e.message}")
                 continue
             }
             return
