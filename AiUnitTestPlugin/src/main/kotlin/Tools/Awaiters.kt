@@ -38,7 +38,7 @@ object Awaiters {
 
                 }
                 sleep(100)
-                log.info("Await no exception failed: ${e.message}")
+                log.info("Await no exception failed: ${e.message} ----\n\n ${e.stackTraceToString()}")
                 continue
             }
             return
