@@ -53,6 +53,8 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
+
+
       - name: Set up JDK 17
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
@@ -78,99 +80,58 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-      # - name: add conatienrs to network
-      #   run: |
-      #       dos2unix scripts/addAllConatienersToNetowrk.sh
-      #       chmod +x scripts/addAllConatienersToNetowrk.sh
-      #       ./scripts/addAllConatienersToNetowrk.sh
       - name: test ollama
         run: |
-          docker network create my-net
+          docker network create my-net || true
           dos2unix scripts/addAllConatienersToNetowrk.sh
           chmod +x scripts/addAllConatienersToNetowrk.sh
           ./scripts/addAllConatienersToNetowrk.sh
           docker run -d --network my-net --name ollama ollama/ollama
           sleep 2
           curl http://ollama:11434/api/version
-        # docker stop ollama
-        # docker rm ollama
-        # docker run -d -v ollama:/root/.ollama -p 22222:11434 --name ollama ollama/ollama
-        # sleep 2
-        #
-        # docker stop ollama
-        # docker rm ollama
+          docker stop ollama
+          docker rm ollama
 
-      # - name: Set up Docker user network
-      #   run: docker network create mynet || echo "Network already exists"
+      - name: Start LLM Conatiners
+        run: |
+                dos2unix scripts/CreateMllContainers.sh
+                chmod +x scripts/CreateMllContainers.sh
+                ./scripts/CreateMllContainers.sh
 
-      # - name: List docker networks
-      #   run: docker network ls
 
-      # - name: print docker info
-      #   run: |
-      #     docker info
-      #     ls /etc/docker
-      #     docker ps
-      #     ls /sys/fs/cgroup/
-      #     echo DOCKER_HOST::: "$DOCKER_HOST"
-      #     echo mynet:::::::::::::::::::::::::
-      #     docker network inspect mynet
 
-      # - name: Pull docker images
-      #   run: |
-      #       docker pull ollama/ollama
-      # - name: Get free sapce
-      #   run: |
-      #       # docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-      #       #     echo "model list: "
-      #       #  docker exec ollama ollama list
-      #       #  docker stop ollama
-      #       #  docker rm ollama
-      #        df -h
 
-      # - name: Cache ollama models
-      #   id: cache-ollama
-      #   uses: actions/cache@v4
-      #   with:
-      #     path:  /cache/ollama
-      #     key: ollama_cache
+
+      - name: Cache ollama models
+        id: cache-ollama
+        uses: actions/cache@v4
+        with:
+          path:  /cache/ollama
+          key: ollama_cache
       # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
-      # - name: pull ollama models
-      #   run: |
-      #       mkdir -p /var/lib/docker/volumes/ollama
-      #       mkdir -p /cache/ollama/_data
-      #       mv /cache/ollama/_data /var/lib/docker/volumes/ollama
-      #       echo "Listing files in workspace:"
-      #       ls -al
-      #       dos2unix scripts/cache_ollama_models.sh
-      #       chmod +x scripts/cache_ollama_models.sh
-      #       ./scripts/cache_ollama_models.sh
-
-      # - name: Cache Gradle
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       ~/.gradle/caches
-      #       ~/.gradle/wrapper
-      #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-      #     restore-keys: gradle-${{ runner.os }}-
-
-      - name: printConnetionINfo
+      - name: pull ollama models
         run: |
-              echo docker ps --all
-              docker ps --all
-              echo /etc/hosts:::::::::::::::::::::::
-              cat /etc/hosts
-              echo /etc/resolv.conf:::::::::::::::::::::::
-              cat /etc/resolv.conf
-              echo getent hosts ollama:::::::::::::::::::::::
-              getent hosts ollama
-              docker stop ollama
-              docker rm ollama
+            mkdir -p /var/lib/docker/volumes/ollama
+            mkdir -p /cache/ollama/_data
+            mv /cache/ollama/_data /var/lib/docker/volumes/ollama
+            echo "Listing files in workspace:"
+            ls -al
+            dos2unix scripts/cache_ollama_models.sh
+            chmod +x scripts/cache_ollama_models.sh
+            ./scripts/cache_ollama_models.sh
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
 
 
-
+        
       - name: run test
         env:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
@@ -181,11 +142,11 @@ jobs:
           dos2unix gradlew
           chmod +x gradlew
           ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
-    # - name: copy cache files
-    #   run: |
-    #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama
-    #       chmod 600 -R /cache/ollama
-    #       chown -R $(whoami) /cache/ollama
-    #       find /cache/ollama -type f -exec chmod u+r {} \;
-    #       find /cache/ollama -type d -exec chmod u+rx {} \;
-    #       chmod 644 -R /cache/ollama/
+      - name: copy cache files
+        run: |
+            mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+            chmod 600 -R /cache/ollama
+            chown -R $(whoami) /cache/ollama
+            find /cache/ollama -type f -exec chmod u+r {} \;
+            find /cache/ollama -type d -exec chmod u+rx {} \;
+            chmod 644 -R /cache/ollama/
