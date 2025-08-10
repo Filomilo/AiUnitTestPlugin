@@ -126,10 +126,10 @@ jobs:
       - name: Mark repo as safe
         run: git config --global --add safe.directory "*"
 
-      - name: Cache Gradle
-        uses: burrunan/gradle-cache-action@v3
-        with:
-          build-root-directory: ${{ github.workspace }}/AiUnitTestPlugin
+      # - name: Cache Gradle
+      #   uses: burrunan/gradle-cache-action@v3
+      #   with:
+      #     build-root-directory: ${{ github.workspace }}/AiUnitTestPlugin
 
 
         
