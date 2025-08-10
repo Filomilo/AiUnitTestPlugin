@@ -88,13 +88,16 @@ jobs:
 
       - name: test ollama
         run: |
-                docker network create ollama-net
+                docker network create my-net
                 dos2unix scripts/addAllConatienersToNetowrk.sh
                 chmod +x scripts/addAllConatienersToNetowrk.sh
                 ./scripts/addAllConatienersToNetowrk.sh
-                docker run -d --network ollama-net --name ollama ollama/ollama
+                docker run -d --network my-net --name ollama ollama/ollama
                 sleep 2
                 curl http://ollama:11434/api/version
+                curl http://localhost:11434/api/version
+                docker stop ollama
+                docker rm ollama
               # docker run -d -v ollama:/root/.ollama -p 22222:11434 --name ollama ollama/ollama     
               # sleep 2
               # 
@@ -172,16 +175,16 @@ jobs:
       #       ~/.gradle/wrapper
       #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
       #     restore-keys: gradle-${{ runner.os }}-
-      # - name: run test
-      #   env:
-      #       GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
-      #       GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
-      #       DOCKER_NETWORK: mynet
-      #   run: |
-      #             cd AiUnitTestPlugin
-      #             dos2unix gradlew
-      #             chmod +x gradlew
-      #             ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+      - name: run test
+        env:
+            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+            DOCKER_NETWORK: my-net
+        run: |
+                  cd AiUnitTestPlugin
+                  dos2unix gradlew
+                  chmod +x gradlew
+                  ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
       # - name: copy cache files
       #   run: |
       #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama

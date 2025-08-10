@@ -60,7 +60,7 @@ object DockerConnection : ContainersManager {
 //                .withFilter("name", listOf("all"))
 //
 //                .exec()
-        val networkName = System.getenv("DOCKER_NETWORK") ?: "mynetwork"
+        val networkName = System.getenv("DOCKER_NETWORK")
 
         val networkResponseID: String = dockerClient.listNetworksCmd()
             .withNameFilter(networkName)
@@ -109,6 +109,13 @@ object DockerConnection : ContainersManager {
 //        TODO("not imlmetneds")
         log.info("Creating Docker container with onfiguration :\n ${containerConfiguration}")
         val hostConfig = HostConfig.newHostConfig()
+
+        val networkName = System.getenv("DOCKER_NETWORK")
+        if (networkName !== null) {
+            log.info("Creating Docker container with network name $networkName")
+            hostConfig.withNetworkMode(networkName)
+        }
+
         if (containerConfiguration.ramBytes != null) {
             hostConfig.withMemory(containerConfiguration.ramBytes)
         }
