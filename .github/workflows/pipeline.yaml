@@ -41,6 +41,8 @@ jobs:
   #                 ./gradlew build -x test
   run-project-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     container:
       image: ubuntu:latest
       options: --user root
