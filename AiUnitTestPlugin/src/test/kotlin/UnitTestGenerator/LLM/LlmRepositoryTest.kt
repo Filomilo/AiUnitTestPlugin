@@ -1,6 +1,7 @@
 package UnitTestGenerator.LLM
 
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
+import UnitTestGenerator.LLM.Apis.Ollama.OllamaApiGenerator
 import UnitTestGenerator.LLM.Containers.ContainersManager
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.junit.jupiter.api.Disabled
@@ -19,7 +20,8 @@ class LlmRepositoryTest {
     fun setUp() {
         this.llmRepository = LlmRepository(
             containerManager,
-            ApiConnectionFactory.getApiConnector()
+            ApiConnectionFactory.getApiConnector(),
+            OllamaApi = OllamaApiGenerator.getOllamaApi()
         )
         this.llmRepository!!.initlize();
 

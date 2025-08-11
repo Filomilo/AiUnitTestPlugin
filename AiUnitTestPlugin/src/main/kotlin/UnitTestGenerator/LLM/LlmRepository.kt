@@ -8,22 +8,23 @@ import UnitTestGenerator.LLM.Processors.OllamaProcessors
 import kotlin.random.Random
 
 
-class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnection) {
+class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnection, OllamaApi: OllamaApi? = null) {
     var ListOfLlmProcessors: List<LLMProcessor> = ArrayList<LLMProcessor>()
     val containerManger: ContainersManager
     val apiConnection: ApiConnection
 
+    val ollamaApi: OllamaApi?;
+
     init {
         this.containerManger = containerManger
         this.apiConnection = ApiConnection
+        this.ollamaApi = OllamaApi
     }
 
     fun initlize() {
-        val port: Int = Random.nextInt(10000, 20000)
-        val OllamaContainer: OllamaContainer = OllamaContainer(containerManger, port)
-        OllamaContainer.start()
-        val OllamaApi: OllamaApi = OllamaApi("http://localhost:$port/")
-        OllamaApi.ensureActive()
+
+
+        this.ollamaApi!!.ensureActive()
         val Ollamamodels: Array<String> =
             arrayOf(
                 "gemma3:1b",
@@ -54,7 +55,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "granite3.3"
             )
         Ollamamodels.forEach { x ->
-            this.ListOfLlmProcessors += (OllamaProcessors(x, OllamaApi))
+            this.ListOfLlmProcessors += (OllamaProcessors(x, this.ollamaApi!!))
         }
 
     }
