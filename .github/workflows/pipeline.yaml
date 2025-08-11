@@ -90,6 +90,9 @@ jobs:
                 dos2unix scripts/CreateMllContainers.sh
                 chmod +x scripts/CreateMllContainers.sh
                 ./scripts/CreateMllContainers.sh
+                dos2unix scripts/addAllConatienersToNetowrk.sh
+                chmod +x scripts/addAllConatienersToNetowrk.sh
+                ./scripts/addAllConatienersToNetowrk.sh
 
 
       - name: test ollama
