@@ -8,14 +8,15 @@ import UnitTestGenerator.LLM.Containers.Config.MountVolume
 class OllamaContainer(
     containerManager: ContainersManager,
     port: Int = 11434,
-    ramBytes: Long = 1024 * 1024 * 1024 * 4
+    ramBytes: Long = 1024 * 1024 * 1024 * 4,
+    name: String = "ollama"
 ) : UniversalContainer(
     containerManager,
     ContainerConfiguration(
         image = "ollama/ollama",
         ramBytes = ramBytes,
         portConfiguration = arrayListOf(ExposedPort(11434, port)),
-        mountVolumes = arrayListOf(MountVolume("ollama", "/root/.ollama"))
+        mountVolumes = arrayListOf(MountVolume(name, "/root/.ollama"))
     )
 ) {
 

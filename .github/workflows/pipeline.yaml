@@ -105,26 +105,26 @@ jobs:
 
 
 
-      - name: Cache ollama models
-        id: cache-ollama
-        uses: actions/cache@v4
-        with:
-          path:  /cache/ollama
-          key: ollama_cache
-      # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
+      # - name: Cache ollama models
+      #   id: cache-ollama
+      #   uses: actions/cache@v4
+      #   with:
+      #     path:  /cache/ollama
+      #     key: ollama_cache
+      # # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
 
-      - name: pull ollama models
-        run: |
-            mkdir -p /var/lib/docker/volumes/ollama
-            mkdir -p /cache/ollama/_data
-            mv /cache/ollama/_data /var/lib/docker/volumes/ollama
-            echo "Listing files in workspace:"
-            ls -al
-            dos2unix scripts/cache_ollama_models.sh
-            chmod +x scripts/cache_ollama_models.sh
-            ./scripts/cache_ollama_models.sh
-      - name: Mark repo as safe
-        run: git config --global --add safe.directory "*"
+      # - name: pull ollama models
+      #   run: |
+      #       mkdir -p /var/lib/docker/volumes/ollama
+      #       mkdir -p /cache/ollama/_data
+      #       mv /cache/ollama/_data /var/lib/docker/volumes/ollama
+      #       echo "Listing files in workspace:"
+      #       ls -al
+      #       dos2unix scripts/cache_ollama_models.sh
+      #       chmod +x scripts/cache_ollama_models.sh
+      #       ./scripts/cache_ollama_models.sh
+      # - name: Mark repo as safe
+      #   run: git config --global --add safe.directory "*"
 
       # - name: Cache Gradle
       #   uses: burrunan/gradle-cache-action@v3
@@ -143,11 +143,11 @@ jobs:
           dos2unix gradlew
           chmod +x gradlew
           ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
-      - name: copy cache files
-        run: |
-            mv /var/lib/docker/volumes/ollama/_data /cache/ollama
-            chmod 600 -R /cache/ollama
-            chown -R $(whoami) /cache/ollama
-            find /cache/ollama -type f -exec chmod u+r {} \;
-            find /cache/ollama -type d -exec chmod u+rx {} \;
-            chmod 644 -R /cache/ollama/
+      # - name: copy cache files
+      #   run: |
+      #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+      #       chmod 600 -R /cache/ollama
+      #       chown -R $(whoami) /cache/ollama
+      #       find /cache/ollama -type f -exec chmod u+r {} \;
+      #       find /cache/ollama -type d -exec chmod u+rx {} \;
+      #       chmod 644 -R /cache/ollama/
