@@ -70,6 +70,12 @@ tasks {
     }
     test {
         useJUnitPlatform()
+        maxHeapSize = "128m"
+        maxParallelForks = 2
+        forkEvery = 100
+        testLogging {
+            showStandardStreams = true
+        }
     }
 }
 kotlin {

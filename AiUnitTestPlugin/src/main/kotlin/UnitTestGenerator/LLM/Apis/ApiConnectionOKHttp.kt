@@ -48,6 +48,7 @@ object ApiConnectionOKHttp : ApiConnection {
     }
 
     override fun sendGet(url: String): String {
+        logger.info("sendGet: to [[${url}]]")
         val request: Request = Request.Builder().url(url).build()
         val response: Response = client.newCall(request).execute()
         return response.body!!.string()

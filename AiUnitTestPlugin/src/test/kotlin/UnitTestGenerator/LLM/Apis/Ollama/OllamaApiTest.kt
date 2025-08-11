@@ -1,42 +1,63 @@
 package UnitTestGenerator.LLM.Apis.Ollama
 
+import Tools.Awaiters
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
 import UnitTestGenerator.LLM.Containers.LLMContainers.OllamaContainer
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.net.InetAddress
 import kotlin.random.Random
 
+
+//@Disabled("temporaryl")
 class OllamaApiTest {
-    var OllamaContainer: OllamaContainer? = null
     var ollamaPort: Int = 2325;
     var OllamaApi: OllamaApi? = null
+    val model = "gemma3:1b"
+    private val log: Logger = LoggerFactory.getLogger(OllamaApiTest::class.java)
 
     @BeforeEach
     fun setUp() {
-        this.ollamaPort = Random.nextInt(10000, 20000)
-        this.OllamaContainer = OllamaContainer(
-            DockerConnection, port = ollamaPort
-        )
-        this.OllamaContainer!!.start();
-        this.OllamaApi = OllamaApi(
-            "http://localhost:$ollamaPort/"
-        )
-        this.OllamaApi!!.pull(OllamaPullRequest("llava"))
+
+//        this.ollamaPort = Random.nextInt(10000, 20000)
+//        this.OllamaContainer = OllamaContainer(
+//            DockerConnection, port = ollamaPort, ramBytes = 1024L * 1024L * 1024L * 2L
+//        )
+//        this.OllamaContainer!!.start();
+//        this.OllamaApi = OllamaApi(
+//            "http://ollama:11434/"
+//        )
+//        Awaiters.awaitNotThrows(
+//            {
+//                log.info("waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]")
+//                this.OllamaApi!!.version();
+//                log.info(
+//                    "waiitng for ollama start:: \n\n[[[[[[[[[[[[[[[[[[[[[[\n ${this.OllamaContainer!!.getLogs()}\n" +
+//                            "\n" +
+//                            "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+//                )
+//
+//            },
+//            message = "Failed to wait for ollama api"
+//        )
+//        this.OllamaApi!!.ensureActive()
+        this.OllamaApi = OllamaApiGenerator.getOllamaApi()
+        this.OllamaApi!!.pull(OllamaPullRequest(model))
     }
 
     @AfterEach
     fun tearDown() {
-        this.OllamaContainer!!.destroy()
+        OllamaApiGenerator.cleanup()
     }
 
+    //    @Disabled("temporaryl")
     @Test
     fun generateNotExisitngModel() {
         assertThrows(NotExisitingModel::class.java) {
@@ -48,12 +69,14 @@ class OllamaApiTest {
         }
     }
 
+    //    @Disabled("temporaryl")
     @Test
     fun generate() {
         assertDoesNotThrow {
+
             val OllamaGenerateResponse: OllamaGenerateResponse = this.OllamaApi!!.generate(
                 OllamaGenerateRequest(
-                    model = "llava",
+                    model = model,
                     prompt = "What is in this picture?",
                     stream = false,
                     options = JsonObject(
@@ -65,7 +88,9 @@ class OllamaApiTest {
             )
             assertNotNull(OllamaGenerateResponse)
             assertEquals(
-                " This is an image of a wall with some text on it, which appears to be in a language that uses non-Latin script. The image does not show any specific objects or people that can be confidently identified without additional context. ",
+                "I need you to provide me with the picture! I can't analyze an image without you showing it to me. \uD83D\uDE0A \n" +
+                        "\n" +
+                        "Please paste the image here, and I’ll do my best to tell you what's in it.",
                 OllamaGenerateResponse.response
             )
         }

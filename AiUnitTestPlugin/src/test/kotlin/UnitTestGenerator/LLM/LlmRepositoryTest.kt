@@ -1,8 +1,10 @@
 package UnitTestGenerator.LLM
 
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
+import UnitTestGenerator.LLM.Apis.Ollama.OllamaApiGenerator
 import UnitTestGenerator.LLM.Containers.ContainersManager
 import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,7 +20,8 @@ class LlmRepositoryTest {
     fun setUp() {
         this.llmRepository = LlmRepository(
             containerManager,
-            ApiConnectionFactory.getApiConnector()
+            ApiConnectionFactory.getApiConnector(),
+            OllamaApi = OllamaApiGenerator.getOllamaApi()
         )
         this.llmRepository!!.initlize();
 
@@ -26,11 +29,11 @@ class LlmRepositoryTest {
 
     @AfterEach
     fun tearDown() {
-//        this.containerManager.destroyAll()
 
     }
 
     @Test
+//    @Disabled("temporaryl")
     fun promptEveryModel() {
         org.junit.jupiter.api.assertDoesNotThrow {
             this.llmRepository!!.ListOfLlmProcessors.forEach { x ->
@@ -38,7 +41,7 @@ class LlmRepositoryTest {
                 var answer: String = x.executePrompt("why is sky blue?")
                 assertNotNull(answer)
                 assertTrue(answer.isNotEmpty())
-//                x.unload()
+                x.unload()
             }
         }
 

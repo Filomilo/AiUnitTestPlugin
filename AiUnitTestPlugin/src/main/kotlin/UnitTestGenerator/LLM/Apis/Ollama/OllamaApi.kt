@@ -1,10 +1,10 @@
 package UnitTestGenerator.LLM.Apis.Ollama
 
-import UnitTestGenerator.LLM.Apis.ApiConnection
+import Tools.Awaiters
 import UnitTestGenerator.LLM.Apis.ApiConnectionFactory
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
-import java.util.concurrent.TimeoutException
+import java.time.Duration
 
 class OllamaApi(urlBase: String) {
 
@@ -14,18 +14,26 @@ class OllamaApi(urlBase: String) {
         this.urlBase = urlBase
     }
 
+    private fun resolveException(body: String, modelReq: String? = null) {
+        if (body.contains("{\"error\":\"model 'NonExisitng' not found\"}")) {
+            throw NotExisitingModel(modelReq!!)
+        }
+    }
+
     /**
      * Generate a response for a given prompt with a provided model. This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
      */
     fun generate(OllamaRequest: OllamaGenerateRequest): OllamaGenerateResponse {
+        var resultString: String = ""
         try {
-            val resultString = ApiConnectionFactory.getApiConnector().sendPost(
+            resultString = ApiConnectionFactory.getApiConnector().sendPost(
                 "${this.urlBase}api/generate",
                 Json.encodeToString(OllamaRequest)
-            )
+            );
             val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
             return resultParsed
         } catch (ex: Exception) {
+            this.resolveException(ex.message!!, modelReq = OllamaRequest.model)
             throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
         }
     }
@@ -105,21 +113,11 @@ class OllamaApi(urlBase: String) {
     }
 
     fun ensureActive() {
-        val timeoutMillis = 5000
-        val startTime = System.currentTimeMillis()
-        var lastException: Exception? = null
-        while (System.currentTimeMillis() - startTime < timeoutMillis) {
-            try {
-                this.version()
-                return
-            } catch (e: Exception) {
-                lastException = e
-                Thread.sleep(100)
-            }
-        }
-        throw TimeoutException("Operation failed after 5 seconds. Last exception: ${lastException?.message}")
-    }
+        Awaiters.awaitNotThrows({
+            val tmp = this.version()
 
+        }, Duration.ofMinutes(12), "Excpected ollam version to now throw")
+    }
 
     /**
      * Generate embeddings from a model

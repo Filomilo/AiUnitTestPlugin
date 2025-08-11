@@ -8,6 +8,6 @@ interface Container {
     fun destroy()
     fun getStatus(): ContainerStatus
     fun getOpenPort(): Int
-
+    fun getLogs(): String
 
 }

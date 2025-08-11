@@ -1,0 +1,149 @@
+name: pipeline
+
+on: push
+
+jobs:
+  # build-plugin:
+  #     runs-on: ubuntu-latest
+  #     defaults:
+  #         run:
+  #             working-directory: .
+
+  #     steps:
+  #         - name: install depndecies
+  #           run: |
+  #                 sudo apt update
+  #                 sudo  apt install git
+  #                 sudo  apt-get install -y dos2unix
+
+  #         - name: Set git to use LF
+  #           run: |
+  #               git config --global core.autocrlf false
+  #               git config --global core.eol lf
+  #         - uses: actions/checkout@v3
+  #         - name: Set up JDK 17
+  #           uses: actions/setup-java@v3
+  #           with:
+  #             java-version: '17'
+  #             distribution: 'temurin'
+  #             cache: maven
+  #         - name: Grant execute permission for Gradle wrapper
+  #           run: |
+  #                 cd AiUnitTestPlugin
+  #                 echo "Listing files in workspace:"
+  #                 ls -al
+  #                 chmod +x gradlew
+  #         - name: Build with Gradle
+  #           run: |
+  #                 cd AiUnitTestPlugin
+  #                 ls -al
+  #                 dos2unix gradlew
+  #                 ./gradlew build -x test
+  run-project-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    container:
+      image: ubuntu:latest
+      options: --user root
+    env:
+      DOCKER_HOST: unix:///var/run/docker.sock
+      GRADLE_OPTS: "-Xmx2g -Dorg.gradle.daemon=false"
+    steps:
+      - name: install depndecies
+        run: |
+          apt update -y
+           apt install git -y
+           apt-get install -y dos2unix
+         # DEBIAN_FRONTEND=noninteractive  apt install -y nodejs npm
+
+
+      - name: Set up JDK 17
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+          apt-get install -y openjdk-17-jdk
+
+      - name: install docker
+        run: |
+          apt-get update
+          apt-get install ca-certificates curl
+          install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          chmod a+r /etc/apt/keyrings/docker.asc
+          echo \
+           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+           $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+            tee /etc/apt/sources.list.d/docker.list > /dev/null
+          apt-get update
+          apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+      - name: start docker
+        run: |
+          dockerd > /var/log/dockerd.log 2>&1 &
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+
+      - name: Start LLM Conatiners
+        run: |
+                dos2unix scripts/CreateMllContainers.sh
+                chmod +x scripts/CreateMllContainers.sh
+                ./scripts/CreateMllContainers.sh
+                dos2unix scripts/addAllConatienersToNetowrk.sh
+                chmod +x scripts/addAllConatienersToNetowrk.sh
+                ./scripts/addAllConatienersToNetowrk.sh
+
+
+      - name: test ollama
+        run: |
+          curl http://ollama:11434/api/version
+
+
+      # - name: Cache ollama models
+      #   id: cache-ollama
+      #   uses: actions/cache@v4
+      #   with:
+      #     path:  /cache/ollama
+      #     key: ollama_cache
+      # # key: ${{ runner.os }}-${{ hashFiles('scripts/cache_ollama_models.sh') }}
+
+      # - name: pull ollama models
+      #   run: |
+      #       mkdir -p /var/lib/docker/volumes/ollama
+      #       mkdir -p /cache/ollama/_data
+      #       mv /cache/ollama/_data /var/lib/docker/volumes/ollama
+      #       echo "Listing files in workspace:"
+      #       ls -al
+      #       dos2unix scripts/cache_ollama_models.sh
+      #       chmod +x scripts/cache_ollama_models.sh
+      #       ./scripts/cache_ollama_models.sh
+      # - name: Mark repo as safe
+      #   run: git config --global --add safe.directory "*"
+
+      # - name: Cache Gradle
+      #   uses: burrunan/gradle-cache-action@v3
+      #   with:
+      #     build-root-directory: ${{ github.workspace }}/AiUnitTestPlugin
+
+
+        
+      - name: run test
+        env:
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+          DOCKER_NETWORK: my-net
+          OLLAMA_API: "http:/ollama:11434/"
+        run: |
+          cd AiUnitTestPlugin
+          dos2unix gradlew
+          chmod +x gradlew
+          ./gradlew test --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+      # - name: copy cache files
+      #   run: |
+      #       mv /var/lib/docker/volumes/ollama/_data /cache/ollama
+      #       chmod 600 -R /cache/ollama
+      #       chown -R $(whoami) /cache/ollama
+      #       find /cache/ollama -type f -exec chmod u+r {} \;
+      #       find /cache/ollama -type d -exec chmod u+rx {} \;
+      #       chmod 644 -R /cache/ollama/

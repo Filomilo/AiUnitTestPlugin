@@ -2,6 +2,7 @@ package UnitTestGenerator.LLM.Containers
 
 import UnitTestGenerator.LLM.Containers.Config.ContainerConfiguration
 import UnitTestGenerator.LLM.Containers.Config.ContainerStatus
+import java.io.Console
 
 interface ContainersManager {
     fun getRunningContainersList(): List<String>
@@ -16,5 +17,6 @@ interface ContainersManager {
     fun startContainer(id: String)
     fun getStatus(id: String): ContainerStatus
     fun getOpenPort(id: String): Int
-    fun destroyAll()
+    fun getLogs(id: String): String
+
 }

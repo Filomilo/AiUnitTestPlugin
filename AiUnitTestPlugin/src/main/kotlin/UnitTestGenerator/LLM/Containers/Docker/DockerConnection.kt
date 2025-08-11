@@ -16,13 +16,16 @@ import com.github.dockerjava.transport.DockerHttpClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.Duration
+import com.github.dockerjava.api.async.ResultCallbackTemplate;
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
 
 object DockerConnection : ContainersManager {
     private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
 
 
     private val dockerClient: DockerClient;
-
+    private var networkId: String;
 
     init {
         val dockerHost = System.getenv("DOCKER_HOST")
@@ -45,6 +48,31 @@ object DockerConnection : ContainersManager {
                 .build()
 
         this.dockerClient = DockerClientImpl.getInstance(dockerConfiguration, httpClient)
+//        try {
+//            val CreateContainerResponse: CreateNetworkResponse =
+//                this.dockerClient.createNetworkCmd()
+//                    .withDriver("bridge")
+//                    .withName("all").exec();
+//            this.networkId = CreateContainerResponse.id;
+//        } catch (Ex: Exception) {
+//            log.info(Ex.message)
+//            val networks = dockerClient.listNetworksCmd()
+//                .withFilter("name", listOf("all"))
+//
+//                .exec()
+        val networkName = System.getenv("DOCKER_NETWORK")
+
+        val networkResponseID: String = dockerClient.listNetworksCmd()
+            .withNameFilter(networkName)
+            .exec()
+            .firstOrNull()?.id ?: dockerClient.createNetworkCmd()
+            .withName(networkName)
+            .withDriver("bridge")
+            .exec().id
+        this.networkId = networkResponseID
+//        }
+        log.info("Network ID: $networkId")
+
     }
 
 
@@ -57,7 +85,7 @@ object DockerConnection : ContainersManager {
     override fun getContainersList(): List<String> {
         val conatinerList = dockerClient.listContainersCmd().withShowAll(true).exec()
         val containersId: List<String> = contianerListToIdList(conatinerList)
-
+        log.info("Get conatienr list: \n\n${containersId.stream().toArray().joinToString(", \n")}")
         return containersId
     }
 
@@ -79,7 +107,15 @@ object DockerConnection : ContainersManager {
 
     override fun createContainer(containerConfiguration: ContainerConfiguration): String {
 //        TODO("not imlmetneds")
+        log.info("Creating Docker container with onfiguration :\n ${containerConfiguration}")
         val hostConfig = HostConfig.newHostConfig()
+
+        val networkName = System.getenv("DOCKER_NETWORK")
+        if (networkName !== null) {
+            log.info("Creating Docker container with network name $networkName")
+            hostConfig.withNetworkMode(networkName)
+        }
+
         if (containerConfiguration.ramBytes != null) {
             hostConfig.withMemory(containerConfiguration.ramBytes)
         }
@@ -109,6 +145,8 @@ object DockerConnection : ContainersManager {
         var response: CreateContainerResponse
         var DockerContainerCmd: CreateContainerCmd =
             dockerClient.createContainerCmd(containerConfiguration.image).withHostConfig(hostConfig);
+//        DockerContainerCmd.withNetworkDisabled(false)
+
         if (containerConfiguration.portConfiguration.isNotEmpty()) {
             DockerContainerCmd.withExposedPorts(
                 (containerConfiguration.portConfiguration.map { x -> ExposedPort(x.exposedPort) }.toList())
@@ -130,7 +168,14 @@ object DockerConnection : ContainersManager {
             }
         }
         val virtualMachineIdentifiaction = response.id
+        log.info(
+            "Created Docker container with id :\n ${virtualMachineIdentifiaction} and has status: ${
+                dockerClient.inspectContainerCmd(virtualMachineIdentifiaction).exec().state
+            }\""
+        )
 
+//        dockerClient.connectToNetworkCmd().withContainerId(virtualMachineIdentifiaction)
+//            .withNetworkId(this.networkId).exec();
         return virtualMachineIdentifiaction
 
     }
@@ -152,8 +197,18 @@ object DockerConnection : ContainersManager {
     }
 
     override fun startContainer(id: String) {
+        log.info("starting Docker container with id :\n ${id}")
+
         dockerClient.startContainerCmd(id).exec()
+
+        log.info(
+            "started Docker container with id :\n ${id} : and has status: ${
+                dockerClient.inspectContainerCmd(id).exec().state
+            }"
+        )
+
     }
+
 
     fun getContianerFromID(id: String): Container? {
         return try {
@@ -183,9 +238,25 @@ object DockerConnection : ContainersManager {
         return getContianerFromID(id)!!.getPorts()[0].publicPort!!;
     }
 
-    override fun destroyAll() {
-        this.getContainersList().forEach { x ->
-            destroyContainer(x)
-        }
+
+    override fun getLogs(id: String): String {
+        val outputStream: ByteArrayOutputStream = ByteArrayOutputStream()
+
+
+        dockerClient.logContainerCmd(id)
+            .withStdOut(true)
+            .withStdErr(true)
+            .withFollowStream(false) // don't keep streaming forever
+            .withSince(0)            // get logs from container start
+            .exec(object : ResultCallbackTemplate<Nothing?, Frame>() {
+                override fun onNext(frame: Frame) {
+                    outputStream.writeBytes(frame.payload)
+                }
+            })
+            .awaitCompletion()
+        val outputString: String = outputStream.toString(StandardCharsets.UTF_8)
+
+        return outputString
+
     }
 }

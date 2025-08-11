@@ -5,9 +5,10 @@ import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 
 class OllamaGenerateResponseTest {
-
+    //    @Disabled("temporaryl")
     @Test
     fun testToString() {
         val json = """

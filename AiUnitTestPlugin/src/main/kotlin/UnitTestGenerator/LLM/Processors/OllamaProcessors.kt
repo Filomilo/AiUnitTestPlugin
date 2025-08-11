@@ -1,9 +1,14 @@
 package UnitTestGenerator.LLM.Processors
 
 import UnitTestGenerator.LLM.Apis.Ollama.*
+import UnitTestGenerator.LLM.Containers.Docker.DockerConnection
 import UnitTestGenerator.LLM.LLMProcessor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import kotlin.math.log
 
 class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
+    private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
 
     val ollamaApi: OllamaApi;
     val model: String;
@@ -25,6 +30,7 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
     }
 
     override fun load() {
+        log.info("Ollama pulling ${this.model}")
         this.ollamaApi.pull(
             OllamaPullRequest(
                 model = this.model,

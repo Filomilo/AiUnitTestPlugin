@@ -1,14 +1,17 @@
 package UnitTestGenerator.LLM.Apis
 
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 
-class ApiConnectionOKHttpTest{
+class ApiConnectionOKHttpTest {
     @Test
-    fun testApis(){
-        assertNotNull(      ApiConnectionOKHttp.getClient())
-    val elem=ApiConnectionOKHttp.getClient()
-        assertNotNull( elem)
+//    @Disabled("temporaryl")
+    fun testApis() {
+        assertNotNull(ApiConnectionOKHttp.getClient())
+        val elem = ApiConnectionOKHttp.getClient()
+        assertNotNull(elem)
     }
 
 }
