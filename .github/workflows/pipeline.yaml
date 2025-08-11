@@ -83,17 +83,7 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-      # - name: test ollama
-      #   run: |
-      #     docker network create my-net || true
-      #     dos2unix scripts/addAllConatienersToNetowrk.sh
-      #     chmod +x scripts/addAllConatienersToNetowrk.sh
-      #     ./scripts/addAllConatienersToNetowrk.sh
-      #     docker run -d --network my-net --name ollama ollama/ollama
-      #     sleep 2
-      #     curl http://ollama:11434/api/version
-      #     docker stop ollama
-      #     docker rm ollama
+
 
       - name: Start LLM Conatiners
         run: |
@@ -102,7 +92,9 @@ jobs:
                 ./scripts/CreateMllContainers.sh
 
 
-
+      - name: test ollama
+        run: |
+          curl http://ollama:11434/api/version
 
 
       # - name: Cache ollama models
