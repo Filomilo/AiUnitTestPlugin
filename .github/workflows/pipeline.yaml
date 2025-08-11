@@ -55,7 +55,7 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
-          DEBIAN_FRONTEND=noninteractive  apt install -y nodejs npm
+         # DEBIAN_FRONTEND=noninteractive  apt install -y nodejs npm
 
 
       - name: Set up JDK 17
