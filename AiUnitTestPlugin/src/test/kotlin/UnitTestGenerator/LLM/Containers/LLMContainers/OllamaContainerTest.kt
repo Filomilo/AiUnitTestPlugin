@@ -40,7 +40,7 @@ class OllamaContainerTest {
         assertEquals(amountOFContainersAfter, amountOFContainers - 1)
     }
 
-    @Disabled("temporaryl")
+    //    @Disabled("temporaryl")
     @Test
     fun start() {
         log.info("Startt")

@@ -36,7 +36,7 @@ class DockerConnectionTest {
     fun contianerListToIdList() {
     }
 
-    @Disabled("temporaryl")
+    //    @Disabled("temporaryl")
     @Test
     fun createVmCorrect() {
 

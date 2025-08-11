@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Disabled
 
 class ApiConnectionOKHttpTest {
     @Test
-    @Disabled("temporaryl")
+//    @Disabled("temporaryl")
     fun testApis() {
         assertNotNull(ApiConnectionOKHttp.getClient())
         val elem = ApiConnectionOKHttp.getClient()

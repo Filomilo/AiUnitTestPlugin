@@ -31,7 +31,7 @@ class LlmRepositoryTest {
     }
 
     @Test
-    @Disabled("temporaryl")
+//    @Disabled("temporaryl")
     fun promptEveryModel() {
         org.junit.jupiter.api.assertDoesNotThrow {
             this.llmRepository!!.ListOfLlmProcessors.forEach { x ->
