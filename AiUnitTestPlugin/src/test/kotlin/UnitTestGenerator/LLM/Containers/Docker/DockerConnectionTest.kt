@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestInstance
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DockerConnectionTest {
 
-    val testContainer: String = "hello-world"
+    val testContainer: String = "ubuntu"
 
     @Disabled("noImpemnted")
     @Test
