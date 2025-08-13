@@ -1,3 +1,8 @@
 /AiUnitTestPlugin/.idea
 /ExampleProjects/JavaCalculator/.idea
 /AiUnitTestPlugin/.kotlin/sessions
+scripts/*.interp
+scripts/*.java
+scripts/*.kt
+scripts/*.tokens
+scripts/*.g4
