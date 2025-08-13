@@ -1,6 +1,6 @@
 name: pipeline
 
-on: push
+on: pull
 
 jobs:
   # build-plugin:
