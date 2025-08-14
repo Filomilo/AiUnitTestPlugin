@@ -22,11 +22,34 @@ object JavaParser {
         val parser: JavaParser = JavaParser(tokens)
         val tree: JavaParser.CompilationUnitContext = parser.compilationUnit()
         val walker = ParseTreeWalker()
+        var packageName: String? = null
+        var imports: MutableList<String> = ArrayList()
+        var className: String? = null
+        var fields: MutableList<String> = ArrayList()
+        var methods: MutableList<String> = ArrayList()
         walker.walk(object : JavaParserBaseListener() {
+
+            override fun enterPackageDeclaration(ctx: JavaParser.PackageDeclarationContext) {
+                packageName = ctx.text
+            }
+
+            override fun enterImportDeclaration(ctx: JavaParser.ImportDeclarationContext) {
+                imports.add(ctx.text)
+            }
+
             override fun enterClassDeclaration(ctx: JavaParser.ClassDeclarationContext) {
-                System.out.println("Class found: ${ctx.CLASS().toString()}")
+                className = ctx.identifier().getText()
+            }
+
+            override fun enterFieldDeclaration(ctx: JavaParser.FieldDeclarationContext) {
+                fields.add(ctx.text + ";")
+            }
+
+            override fun enterMethodDeclaration(ctx: JavaParser.MethodDeclarationContext) {
+                methods.add(ctx.text)
             }
         }, tree)
+
         TODO("Implement this function to complete the task")
     }
 

@@ -2,6 +2,8 @@ package Tools.CodeParsers.CodeElements
 
 class Code(code: String, children: List<Code>) {
 
+    constructor(code: String) : this(code, listOf())
+
     var code: String = code
     var children: List<Code> = children
 
@@ -9,11 +11,14 @@ class Code(code: String, children: List<Code>) {
     fun getContent(serpratorStart: String, serpratorEnd: String = ""): String {
         var StringBuilder: StringBuilder = StringBuilder("")
         StringBuilder.append(code)
-        StringBuilder.append(serpratorStart)
-        for (child in children) {
-            StringBuilder.append(child.getContent(serpratorStart, serpratorEnd))
+        if (children.isNotEmpty()) {
+            StringBuilder.append(serpratorStart)
+            for (child in children) {
+                StringBuilder.append(child.getContent(serpratorStart, serpratorEnd))
+            }
+            StringBuilder.append(serpratorEnd)
         }
-        StringBuilder.append(serpratorEnd)
+
         return StringBuilder.toString()
     }
 }
