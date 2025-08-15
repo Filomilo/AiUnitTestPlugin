@@ -1,6 +1,6 @@
 name: pipeline
 
-on: pull
+on: pull_request
 
 jobs:
   # build-plugin:
