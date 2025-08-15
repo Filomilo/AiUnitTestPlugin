@@ -66,7 +66,9 @@ public class Calculator {
 """
 
     private fun trimString(a: String): String {
-        return a.replace("\\s+".toRegex(), "")
+        return a.replace(Regex("\\s+"), " ").replace("\r\n", "").replace("\n", "")
+            .replace("\t", "").replace(" ", "")
+            .replace(Regex("\\s+"), " ");
     }
 
     @Test
@@ -76,8 +78,11 @@ public class Calculator {
     @Test
     fun parseFileContents() {
         var JavaCodeFile: JavaCodeFile = JavaParser.parseFileContents(this.testFileConent_Calculator)
-        assertEquals(listOf("package org.filomilo.AiTestGenerotorAnalisis;"), JavaCodeFile.dependecies)
-//        assertEquals(Paths.get("package/org/filomilo/AiTestGenerotorAnalisis.java"), JavaCodeFile.path)
+        assertEquals(
+            trimString("package org.filomilo.AiTestGenerotorAnalisis;"),
+            trimString(JavaCodeFile.packageDelaration)
+        )
         assertEquals(1, JavaCodeFile.codes.size)
+        assertEquals(trimString(testFileConent_Calculator), trimString(JavaCodeFile.getContent()))
     }
 }
