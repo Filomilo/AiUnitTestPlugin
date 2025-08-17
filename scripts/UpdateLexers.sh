@@ -6,10 +6,10 @@ java -jar antlr-4.13.2-complete.jar -listener   -visitor  -Dlanguage=Java JavaLe
 java -jar antlr-4.13.2-complete.jar -listener    -Dlanguage=Java JavaParser.g4
 
 
-mkdir -p ../AiUnitTestPlugin/src/main/java/Tools/CodeParsers/ANTLR/
+mkdir -p ../AiTestGenerator/src/main/java/Tools/CodeParsers/ANTLR/
 
 
 for f in *.java; do
     echo "package Tools.CodeParsers.ANTLR;" | cat - "$f" > temp && mv temp "$f"
-    mv "$f" ../AiUnitTestPlugin/src/main/java/Tools/CodeParsers/ANTLR/"$f"
+    mv "$f" ../AiTestGenerator/src/main/java/Tools/CodeParsers/ANTLR/"$f"
 done

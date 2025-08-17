@@ -1,17 +1,18 @@
 package org.filomilo.AiTestGenerotorAnalisis
 
-import java.nio.file.Paths
+import Projects.ProjectTypes
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 
 object ProjectsRepository {
-    val projects: List<ProjectConfig> = listOf(
-        ProjectConfig(
+    val projects: List<Project> = listOf(
+        Project(
             name = "JavaCalculator",
-            exampleProjectFolder = "JavaCalculator",
+            ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
             projectType = ProjectTypes.JAVA_JUNIT_PROJECT
         ),
-        ProjectConfig(
+        Project(
             name = "PythonCalculator",
-            exampleProjectFolder = "PythonSimpleCalculator",
+            ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
             projectType = ProjectTypes.PYTHON_PYTEST_PROJECT
         ),
     )
