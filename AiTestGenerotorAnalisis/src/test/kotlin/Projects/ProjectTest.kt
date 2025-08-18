@@ -25,6 +25,6 @@ class ProjectTest {
 
     @AfterEach
     fun removeTmpDirectory() {
-        FilesManagment.funRemoveDirectory(PathResolver.ensureTmpDirectory())
+//        FilesManagment.funRemoveDirectory(PathResolver.ensureTmpDirectory())
     }
 }
