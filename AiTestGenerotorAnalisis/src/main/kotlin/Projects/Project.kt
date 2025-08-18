@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Projects.ProjectTypes
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import java.io.Serializable
 import java.nio.file.CopyOption
 import java.nio.file.Files
@@ -11,7 +12,8 @@ data class Project(val name: String, val ProjectPath: Path, val projectType: Pro
     Serializable {
 
     fun clone(newPath: Path): Project {
-        Files.copy(this.ProjectPath, newPath, StandardCopyOption.REPLACE_EXISTING)
+        FilesManagment.copyDirectory(this.ProjectPath,newPath)
+
         return Project(
             this.name,
             newPath,
