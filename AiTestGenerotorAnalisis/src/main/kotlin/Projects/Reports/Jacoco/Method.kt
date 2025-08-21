@@ -1,4 +1,4 @@
-package org.filomilo.AiTestGenerotorAnalisis.Reports.Jacoco
+package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty

@@ -5,7 +5,7 @@ import Tools.StringTools
 import com.fasterxml.jackson.databind.SerializationFeature
 import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.filomilo.AiTestGenerotorAnalisis.Reports.Jacoco.JacocoReport
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReport
 import org.junit.jupiter.api.Assertions.assertEquals
 
 class JacocoReportTest {
@@ -154,7 +154,7 @@ class JacocoReportTest {
         val mapper: XmlMapper = XmlMapper()
         mapper.registerModules()
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        val JacocoReport:JacocoReport=   mapper.readValue(xmlConversion, JacocoReport::class.java)
+        val JacocoReport: JacocoReport =   mapper.readValue(xmlConversion, JacocoReport::class.java)
         assertEquals(JacocoReport.name,"JavaCalculator")
         assertEquals(JacocoReport.sessioninfo.id,"DESKTOP-HMGMU2J-80dea4a0")
     }

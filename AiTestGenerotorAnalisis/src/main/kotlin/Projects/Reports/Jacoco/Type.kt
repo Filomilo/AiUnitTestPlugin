@@ -1,4 +1,4 @@
-package org.filomilo.AiTestGenerotorAnalisis.Reports.Jacoco
+package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco
 
 enum class Type(val value: String) {
     BRANCH("BRANCH"),
