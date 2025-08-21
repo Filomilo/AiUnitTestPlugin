@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import kotlinx.serialization.Serializable
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 
 @Serializable
 @JacksonXmlRootElement(localName = "report")
@@ -22,5 +23,5 @@ data class JacocoReport(
     val counter: List<Counter>,
     @JacksonXmlProperty(isAttribute = true, localName = "name")
     val name: String
-)
+): TestReport
 

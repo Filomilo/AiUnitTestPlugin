@@ -35,4 +35,12 @@ class ProjectTest {
         }
 
     }
+    @Test
+    fun extractReport() {
+//        runTests();
+        assertDoesNotThrow{
+            ProjectsRepository.projects.forEach { x->x.getReport() }
+        }
+
+    }
 }

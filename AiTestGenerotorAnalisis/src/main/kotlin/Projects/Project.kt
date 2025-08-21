@@ -3,16 +3,16 @@ package org.filomilo.AiTestGenerotorAnalisis.Projects
 import Projects.ProjectTypes
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerotorAnalisis.ProjectRunner
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import java.io.Serializable
-import java.nio.file.CopyOption
-import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.StandardCopyOption
 
 data class Project(val name: String,
                    val ProjectPath: Path,
                    val projectType: ProjectTypes,
-                    val projectRunner: ProjectRunner
+                   private   val projectRunner: ProjectRunner,
+                private val reportExtractor: ReportExtractor
 
 ) :
     Serializable {
@@ -24,12 +24,15 @@ data class Project(val name: String,
             this.name,
             newPath,
             this.projectType,
-            this.projectRunner
+            this.projectRunner,
+            this.reportExtractor
         )
     }
 
     fun runTests(){
         projectRunner.runTests(this.ProjectPath)
     }
-
+    fun getReport ():TestReport{
+       return reportExtractor.extractReport(this.ProjectPath)
+    }
 }
