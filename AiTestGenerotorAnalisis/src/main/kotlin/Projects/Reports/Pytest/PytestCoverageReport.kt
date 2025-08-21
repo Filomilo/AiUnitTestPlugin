@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import kotlinx.serialization.Serializable
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 
 @Serializable
 data class PytestCoverageReport(
@@ -12,4 +13,4 @@ data class PytestCoverageReport(
   @JsonProperty("files"  ) var files  : Map<String,File>,
   @JsonProperty("totals" ) var totals : Totals
 
-)
+): TestReport
