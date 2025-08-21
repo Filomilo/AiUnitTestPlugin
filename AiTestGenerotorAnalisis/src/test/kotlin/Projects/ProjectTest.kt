@@ -27,4 +27,12 @@ class ProjectTest {
     fun removeTmpDirectory() {
         FilesManagment.funRemoveDirectory(PathResolver.ensureTmpDirectory())
     }
+
+    @Test
+    fun runTests() {
+        assertDoesNotThrow{
+            ProjectsRepository.projects.forEach { x->x.runTests() }
+        }
+
+    }
 }

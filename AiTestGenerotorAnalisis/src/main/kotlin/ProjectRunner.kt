@@ -1,4 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis
 
-class ProjectRunner {
+import java.nio.file.Path
+
+interface ProjectRunner {
+    fun runTests(projectPath: Path)
 }

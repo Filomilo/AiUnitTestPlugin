@@ -1,4 +1,4 @@
-package Tools
+package org.filomilo.AiTestGenerator.Tools
 
 object StringTools {
     public fun trimStringToJustSymbols(a: String): String {

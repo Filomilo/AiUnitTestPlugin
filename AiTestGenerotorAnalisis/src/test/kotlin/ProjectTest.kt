@@ -1,6 +1,7 @@
 import Projects.ProjectTypes
 import org.filomilo.AiTestGenerotorAnalisis.PathResolver
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -14,7 +15,8 @@ class ProjectTest {
             val project = Project(
                 "exmaple",
                 PathResolver.resolveExampleProject("JavaCalculator"),
-                ProjectTypes.PYTHON_PYTEST_PROJECT
+                ProjectTypes.PYTHON_PYTEST_PROJECT,
+                PythonRunner()
             )
         }
 
@@ -23,7 +25,8 @@ class ProjectTest {
             val project = Project(
                 "exmaple",
                 PathResolver.resolveExampleProject("notExisitng"),
-                ProjectTypes.PYTHON_PYTEST_PROJECT
+                ProjectTypes.PYTHON_PYTEST_PROJECT,
+                PythonRunner()
             )
         }
 
