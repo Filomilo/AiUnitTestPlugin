@@ -17,7 +17,7 @@ class ProjectTest {
                 "exmaple",
                 PathResolver.resolveExampleProject("JavaCalculator"),
                 ProjectTypes.PYTHON_PYTEST_PROJECT,
-                PythonRunner(),
+                PythonRunner("dummy"),
                 PytestReportExtractor()
             )
         }
@@ -28,7 +28,7 @@ class ProjectTest {
                 "exmaple",
                 PathResolver.resolveExampleProject("notExisitng"),
                 ProjectTypes.PYTHON_PYTEST_PROJECT,
-                PythonRunner(),
+                PythonRunner("dummy"),
                 PytestReportExtractor()
             )
         }

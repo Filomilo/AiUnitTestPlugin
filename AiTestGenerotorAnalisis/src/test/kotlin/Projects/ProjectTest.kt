@@ -48,7 +48,7 @@ class ProjectTest {
     @ParameterizedTest
     @MethodSource("projectProvider")
     fun extractReport(project: Project) {
-
+        runTests(project)
         assertDoesNotThrow{
             project.getReport()
         }

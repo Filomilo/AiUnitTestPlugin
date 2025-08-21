@@ -20,7 +20,7 @@ object ProjectsRepository {
             name = "PythonCalculator",
             ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
             projectType = ProjectTypes.PYTHON_PYTEST_PROJECT,
-            projectRunner = PythonRunner(),
+            projectRunner = PythonRunner("calculator"),
             reportExtractor = PytestReportExtractor()
         ),
     )
