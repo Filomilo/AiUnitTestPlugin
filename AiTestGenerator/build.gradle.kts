@@ -1,5 +1,3 @@
-val kotlinVersion = "2.2.0" // updated
-
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
@@ -8,7 +6,7 @@ plugins {
     id("java")
 }
 
-group = "org.filomilo.AiUnitTestPlugin"
+group = "org.filomilo.AiTestGenerator"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -32,8 +30,6 @@ dependencies {
 
 //    implementation("com.squareup.okhttp3:okhttp:5.0.0")
 }
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2023.2.6")
     type.set("IC") // Target IDE Platform
@@ -83,6 +79,6 @@ tasks {
 }
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17)) // or 21, but must match both sides
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }

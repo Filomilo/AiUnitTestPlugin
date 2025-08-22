@@ -1,0 +1,27 @@
+package org.filomilo.AiTestGenerotorAnalisis
+
+import Projects.ProjectTypes
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReportExtractor
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
+
+object ProjectsRepository {
+    val projects: List<Project> = listOf(
+        Project(
+            name = "JavaCalculator",
+            ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
+            projectType = ProjectTypes.JAVA_JUNIT_PROJECT,
+            projectRunner = MavenRunner(),
+            reportExtractor = JacocoReportExtractor()
+        ),
+        Project(
+            name = "PythonCalculator",
+            ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
+            projectType = ProjectTypes.PYTHON_PYTEST_PROJECT,
+            projectRunner = PythonRunner("calculator"),
+            reportExtractor = PytestReportExtractor()
+        ),
+    )
+}
