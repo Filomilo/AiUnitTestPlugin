@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.0"
+
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20-RC"
 }
 
 group = "org.filomilo.AiTestGenerotorAnalisis"
@@ -10,10 +12,17 @@ repositories {
     maven(
         url  ="https://central.sonatype.com/repository/maven-snapshots/"
     )
+    repositories {
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/grazie/maven")
+    }
+
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("org.slf4j:slf4j-api:2.0.13")
+    implementation("org.slf4j:slf4j-simple:2.0.13")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(project(":AiTestGenerator"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
@@ -23,6 +32,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.13.4")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0-rc1")
 }
 
 tasks.test {
@@ -31,3 +41,4 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
+

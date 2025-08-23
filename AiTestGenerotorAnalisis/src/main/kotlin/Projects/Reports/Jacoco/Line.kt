@@ -1,6 +1,9 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import kotlinx.serialization.Serializable
+
+@Serializable
 
 data class Line(
     @JacksonXmlProperty(isAttribute = true, localName = "nr")

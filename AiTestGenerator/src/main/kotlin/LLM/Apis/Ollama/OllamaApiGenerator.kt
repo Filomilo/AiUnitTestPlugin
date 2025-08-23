@@ -1,6 +1,5 @@
 package LLM.Apis.Ollama
 
-
 import org.filomilo.AiTestGenerator.LLM.Apis.Ollama.OllamaApi
 import org.filomilo.AiTestGenerator.LLM.Containers.Container
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection

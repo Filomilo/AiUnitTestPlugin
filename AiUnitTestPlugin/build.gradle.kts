@@ -1,8 +1,8 @@
-val kotlinVersion = "2.0.0" // updated
+val kotlinVersion = "2.2.0" // updated
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.0.0"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    id("org.jetbrains.kotlin.jvm") version "2.2.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
     id("org.jetbrains.intellij") version "1.17.3"
 
     id("java")
@@ -26,7 +26,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     runtimeOnly("com.squareup.okio:okio-jvm:3.15.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0")
     implementation("org.antlr:antlr4-runtime:4.13.2")
     implementation(files("libs/antlr-4.13.2-complete.jar"))
 

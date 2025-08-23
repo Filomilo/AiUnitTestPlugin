@@ -1,18 +1,16 @@
 package Projects
 
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
-import org.filomilo.AiTestGenerotorAnalisis.PathResolver
+import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
-import org.filomilo.AiTestGenerotorAnalisis.ProjectsRepository
+import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.MethodSource
 
-import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
 

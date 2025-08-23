@@ -1,17 +1,8 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects.Runners
 
-import org.filomilo.AiTestGenerator.Tools.System
-import org.filomilo.AiTestGenerotorAnalisis.CommandExecutor
-import org.filomilo.AiTestGenerotorAnalisis.ProjectRunner
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
+import org.filomilo.AiTestGenerotorAnalisis.Tools.CommandExecutor
+import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
 import java.nio.file.Path
-import java.util.concurrent.Future
-import java.util.function.Consumer
-import java.util.concurrent.Executors
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.TimeUnit
 
 class MavenRunner(): ProjectRunner {
 

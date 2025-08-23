@@ -1,7 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects.Runners
 
-import org.filomilo.AiTestGenerotorAnalisis.CommandExecutor
-import org.filomilo.AiTestGenerotorAnalisis.ProjectRunner
+import org.filomilo.AiTestGenerotorAnalisis.Tools.CommandExecutor
+import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
 import java.nio.file.Path
 
 class PythonRunner(val projectName: String): ProjectRunner {

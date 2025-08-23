@@ -1,4 +1,4 @@
-package org.filomilo.AiTestGenerotorAnalisis
+package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import java.nio.file.Path
 

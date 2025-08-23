@@ -7,7 +7,6 @@ import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.LLM.LlmRepository
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

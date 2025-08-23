@@ -1,7 +1,9 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Counter (
     @JacksonXmlProperty(isAttribute = true, localName = "type")
     val type: Type,
