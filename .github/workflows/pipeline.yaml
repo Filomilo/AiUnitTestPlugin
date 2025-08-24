@@ -90,7 +90,6 @@ jobs:
       #   uses: burrunan/gradle-cache-action@v3
       #   with:
       #     build-root-directory: ${{ github.workspace }}/AiUnitTestPlugin
-
       - name: run prebuild
         env:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
@@ -98,6 +97,8 @@ jobs:
           DOCKER_NETWORK: my-net
           OLLAMA_API: "http:/ollama:11434/"
         run: |
+          dos2unix scripts/prebuild.sh
+          chmod +x scripts/prebuild.sh
           cd AiTestGenerator
           dos2unix gradlew
           chmod +x gradlew
