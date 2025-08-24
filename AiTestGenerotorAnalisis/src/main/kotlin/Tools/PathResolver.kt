@@ -23,7 +23,7 @@ object PathResolver {
 
     fun resolveExampleProject(projectName: String): Path {
 
-        val proejctDir: Path = Paths.get( System.getProperty("user.dir"))
+        val proejctDir: Path = Paths.get( System.getProperty("user.dir")).parent
 
         val ProjectPath: Path =
             proejctDir.toAbsolutePath().resolve("ExampleProjects").resolve(projectName)
