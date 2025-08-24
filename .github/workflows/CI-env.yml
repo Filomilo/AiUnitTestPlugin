@@ -102,9 +102,9 @@ jobs:
           run: |
             cd "${{inputs.folder}}"
             ./../scripts/"${{ inputs.script }}"
-        - name: print commit var
-          run: |
-                echo
+        - name: Mark repo as safe
+          if: ${{ inputs.commit-result == true }}
+          run: git config --global --add safe.directory $GITHUB_WORKSPACE
         - name: commit resulr ${{ inputs.commit-result}}
           if: ${{ inputs.commit-result == true }}
           uses: EndBug/add-and-commit@v9 #
