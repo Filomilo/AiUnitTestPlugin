@@ -102,7 +102,10 @@ jobs:
           run: |
             cd "${{inputs.folder}}"
             ./../scripts/"${{ inputs.script }}"
-        - name: commit resulr
+        - name: print commit var
+          run: |
+                echo
+        - name: commit resulr ${{ inputs.commit-result}}
           if: ${{ inputs.result == 'true' }}
           uses: EndBug/add-and-commit@v9 #
           with:
