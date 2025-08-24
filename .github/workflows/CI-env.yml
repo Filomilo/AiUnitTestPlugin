@@ -118,11 +118,6 @@ jobs:
                   # Default: depends on the default_author input
                   author_email: fborowiec@wp.pl
 
-                  # Additional arguments for the git commit command. The --message argument is already set by the message input.
-                  # Default: ''
-                  commit: gh action analysess results
-
-
 
                   default_author: user_info
 
