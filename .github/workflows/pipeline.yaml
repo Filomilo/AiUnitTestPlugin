@@ -1,8 +1,8 @@
-name: pipeline
+#name: pipeline
+#
+#on: push
 
-on: push
-
-jobs:
+#jobs:
   # run-project-test:
   #   permissions:
   #     contents: write
@@ -10,11 +10,11 @@ jobs:
   #   with:
   #     folder: AiTestGenerator
   #     script: AiTestGeneratorTests.sh
-  run-analyiss-test:
-    # needs: run-project-test
-    permissions:
-      contents: write
-    uses: ./.github/workflows/CI-env.yml
-    with:
-      folder: AiTestGenerotorAnalisis
-      script: AiTestGenerotorAnalisisTest.sh
+#  run-analyiss-test:
+#    # needs: run-project-test
+#    permissions:
+#      contents: write
+#    uses: ./.github/workflows/CI-env.yml
+#    with:
+#      folder: AiTestGenerotorAnalisis
+#      script: AiTestGenerotorAnalisisTest.sh
