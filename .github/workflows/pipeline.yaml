@@ -99,6 +99,7 @@ jobs:
         run: |
           dos2unix scripts/prebuild.sh
           chmod +x scripts/prebuild.sh
+          ./scripts/prebuild.sh
           cd AiTestGenerator
           dos2unix gradlew
           chmod +x gradlew
