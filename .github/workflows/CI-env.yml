@@ -8,7 +8,7 @@ on:
       script:
         required: true
         type: string
-      result:
+      commit-result:
         required: false
         type: boolean
         default: false
