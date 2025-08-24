@@ -1,3 +1,4 @@
+
 plugins {
     kotlin("jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
@@ -52,7 +53,15 @@ sourceSets {
 
 
 tasks {
-    // Set the JVM compatibility versions
+
+    register<Exec>("prebuild") {
+        workingDir(project.projectDir)
+        commandLine( "../scripts/prebuild.sh")
+
+    }
+    named("build") {
+        dependsOn("prebuild")
+    }
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
@@ -87,3 +96,4 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
