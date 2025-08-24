@@ -67,6 +67,11 @@ jobs:
         - name: test ollama
           run: |
             curl http://ollama:11434/api/version
+        - name: install example project depenecies
+          run: |
+              dos2unix /scripts/example_project_dependency.sh
+              chmod +x /scripts/example_project_dependency.sh
+              ./scripts/example_project_dependency.sh
             
 
         - name: run prebuild
