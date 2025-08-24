@@ -8,6 +8,10 @@ on:
       script:
         required: true
         type: string
+      result:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
     prepare-env:
@@ -89,7 +93,7 @@ jobs:
             chmod +x gradlew
             ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
 
-        - name: run test
+        - name: run script
           env:
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
@@ -98,3 +102,34 @@ jobs:
           run: |
             cd "${{inputs.folder}}"
             ./../scripts/"${{ inputs.script }}"
+        - name: commit resulr
+          if: ${{ inputs.result == true }}
+          uses: EndBug/add-and-commit@v9 #
+          with:
+                  # The arguments for the `git add` command (see the paragraph below for more info)
+                  # Default: '.'
+                  add: 'Analysis_results/result.json'
+
+                  # The name of the user that will be displayed as the author of the commit.
+                  # Default: depends on the default_author input
+                  author_name: Filomilo
+
+                  # The email of the user that will be displayed as the author of the commit.
+                  # Default: depends on the default_author input
+                  author_email: fborowiec@wp.pl
+
+                  # Additional arguments for the git commit command. The --message argument is already set by the message input.
+                  # Default: ''
+                  commit: gh action analysess results
+
+
+
+                  default_author: user_info
+
+
+
+                  # The message for the commit.
+                  # Default: 'Commit from GitHub Actions (name of the workflow)'
+                  message: 'Ghaction alyses results'
+
+                  tag_push: '--force'

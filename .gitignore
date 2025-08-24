@@ -55,3 +55,4 @@ ExampleProjects/PythonSimpleCalculator/coverage.json
 /AiTestGenerator/src/main/java/Tools/CodeParsers/ANTLR/
 scripts/test.txt
 AiTestGenerator/test.txt
+AiTestGenerotorAnalisis/Analysis_results/result.json

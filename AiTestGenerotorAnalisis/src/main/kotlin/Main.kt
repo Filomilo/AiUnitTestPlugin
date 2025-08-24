@@ -1,5 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis
-
-fun main() {
-   AnalysisRunner.runAnalysis()
+object Main {
+   @JvmStatic
+   fun main(args: Array<String>) {
+      AnalysisRunner.runAnalysis()
+   }
 }

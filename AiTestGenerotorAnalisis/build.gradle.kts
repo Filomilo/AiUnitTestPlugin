@@ -2,10 +2,14 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "2.2.0"
-
+    java
+    application
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20-RC"
 }
 
+application {
+    mainClass.set("org.filomilo.AiTestGenerotorAnalisis.Main")
+}
 group = "org.filomilo.AiTestGenerotorAnalisis"
 version = "1.0-SNAPSHOT"
 
