@@ -4,8 +4,8 @@ apt install -y python3 python3-pip
 python3 --version
 pip3 install --upgrade pip
 pip3 --version
-pip3 install pytest
-pip3 install pytest-cov
+pip3 install pytest  --break-system-packages
+pip3 install pytest-cov  --break-system-packages
 pytest --version
 
 
