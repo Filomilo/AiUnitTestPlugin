@@ -1,6 +1,10 @@
 name: CI-env
 on:
   workflow_call:
+    inputs:
+      script:
+        required: true
+        type: string
 
 jobs:
     prepare-env:
@@ -76,3 +80,13 @@ jobs:
             dos2unix gradlew
             chmod +x gradlew
             ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+            steps:
+        - name: run test
+          env:
+            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+            DOCKER_NETWORK: my-net
+            OLLAMA_API: "http:/ollama:11434/"
+          run: |
+            cd scripts
+            ./${{ inputs.gradle_command }}.sh
