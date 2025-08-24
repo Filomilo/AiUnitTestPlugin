@@ -3,10 +3,6 @@ name: pipeline
 on: push
 
 jobs:
-  prebuild:
-    uses: ./.github/workflows/ci-base.yml
-    with:
-      gradle_command: prebuild
   run-project-test:
     uses: ./.github/workflows/CI-env.yml
     with:
