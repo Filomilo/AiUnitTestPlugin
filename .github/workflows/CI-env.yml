@@ -2,6 +2,9 @@ name: CI-env
 on:
   workflow_call:
     inputs:
+      folder:
+        required: true
+        type: string
       script:
         required: true
         type: string
@@ -87,4 +90,5 @@ jobs:
             DOCKER_NETWORK: my-net
             OLLAMA_API: "http:/ollama:11434/"
           run: |
-            ./scripts/"${{ inputs.script }}"
+            cd "${{inputs.folder}}"
+            ./../scripts/"${{ inputs.script }}"

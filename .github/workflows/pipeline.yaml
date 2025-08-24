@@ -8,4 +8,5 @@ jobs:
       contents: write
     uses: ./.github/workflows/CI-env.yml
     with:
+      folder: AiTestGenerator
       script: AiTestGeneratorTests.sh
