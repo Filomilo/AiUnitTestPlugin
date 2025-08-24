@@ -51,3 +51,7 @@ bin/
 /.idea
 /tmp
 ExampleProjects/PythonSimpleCalculator/coverage.json
+/scripts/ouput/
+/AiTestGenerator/src/main/java/Tools/CodeParsers/ANTLR/
+scripts/test.txt
+AiTestGenerator/test.txt

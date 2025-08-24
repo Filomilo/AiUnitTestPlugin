@@ -1,4 +1,4 @@
-package org.filomilo.AiTestGenerotorAnalisis
+package org.filomilo.AiTestGenerotorAnalisis.Tools
 
 import org.filomilo.AiTestGenerator.Tools.System
 import java.io.BufferedReader
@@ -43,6 +43,8 @@ object CommandExecutor {
 
 
         val exitCode = process.waitFor(20, TimeUnit.MINUTES)
+        process.destroy()
+        executorService.shutdown()
         println(exitCode)
     }
 }

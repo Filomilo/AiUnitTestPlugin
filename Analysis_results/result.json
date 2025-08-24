@@ -1,0 +1,1 @@
+{"runs":[{"type":"success","llmModel":"none","project":"JavaCalculator","strategy":"Manual_Tests","time":1755960690.700726300},{"type":"success","llmModel":"none","project":"PythonCalculator","strategy":"Manual_Tests","time":1755960691.603047900}],"fails":[]}

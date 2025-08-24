@@ -2,7 +2,6 @@ package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Projects.ProjectTypes
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
-import org.filomilo.AiTestGenerotorAnalisis.ProjectRunner
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import java.io.Serializable
@@ -12,7 +11,7 @@ data class Project(val name: String,
                    val ProjectPath: Path,
                    val projectType: ProjectTypes,
                    private   val projectRunner: ProjectRunner,
-                private val reportExtractor: ReportExtractor
+                   private val reportExtractor: ReportExtractor
 
 ) :
     Serializable {
