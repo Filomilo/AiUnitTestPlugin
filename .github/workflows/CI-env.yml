@@ -106,7 +106,7 @@ jobs:
           run: |
                 echo
         - name: commit resulr ${{ inputs.commit-result}}
-          if: ${{ inputs.result == 'true' }}
+          if: ${{ inputs.commit-result == 'true' }}
           uses: EndBug/add-and-commit@v9 #
           with:
                   # The arguments for the `git add` command (see the paragraph below for more info)
