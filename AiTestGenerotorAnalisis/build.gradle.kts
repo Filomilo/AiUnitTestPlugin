@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm") version "2.2.0"
 
@@ -21,8 +23,9 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("org.slf4j:slf4j-api:2.0.13")
-    implementation("org.slf4j:slf4j-simple:2.0.13")
+    implementation("org.slf4j:slf4j-api:2.0.17")
+    testImplementation("org.slf4j:slf4j-simple:2.0.17")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(project(":AiTestGenerator"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
@@ -42,3 +45,10 @@ kotlin {
     jvmToolchain(17)
 }
 
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+            compilerOptions {
+                freeCompilerArgs.add("-Xannotation-default-target=param-property")
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
+        }

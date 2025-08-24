@@ -9,7 +9,7 @@ object ContainerFactory {
         return when (type) {
             ContainerType.DOCKER -> TODO("Unimplemented property container type")
             ContainerType.PODMAN -> TODO("Unimplemented property container type")
-            else -> TODO("Unimplemented property container type")
+//            else -> TODO("Unimplemented property container type")
         }
     }
 
