@@ -4,6 +4,8 @@ on: push
 
 jobs:
   run-project-test:
+    permissions:
+      contents: write
     uses: ./.github/workflows/CI-env.yml
     with:
       script: AiTestGeneratorTests.sh
