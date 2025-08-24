@@ -88,4 +88,4 @@ jobs:
             OLLAMA_API: "http:/ollama:11434/"
           run: |
             cd scripts
-            ./"${{ inputs.gradle_command }}".sh
+            ./"${{ inputs.script }}".sh
