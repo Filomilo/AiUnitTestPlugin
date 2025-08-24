@@ -88,6 +88,11 @@ jobs:
             dos2unix gradlew
             chmod +x gradlew
             ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+
+        - name: test python procjet
+          run: |
+                cd ExampleProjects/PythonSimpleCalculator
+                pytest tests/ --cov=calculator --cov-report json
         - name: run test
           env:
             GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"

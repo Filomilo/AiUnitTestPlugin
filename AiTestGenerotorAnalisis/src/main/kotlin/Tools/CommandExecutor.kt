@@ -28,6 +28,7 @@ object CommandExecutor {
     private val log: Logger = LoggerFactory.getLogger(CommandExecutor::class.java)
 
     fun runCommand(command: String, path: Path) {
+        log.info("executing command [[$command]] in location [[${path.toAbsolutePath()}]]")
         val builder = ProcessBuilder()
         if (System.isWindows) {
             builder.command( "cmd.exe","/c",command)
