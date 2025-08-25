@@ -2,7 +2,7 @@ package org.filomilo.AiTestGenerator.LLM.Apis.Ollama
 
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable
-
+@OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
 @Serializable
 data class OllamaPullRequest(
 

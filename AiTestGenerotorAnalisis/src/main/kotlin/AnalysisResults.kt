@@ -86,6 +86,7 @@ data class AnalysisResults(
     var runs: HashSet<AnalysisRun> = hashSetOf<AnalysisRun>(),
     var fails: HashSet<AnalysisRun> = hashSetOf<AnalysisRun>()
 ){
+    private val log: Logger = LoggerFactory.getLogger(AnalysisResults::class.java)
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(AnalysisResults::class.java)
@@ -114,11 +115,15 @@ data class AnalysisResults(
     }
 
     fun save(){
+
+
         val content= mapper.writeValueAsString(this)
+        log.info("save:: content [[$content]] to path [[$filePath.toAbsolutePath()]] ")
         filePath.toFile().writeText(content)
     }
 
     fun addRun(analysisRun: AnalysisRunSuccess) {
+        log.info("addRun:: [[$analysisRun]] ")
             if(this.runs.contains(analysisRun)){
                 this.runs.remove(analysisRun)
             }
@@ -128,6 +133,7 @@ data class AnalysisResults(
         }
     }
     fun addRunFailure(analysisRun: AnalysisRunFailure) {
+        log.info("addRunFailure:: [[$analysisRun]] ")
         if(this.fails.contains(analysisRun)){
             this.fails.remove(analysisRun)
         }

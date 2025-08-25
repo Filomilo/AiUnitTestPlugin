@@ -1,6 +1,9 @@
 package org.filomilo.AiTestGenerotorAnalisis.Tools
 
+import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.Tools.System
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -12,15 +15,20 @@ import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
 class StreamGobbler(private val inputStream: InputStream, private val consumer: Consumer<String>) :
+
     Runnable {
+    private val log: Logger = LoggerFactory.getLogger(CommandExecutor::class.java)
+
     override fun run() {
         BufferedReader(InputStreamReader(inputStream)).lines()
             .forEach(consumer)
     }
 }
 object CommandExecutor {
+    private val log: Logger = LoggerFactory.getLogger(CommandExecutor::class.java)
 
     fun runCommand(command: String, path: Path) {
+        log.info("executing command [[$command]] in location [[${path.toAbsolutePath()}]]")
         val builder = ProcessBuilder()
         if (System.isWindows) {
             builder.command( "cmd.exe","/c",command)
@@ -38,7 +46,7 @@ object CommandExecutor {
 
         val streamGobbler =
             StreamGobbler(process.inputStream,
-                Consumer<String> { x: String? -> println(x) })
+                Consumer<String> { x: String? -> println(x); log.info(x) })
         val future: Future<*> = executorService.submit(streamGobbler)
 
 

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+apt update
+apt install -y python3 python3-pip
+python3 --version
+pip3 install --upgrade pip
+pip3 --version
+pip3 install pytest  --break-system-packages
+pip3 install pytest-cov  --break-system-packages
+pytest --version
+
+
+apt install -y maven
+mvn -version
