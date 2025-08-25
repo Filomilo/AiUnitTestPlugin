@@ -10,8 +10,11 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrategyRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 object AnalysisRunner {
+    private val log: Logger = LoggerFactory.getLogger(AnalysisRunner::class.java)
 
     lateinit var llmRepository: LlmRepository;
     lateinit  var containerManager: ContainersManager
@@ -28,16 +31,19 @@ object AnalysisRunner {
 
     }
     fun runStrategyOnLLMProcessorOnProejct(llmProcessor: LLMProcessor, strategy:TestGenerationStrategy,project: Project){
+        log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         var AnalysisRun: AnalysisRunSuccess=         strategy.runTestGenerationStrategy(llmProcessor,project)
         this.analysisResults.addRun(AnalysisRun)
     }
     fun runStrategyOnLLMProcessor(llmProcessor: LLMProcessor, strategy:TestGenerationStrategy){
+        log.info("runStrategyOnLLMProcessor:: [[${strategy.getNameIdentifier()}]]")
         for(project: Project in ProjectsRepository.projects){
             runStrategyOnLLMProcessorOnProejct(llmProcessor,strategy,project)
         }
     }
     fun runAnalysisOnLLMProcessor(llmProcessor: LLMProcessor){
 //        llmProcessor.load()
+        log.info("runAnalysisOnLLMProcessor:: [[$llmProcessor]]")
         for(strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies){
             runStrategyOnLLMProcessor(llmProcessor,strategy)
         }
