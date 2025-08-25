@@ -10,7 +10,7 @@ jobs:
     with:
       folder: AiTestGenerator
       script: AiTestGeneratorTests.sh
- run-analyiss-test:
+  run-analyiss-test:
    # needs: run-project-test
    permissions:
      contents: write
