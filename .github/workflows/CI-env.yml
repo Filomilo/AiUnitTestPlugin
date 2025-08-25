@@ -113,6 +113,11 @@ jobs:
                 ls Analysis_results/
                 ls Analysis_results/result.json
                 cat Analysis_results/result.json
+        - name: Debug git status
+          run: |
+            git status
+            git diff --stat
+
           
         - name: commit resulr ${{ inputs.commit-result}}
           if: ${{ inputs.commit-result == true }}
