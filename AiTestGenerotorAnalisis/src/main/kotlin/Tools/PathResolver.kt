@@ -39,7 +39,7 @@ object PathResolver {
     }
 
     fun getResultFilePath(): Path{
-        val proejctDir: Path = Paths.get( System.getProperty("user.dir"))
+        val proejctDir: Path = Paths.get( System.getProperty("user.dir")).parent
         val folderPath: Path =
         proejctDir.toAbsolutePath().resolve("Analysis_results")
         if (!folderPath.exists()) {
