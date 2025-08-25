@@ -105,6 +105,15 @@ jobs:
         - name: Mark repo as safe
           if: ${{ inputs.commit-result == true }}
           run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+        - name: print files
+          if: ${{ inputs.commit-result == true }}
+          run: |
+                ls
+                ls Analysis_results/
+                ls Analysis_results/result.json
+                cat Analysis_results/result.json
+          
         - name: commit resulr ${{ inputs.commit-result}}
           if: ${{ inputs.commit-result == true }}
           uses: EndBug/add-and-commit@v9 #
