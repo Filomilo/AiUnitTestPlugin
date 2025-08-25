@@ -124,9 +124,16 @@ jobs:
 
         - name: List Gradle files
           run: |
+            echo "ls ~:::::::::::::::::::" 
             ls ~ 
+            echo " ls ~/ ~:::::::::::::::::::" 
             ls ~/
+            echo " ls ./ ~:::::::::::::::::::" 
             ls ./
+            echo " ls AiTestGenerator ~:::::::::::::::::::" 
+            ls AiTestGenerator
+            echo " ls AiTestGenerotorAnalisis ~:::::::::::::::::::" 
+            ls AiTestGenerotorAnalisis
         - name: Mark repo as safe
           if: ${{ inputs.commit-result == true }}
           run: git config --global --add safe.directory $GITHUB_WORKSPACE
