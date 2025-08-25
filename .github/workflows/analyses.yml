@@ -11,5 +11,5 @@ jobs:
     uses: ./.github/workflows/CI-env.yml
     with:
       folder: AiTestGenerotorAnalisis
-      script: RunAnalisis.sh
+      script: RunAnalysis.sh
       commit-result: true
