@@ -70,7 +70,7 @@ jobs:
             path: |
               ~/.gradle/caches
               ~/.gradle/wrapper
-            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            key: ${{ runner.os }}-gradle-${{ hashFiles('AiUnitTestPlugin/build.gradle.kts', 'AiTestGenerotorAnalisis/build.gradle.kts', 'AiTestGenerator/build.gradle.kts') }}
             restore-keys: |
               ${{ runner.os }}-gradle-
 
