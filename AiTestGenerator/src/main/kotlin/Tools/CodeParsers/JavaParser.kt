@@ -4,6 +4,7 @@ import Tools.CodeParsers.ANTLR.JavaParser
 import Tools.CodeParsers.ANTLR.JavaLexer
 import Tools.CodeParsers.ANTLR.JavaParserBaseListener
 import Tools.CodeParsers.CodeElements.JavaCodeFile
+import Tools.CodeParsers.CodeParser
 import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.tree.*
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
@@ -15,7 +16,7 @@ import java.nio.file.*
 import java.util.stream.Collectors
 
 
-object JavaParser {
+object JavaParser: CodeParser {
     private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
 
     fun parseJavaFile(path: Path): JavaCodeFile {

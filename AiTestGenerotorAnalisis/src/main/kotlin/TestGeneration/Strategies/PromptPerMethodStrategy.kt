@@ -5,7 +5,7 @@ import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 
-class SimplePromptStrategy(prompt:String): TestGenerationStrategy {
+class PromptPerMethodStrategy(prompt:String): TestGenerationStrategy {
 
     val promptBase: String = prompt
 
@@ -21,6 +21,7 @@ class SimplePromptStrategy(prompt:String): TestGenerationStrategy {
 
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
-        TODO("Not yet implemented")
+        val methods=project.getAllMehothods()
+        TODO("not implemented")
     }
 }

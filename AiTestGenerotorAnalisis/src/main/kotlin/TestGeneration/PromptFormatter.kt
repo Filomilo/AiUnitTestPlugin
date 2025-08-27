@@ -26,23 +26,22 @@ object PromptFormatter {
 
         if(promptInformationProvider.getTestingFramework()!=null)
         {
-            arguments["##framework##"]=promptInformationProvider.getTestingFramework()
+            arguments["##framework##"]=promptInformationProvider.getTestingFramework()!!
         }
 
 
-        if(promptInformationProvider.getFunctions()!=null)
-        {
-            arguments["##functions##"]=promptInformationProvider.getFunctions()
+        if(promptInformationProvider.getFunctions()!=null) {
+            arguments["##functions##"] = promptInformationProvider.getFunctions()!!
         }
 
         if(promptInformationProvider.getClasses()!=null)
         {
-            arguments["##classes##"]=promptInformationProvider.getClasses()
+            arguments["##classes##"]=promptInformationProvider.getClasses()!!
         }
 
         if(promptInformationProvider.getFiles()!=null)
         {
-            arguments["##files##"]=promptInformationProvider.getFiles()
+            arguments["##files##"]=promptInformationProvider.getFiles()!!
         }
 
 

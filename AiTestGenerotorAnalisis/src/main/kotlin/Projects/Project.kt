@@ -34,4 +34,8 @@ data class Project(val name: String,
     fun getReport ():TestReport{
        return reportExtractor.extractReport(this.ProjectPath)
     }
+
+    fun getAllMehothods(): Any {
+        TODO("not implemened")
+    }
 }

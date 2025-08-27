@@ -42,4 +42,10 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
     override fun unload() {
         this.ollamaApi.delete(OllamaDeleteRequest(model = this.model))
     }
+
+    override fun toString(): String {
+        return "OllamaProcessors(model='$model', ollamaApi=$ollamaApi)"
+    }
+
+
 }
