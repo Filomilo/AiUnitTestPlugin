@@ -1,41 +1,73 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Projects.ProjectTypes
+import Tools.CodeParsers.CodeElements.CodeFile
+import Tools.CodeParsers.CodeParser
+import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
+import java.io.File
 import java.io.Serializable
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.stream.Collectors
 
-data class Project(val name: String,
-                   val ProjectPath: Path,
-                   val projectType: ProjectTypes,
-                   private   val projectRunner: ProjectRunner,
-                   private val reportExtractor: ReportExtractor
+data class Project(
+    val name: String,
+    val ProjectPath: Path,
+    val codeParser: CodeParser,
+    private val projectRunner: ProjectRunner,
+    private val reportExtractor: ReportExtractor,
+    val testingFramework: String,
+    val codeFileExtension: String
 
 ) :
     Serializable {
 
     fun clone(newPath: Path): Project {
-        FilesManagment.copyDirectory(this.ProjectPath,newPath)
+        FilesManagment.copyDirectory(this.ProjectPath, newPath)
 
         return Project(
             this.name,
             newPath,
-            this.projectType,
+            this.codeParser,
             this.projectRunner,
-            this.reportExtractor
+            this.reportExtractor,
+            this.testingFramework,
+            this.codeFileExtension
         )
     }
 
-    fun runTests(){
+    fun runTests() {
         projectRunner.runTests(this.ProjectPath)
     }
-    fun getReport ():TestReport{
-       return reportExtractor.extractReport(this.ProjectPath)
+
+    fun getReport(): TestReport {
+        return reportExtractor.extractReport(this.ProjectPath)
     }
 
-    fun getAllMehothods(): Any {
-        TODO("not implemened")
+    fun getAllCodeFiles(): Collection<File> {
+        return FilesManagment.findFilesByExtensions(
+            this.ProjectPath,
+            listOf(this.codeFileExtension)
+        ) as Collection<File>
     }
+
+
+    fun getAllParsedFiles(): Collection<CodeFile> {
+        return getAllCodeFiles().map { x ->
+            this.codeParser.parseCodeFile(
+                Paths.get(
+                    x.toPath().toAbsolutePath().toUri()
+                )
+            )
+        }.toCollection(ArrayList());
+    }
+
+    fun getAllMethods(): Collection<Code> {
+        return getAllParsedFiles().stream().map { x -> x.getMethods() }.collect(Collectors.toList())
+    }
+
+
 }

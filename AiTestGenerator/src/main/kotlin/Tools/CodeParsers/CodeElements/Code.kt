@@ -1,5 +1,7 @@
 package org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements
 
+import Tools.CodeParsers.CodeSeparator
+
 class Code(code: String, children: List<Code>) {
 
     constructor(code: String) : this(code, listOf())
@@ -8,15 +10,15 @@ class Code(code: String, children: List<Code>) {
     var children: List<Code> = children
 
 
-    fun getContent(serpratorStart: String, serpratorEnd: String = ""): String {
+    fun getContent(codeSeparator: CodeSeparator): String {
         var StringBuilder: StringBuilder = StringBuilder("")
         StringBuilder.append(code)
         if (children.isNotEmpty()) {
-            StringBuilder.append(serpratorStart)
+            StringBuilder.append(codeSeparator.CodeSectionStart)
             for (child in children) {
-                StringBuilder.append(child.getContent(serpratorStart, serpratorEnd))
+                StringBuilder.append(child.getContent(codeSeparator))
             }
-            StringBuilder.append(serpratorEnd)
+            StringBuilder.append(codeSeparator.CodeSectionEnd)
         }
 
         return StringBuilder.toString()

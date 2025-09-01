@@ -5,6 +5,7 @@ import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LlmRepository
+import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunner
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunner.containerManager
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
@@ -36,6 +37,7 @@ class AnalysisRunnerTest {
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {
+
             this. containerManager = DockerConnection
 
             this.LlmRepository = LlmRepository(
@@ -85,5 +87,16 @@ class AnalysisRunnerTest {
             
             -------------------------------------------------------------------
         """.trimIndent())
+        val countSucessBeforeTest=AnalysisRunner.analysisResults.runs.count()
+        val counFailsBeforeTest=AnalysisRunner.analysisResults.fails.count()
+        AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
+            llmProcessor,strategy,project
+        )
+
+        val countSucessAfterTest=AnalysisRunner.analysisResults.runs.count()
+        val counFailsAfterTest=AnalysisRunner.analysisResults.fails.count()
+
+        assertEquals(countSucessBeforeTest+1,countSucessAfterTest)
+
     }
 }

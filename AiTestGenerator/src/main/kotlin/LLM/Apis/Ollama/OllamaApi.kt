@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerator.LLM.Apis.Ollama
 
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.Tools.Awaiters
@@ -148,6 +149,10 @@ class OllamaApi(urlBase: String) {
         )
         val resultParsed: OllamaVersionResponse = Json.decodeFromString<OllamaVersionResponse>(resultString)
         return resultParsed
+    }
+
+    override fun toString(): String {
+        return "OllamaApi(urlBase='$urlBase')"
     }
 
 

@@ -1,4 +1,3 @@
-
 plugins {
     kotlin("jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
@@ -25,14 +24,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.9.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     runtimeOnly("com.squareup.okio:okio-jvm:3.15.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0")
     implementation("org.antlr:antlr4-runtime:4.13.2")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+
+
 //    implementation("com.squareup.okhttp3:okhttp:5.0.0")
 }
 intellij {
@@ -58,7 +59,7 @@ tasks {
 
     register<Exec>("prebuild") {
         workingDir(project.projectDir)
-        commandLine( "../scripts/prebuild.sh")
+        commandLine("../scripts/prebuild.sh")
 
     }
     named("build") {

@@ -18,7 +18,7 @@ object AnalysisRunner {
 
     lateinit var llmRepository: LlmRepository;
     lateinit  var containerManager: ContainersManager
-    lateinit  var analysisResults: AnalysisResults
+     var analysisResults: AnalysisResults=AnalysisResults()
     init {
         this. containerManager = DockerConnection
 
