@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements
 
 import Tools.CodeParsers.CodeElements.JavaCodeFile
+import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 
 class JavaFunctionBuilder(javaClassBuilder: JavaClassBuilder) {
@@ -89,8 +90,11 @@ class JavaCodeFileBuilder {
     }
 
     fun build(): JavaCodeFile {
+        if (classes.isEmpty()) {
+            throw ParsingException("no Java coe found")
+        }
         return JavaCodeFile(
-            packageDelaration = this.packageName!!,
+            packageDelaration = this.packageName,
             dependecies = this.imports,
             codes = classes
         )

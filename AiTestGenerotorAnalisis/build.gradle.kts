@@ -33,6 +33,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(project(":AiTestGenerator"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+
     implementation("io.github.pdvrieze.xmlutil:core:0.91.2")
     implementation("io.github.pdvrieze.xmlutil:serialization-jvm:0.91.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.19.2")

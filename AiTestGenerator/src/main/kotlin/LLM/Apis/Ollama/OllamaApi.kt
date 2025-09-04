@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerator.LLM.Apis.Ollama
 
+import com.fasterxml.jackson.databind.annotation.NoClass
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
@@ -32,7 +33,14 @@ class OllamaApi(urlBase: String) {
             );
             val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
             return resultParsed
-        } catch (ex: Exception) {
+        }
+        catch (ex: NoClassDefFoundError)
+        {
+
+            throw Exception("Error parsing [[${OllamaRequest.toString()}]]: ${ex.message}")
+        }
+
+        catch (ex: Exception) {
             this.resolveException(ex.message!!, modelReq = OllamaRequest.model)
             throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
         }

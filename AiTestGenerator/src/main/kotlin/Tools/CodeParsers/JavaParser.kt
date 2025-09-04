@@ -75,8 +75,8 @@ object JavaParser : CodeParser {
 
 
             override fun enterImportDeclaration(ctx: JavaParser.ImportDeclarationContext) {
-                log.info("enterImportDeclaration: ${ctx.text}")
-                javaFileBuilder.addImport(ctx.text)
+                log.info("enterImportDeclaration: ${ctx.children.map { x -> x.text }.joinToString(" ")}")
+                javaFileBuilder.addImport(ctx.children.map { x -> x.text }.joinToString(" "))
 
             }
 
@@ -128,6 +128,10 @@ object JavaParser : CodeParser {
         var codeFlie: CodeFile = this.parseFileContents(Files.readString(path))
         codeFlie.file = path.toFile()
         return codeFlie
+    }
+
+    override fun parseContent(content: String): CodeFile {
+        return parseFileContents(content)
     }
 
 

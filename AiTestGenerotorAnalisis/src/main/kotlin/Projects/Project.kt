@@ -1,6 +1,5 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
-import Projects.ProjectTypes
 import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
@@ -47,26 +46,25 @@ data class Project(
         return reportExtractor.extractReport(this.ProjectPath)
     }
 
-    fun getAllCodeFiles(): Collection<File> {
+    fun getAllCodeFiles(): Collection<Path> {
         return FilesManagment.findFilesByExtensions(
             this.ProjectPath,
             listOf(this.codeFileExtension)
-        ) as Collection<File>
+        ).toCollection(ArrayList())
     }
 
 
     fun getAllParsedFiles(): Collection<CodeFile> {
+
         return getAllCodeFiles().map { x ->
             this.codeParser.parseCodeFile(
-                Paths.get(
-                    x.toPath().toAbsolutePath().toUri()
-                )
+                x
             )
         }.toCollection(ArrayList());
     }
 
     fun getAllMethods(): Collection<Code> {
-        return getAllParsedFiles().stream().map { x -> x.getMethods() }.collect(Collectors.toList())
+        return getAllParsedFiles().stream().map { x -> x.getMethods() }.collect(Collectors.toList()).flatten()
     }
 
 

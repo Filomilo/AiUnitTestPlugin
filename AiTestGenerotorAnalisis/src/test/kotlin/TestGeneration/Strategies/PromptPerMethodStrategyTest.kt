@@ -11,7 +11,9 @@ class PromptPerMethodStrategyTest {
     fun runTestGenerationStrategy() {
       var promptPerMethodStrategy: PromptPerMethodStrategy=         PromptPerMethodStrategy(
           """
-                Create ##framework## for function ##functions##
+                Create ##framework## for function 
+                
+                ##functions##
             """.trimIndent()
       )
 

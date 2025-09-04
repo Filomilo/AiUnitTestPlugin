@@ -1,6 +1,8 @@
 import LLM.Apis.Ollama.OllamaApiGenerator
 import jdk.incubator.vector.VectorOperators.LOG
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
+import org.filomilo.AiTestGenerator.LLM.Apis.Ollama.OllamaApi
+import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
 import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
@@ -31,7 +33,7 @@ class AnalysisRunnerTest {
     companion object {
         val log: org.slf4j.Logger =LoggerFactory.getLogger(AnalysisRunnerTest::class.java)
         lateinit var LlmRepository: LlmRepository;
-
+        lateinit var ollamaApi: OllamaApi
         lateinit var containerManager: ContainersManager;
 
         @JvmStatic
@@ -39,11 +41,11 @@ class AnalysisRunnerTest {
         fun setup(): Unit {
 
             this. containerManager = DockerConnection
-
+            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
             this.LlmRepository = LlmRepository(
                 containerManager,
                 ApiConnectionFactory.getApiConnector(),
-                OllamaApi = OllamaApiGenerator.getOllamaApi()
+                this.ollamaApi
             )
             this.LlmRepository.initlize()
         }
@@ -62,9 +64,10 @@ class AnalysisRunnerTest {
         var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
         for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors)
         {
+            var cachedLLMProcessor: LLMProcessor= CachedLLMProcessor(llm)
             for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies){
                 for (project: Project in ProjectsRepository.projects){
-                    argslist.add(Arguments.of(llm,strategy, project))
+                    argslist.add(Arguments.of(cachedLLMProcessor,strategy, project))
                 }
             }
         }
@@ -77,6 +80,7 @@ class AnalysisRunnerTest {
     @ParameterizedTest
     @MethodSource("provideProjetLlmStratefyCombinations")
     fun runStrategyOnLLMProcessorOnProejct(llmProcessor: LLMProcessor, strategy: TestGenerationStrategy, project: Project) {
+        llmProcessor.load()
         log.info("""
             
             -------------------------------------------------------------------
@@ -97,6 +101,7 @@ class AnalysisRunnerTest {
         val counFailsAfterTest=AnalysisRunner.analysisResults.fails.count()
 
         assertEquals(countSucessBeforeTest+1,countSucessAfterTest)
+//        llmProcessor.unload()
 
     }
 }

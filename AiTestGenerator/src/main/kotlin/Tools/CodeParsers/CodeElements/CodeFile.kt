@@ -10,6 +10,6 @@ abstract class CodeFile(
     open val codes: MutableList<Code> = mutableListOf(),
     open var file: File? = null,
 ) {
-    abstract fun getMethods(): Code
-
+    abstract fun getMethods(): Collection<Code>
+    abstract fun getContent(): String
 }
