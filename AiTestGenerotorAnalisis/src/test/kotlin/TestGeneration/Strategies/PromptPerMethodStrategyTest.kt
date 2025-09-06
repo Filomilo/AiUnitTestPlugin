@@ -6,18 +6,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
 class PromptPerMethodStrategyTest {
+    @Test
+    fun generateTestFiles() {
+    }
 
     @Test
     fun runTestGenerationStrategy() {
-      var promptPerMethodStrategy: PromptPerMethodStrategy=         PromptPerMethodStrategy(
-          """
+        var promptPerMethodStrategy: PromptPerMethodStrategy = PromptPerMethodStrategy(
+            """
                 Create ##framework## for function 
                 
                 ##functions##
             """.trimIndent()
-      )
-
-
+        )
 
 
     }

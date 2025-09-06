@@ -12,9 +12,9 @@ import java.nio.file.Paths
 import kotlin.io.path.exists
 
 
-class ExampleLlmWithResult: LLMProcessor{
+class ExampleLlmWithResult : LLMProcessor {
     override fun executePrompt(prompt: String): String {
-       return "Result"
+        return "Result"
     }
 
     override fun load() {
@@ -24,13 +24,18 @@ class ExampleLlmWithResult: LLMProcessor{
     override fun unload() {
 
     }
+
+    override fun getName(): String {
+        return "_"
+    }
+
     override fun hashCode(): Int {
         return 0
     }
 
 }
 
-class ExampleLlmWithoutResult: LLMProcessor{
+class ExampleLlmWithoutResult : LLMProcessor {
     override fun executePrompt(prompt: String): String {
         return ""
     }
@@ -41,6 +46,10 @@ class ExampleLlmWithoutResult: LLMProcessor{
     override fun unload() {
     }
 
+    override fun getName(): String {
+        return "_"
+    }
+
 
     override fun hashCode(): Int {
         return 0
@@ -48,7 +57,6 @@ class ExampleLlmWithoutResult: LLMProcessor{
 
 
 }
-
 
 
 class CachedLLMProcessorTest {
@@ -65,15 +73,14 @@ class CachedLLMProcessorTest {
     @Test
     fun executePrompt() {
 
-        var llmWithResult: LLMProcessor= CachedLLMProcessor(ExampleLlmWithResult())
-        var llmWitouthResult: LLMProcessor= CachedLLMProcessor(ExampleLlmWithoutResult())
-        var result1:String= llmWithResult.executePrompt("")
-        var result2:String= llmWitouthResult.executePrompt("")
-        assertEquals("Result",result1)
-        assertEquals(result1,result2)
+        var llmWithResult: LLMProcessor = CachedLLMProcessor(ExampleLlmWithResult())
+        var llmWitouthResult: LLMProcessor = CachedLLMProcessor(ExampleLlmWithoutResult())
+        var result1: String = llmWithResult.executePrompt("")
+        var result2: String = llmWitouthResult.executePrompt("")
+        assertEquals("Result", result1)
+        assertEquals(result1, result2)
 
     }
-
 
 
 }

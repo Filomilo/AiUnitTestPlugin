@@ -4,25 +4,28 @@ import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy.Companion.cloneProjectToTmpPath
 
-class ManualTestsStrategy: TestGenerationStrategy {
+class ManualTestsStrategy : TestGenerationStrategy {
     override fun getNameIdentifier(): String {
-      return "Manual_Tests"
+        return "Manual_Tests"
     }
 
     override fun getDescription(): String {
         return "Manual test made already in project"
     }
 
-    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project):AnalysisRunSuccess {
-        var projectCopy: Project=  cloneProjectToTmpPath(project)
+    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
+        var projectCopy: Project = cloneProjectToTmpPath(project)
         projectCopy.runTests()
+        var report: TestReport = projectCopy.getReport()
         return AnalysisRunSuccess(
             llmModel = "none",
             project = project.name,
-            strategy = getNameIdentifier()
+            strategy = getNameIdentifier(),
+            report = report
         )
     }
 

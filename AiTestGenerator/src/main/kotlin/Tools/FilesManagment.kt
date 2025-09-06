@@ -27,4 +27,13 @@ object FilesManagment {
             .filter { x -> x.extension in extensions }.map { x -> x.toPath() }.toList()
     }
 
+    fun deleteDirecotry(projectPath: Path) {
+        deleteContentOfFolder(projectPath)
+        Files.delete(projectPath)
+    }
+
+    fun deleteContentOfFolder(pathForTestFolder: Path) {
+        Files.walk(pathForTestFolder).skip(1).forEach { x -> x.toFile().deleteRecursively() }
+    }
+
 }

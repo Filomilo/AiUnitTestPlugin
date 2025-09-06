@@ -31,7 +31,7 @@ class AnalysisRunnerTest {
 
 
     companion object {
-        val log: org.slf4j.Logger =LoggerFactory.getLogger(AnalysisRunnerTest::class.java)
+        val log: org.slf4j.Logger = LoggerFactory.getLogger(AnalysisRunnerTest::class.java)
         lateinit var LlmRepository: LlmRepository;
         lateinit var ollamaApi: OllamaApi
         lateinit var containerManager: ContainersManager;
@@ -40,7 +40,7 @@ class AnalysisRunnerTest {
         @BeforeAll
         fun setup(): Unit {
 
-            this. containerManager = DockerConnection
+            this.containerManager = DockerConnection
             this.ollamaApi = OllamaApiGenerator.getOllamaApi()
             this.LlmRepository = LlmRepository(
                 containerManager,
@@ -53,21 +53,18 @@ class AnalysisRunnerTest {
         @JvmStatic
         @AfterAll
         fun tearDown(): Unit {
-        containerManager.getRunningContainersList().forEach { x-> containerManager.destroyContainer(x) }
+            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
         }
     }
 
 
-
-
-    fun  provideProjetLlmStratefyCombinations(): Stream<Arguments> {
+    fun provideProjetLlmStratefyCombinations(): Stream<Arguments> {
         var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
-        for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors)
-        {
-            var cachedLLMProcessor: LLMProcessor= CachedLLMProcessor(llm)
-            for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies){
-                for (project: Project in ProjectsRepository.projects){
-                    argslist.add(Arguments.of(cachedLLMProcessor,strategy, project))
+        for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors) {
+            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
+            for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
+                for (project: Project in ProjectsRepository.projects) {
+                    argslist.add(Arguments.of(cachedLLMProcessor, strategy, project))
                 }
             }
         }
@@ -75,13 +72,16 @@ class AnalysisRunnerTest {
     }
 
 
-
-
     @ParameterizedTest
     @MethodSource("provideProjetLlmStratefyCombinations")
-    fun runStrategyOnLLMProcessorOnProejct(llmProcessor: LLMProcessor, strategy: TestGenerationStrategy, project: Project) {
+    fun runStrategyOnLLMProcessorOnProejct(
+        llmProcessor: LLMProcessor,
+        strategy: TestGenerationStrategy,
+        project: Project
+    ) {
         llmProcessor.load()
-        log.info("""
+        log.info(
+            """
             
             -------------------------------------------------------------------
             
@@ -90,18 +90,19 @@ class AnalysisRunnerTest {
             with project: [[${project.name}]]
             
             -------------------------------------------------------------------
-        """.trimIndent())
-        val countSucessBeforeTest=AnalysisRunner.analysisResults.runs.count()
-        val counFailsBeforeTest=AnalysisRunner.analysisResults.fails.count()
+        """.trimIndent()
+        )
+        val countSucessBeforeTest = AnalysisRunner.analysisResults.runs.count()
+        val counFailsBeforeTest = AnalysisRunner.analysisResults.fails.count()
         AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
-            llmProcessor,strategy,project
+            llmProcessor, strategy, project
         )
 
-        val countSucessAfterTest=AnalysisRunner.analysisResults.runs.count()
-        val counFailsAfterTest=AnalysisRunner.analysisResults.fails.count()
+        val countSucessAfterTest = AnalysisRunner.analysisResults.runs.count()
+        val counFailsAfterTest = AnalysisRunner.analysisResults.fails.count()
 
-        assertEquals(countSucessBeforeTest+1,countSucessAfterTest)
-//        llmProcessor.unload()
+        assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
+        llmProcessor.unload()
 
     }
 }

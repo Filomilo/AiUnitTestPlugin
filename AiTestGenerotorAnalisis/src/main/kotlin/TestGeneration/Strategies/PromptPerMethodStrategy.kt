@@ -1,14 +1,28 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
+import LLM.CodeRetrivalExcpetion
+import LLM.LlmParser
 import LLM.PromptInformationProvider
+import LLM.TestGenerationException
+import Tools.CodeParsers.CodeElements.CodeFile
+import Tools.CodeParsers.CodeParser
+import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
+import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
+import org.slf4j.LoggerFactory
 
 class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
+
+    companion object {
+        val log = LoggerFactory.getLogger(PromptPerMethodStrategy.javaClass)
+    }
+
 
     val promptBase: String = prompt
 
@@ -43,38 +57,85 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     }
 
-    fun generateTestsForMethod(method: Code, llmProcessor: LLMProcessor, project: Project): Collection<Code> {
+    fun getCodeFilesFromLlmResult(promptResult: String, project: Project): Collection<CodeFile> {
+        var codeFiles: MutableList<CodeFile> = emptyList<CodeFile>().toMutableList()
+        var codeParser: CodeParser = project.codeParser
+        var listings: Collection<String> = LlmParser.extractListingFromLlmResponse(promptResult)
+            .map { x -> StringTools.turnCharsIntoEscapeSequance(x) }.toList()
+        for (listing in listings) {
+            try {
+                val codeFile: CodeFile = codeParser.parseContent(listing)
+                codeFiles.add(codeFile)
+            } catch (ex: ParsingException) {
+                log.warn("coudnt parse this listing \n[[\n$listing\n]]\n with parser [[$codeParser]]")
+            }
+        }
+
+        return codeFiles;
+    }
+
+    fun generateTestsForMethod(method: Code, llmProcessor: LLMProcessor, project: Project): Collection<CodeFile> {
 
         var promptResult: String = llmProcessor.executePrompt(
             PromptFormatter.resolveArguments(
                 this.promptBase,
                 SingleMethodProvider(
                     method.getContent(project.codeParser.getCodeSeparator()),
+
                     project.testingFramework
 
                 )
             )
         )
-        var cddefile=
-        TODO("not implemented")
+        val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
+        if (codeFilesFromResult.isEmpty()) {
+            throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
+        }
+
+        return codeFilesFromResult
     }
 
     fun generateTestsForMethods(
         method: Collection<Code>,
         llmProcessor: LLMProcessor,
         project: Project
-    ): Collection<Project> {
-        var tests: MutableCollection<Code> = mutableListOf()
+    ): Collection<CodeFile> {
+        var tests: MutableCollection<CodeFile> = mutableListOf()
         for (code in method) {
-            tests.addAll(generateTestsForMethod(code, llmProcessor, project))
+            try {
+                tests.addAll(generateTestsForMethod(code, llmProcessor, project))
+            } catch (ex: CodeRetrivalExcpetion) {
+                log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} ")
+            }
+        }
+        if (tests.isEmpty()) {
+            throw TestGenerationException("no code generated for tests on project $project using $llmProcessor")
+        }
+        return tests
+
+    }
+
+    fun generateTestFiles(tests: Collection<CodeFile>, project: Project) {
+        tests.forEach { x ->
+            x.file = project.reolvePathToTestCodeFile(x).toFile()
+            x.file?.createNewFile()
+            x.file!!.writeText(x.getContent())
         }
 
-        TODO("not implemented")
     }
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
         val methods = project.getAllMethods()
-        val tests = this.generateTestsForMethods(methods, llmProcessor, project)
-        TODO("not implemented")
+        val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project)
+        generateTestFiles(tests, project)
+        project.runTests()
+        val report: TestReport = project.getReport()
+
+        return AnalysisRunSuccess(
+            llmModel = llmProcessor.toString(),
+            project = project.name,
+            strategy = "prompt per method: $promptBase",
+            report = report
+        )
     }
 }

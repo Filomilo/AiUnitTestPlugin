@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Tools.CodeParsers.CodeElements.CodeFile
+import Tools.CodeParsers.CodeElements.JavaCodeFile
 import Tools.CodeParsers.CodeParser
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
@@ -8,6 +9,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import java.io.File
 import java.io.Serializable
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -23,6 +25,10 @@ data class Project(
 
 ) :
     Serializable {
+
+    fun getTestsPath(): Path {
+        return projectRunner.getPathForTestFolder(this.ProjectPath)
+    }
 
     fun clone(newPath: Path): Project {
         FilesManagment.copyDirectory(this.ProjectPath, newPath)
@@ -65,6 +71,23 @@ data class Project(
 
     fun getAllMethods(): Collection<Code> {
         return getAllParsedFiles().stream().map { x -> x.getMethods() }.collect(Collectors.toList()).flatten()
+    }
+
+    fun reolvePathToTestCodeFile(x: CodeFile): Path {
+        return this.projectRunner.getPathForTestFile(x, this.ProjectPath)
+    }
+
+    fun clearTests() {
+        FilesManagment.deleteContentOfFolder(this.projectRunner.getPathForTestFolder(this.ProjectPath))
+
+    }
+
+    fun destroy() {
+        FilesManagment.deleteDirecotry(this.ProjectPath)
+    }
+
+    fun getPathForTestFile(javaCodeFile: JavaCodeFile): Path {
+        return getTestsPath().resolve(javaCodeFile.file?.name + ".$codeFileExtension")
     }
 
 

@@ -12,4 +12,10 @@ object StringTools {
             .replace("\\t", "\t")
             .replace("\\\"", "\"")
     }
+
+    fun turnEscapreSeqanceIntoChars(text: String): String {
+        return text.replace("\n", "\\n")
+            .replace("\t", "\\t")
+            .replace("\"", "\\\"")
+    }
 }

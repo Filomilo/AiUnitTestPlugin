@@ -95,8 +95,10 @@ object JavaParser : CodeParser {
                     val start: Token = m.methodBody().getStart()
                     val stop: Token = m.methodBody().getStop()
                     val body = tokens.getText(start, stop)
-                    val bodyTrim: String = body.subSequence(1, body.length - 1).toString()
-
+                    var bodyTrim = ""
+                    if (!body.isEmpty()) {
+                        bodyTrim = body.subSequence(1, body.length - 1).toString()
+                    }
 
                     val fullDecl = "$modifiers $returnType $name$params".trim { it <= ' ' }
 
