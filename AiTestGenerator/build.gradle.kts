@@ -48,8 +48,14 @@ extensions.findByName("buildScan")?.withGroovyBuilder {
 }
 
 tasks {
-    // ...
+    register<Exec>("prebuild") {
+        workingDir(project.projectDir)
+        commandLine("../scripts/prebuild.sh")
 
+    }
+    named("build") {
+        dependsOn("prebuild")
+    }
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
@@ -68,7 +74,7 @@ tasks {
         untilBuild.set("242.*")
     }
 
-    // ...
+    
 }
 
 kotlin {
