@@ -52,8 +52,8 @@ class AnalysisRunnerTest {
                 ApiConnectionFactory.getApiConnector(),
                 this.ollamaApi
             )
-//            log.info("            this.LlmRepository.initlize()")
-//            this.LlmRepository.initlize()
+            log.info("            this.LlmRepository.initlize()")
+            this.LlmRepository.initlize()
         }
 
         @JvmStatic
