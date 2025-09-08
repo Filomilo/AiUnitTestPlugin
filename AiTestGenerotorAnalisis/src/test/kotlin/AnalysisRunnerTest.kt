@@ -59,7 +59,7 @@ class AnalysisRunnerTest {
         @JvmStatic
         @AfterAll
         fun tearDown(): Unit {
-            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
+//            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
         }
     }
 
