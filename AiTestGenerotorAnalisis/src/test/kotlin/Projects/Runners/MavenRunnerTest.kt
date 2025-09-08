@@ -29,7 +29,8 @@ class MavenRunnerTest {
         )
         javaCodeFile.file = File(fileName)
 
-        val testFilePathExpected: Path = project.ProjectPath.resolve("src").resolve("test").resolve("$fileName.java")
+        val testFilePathExpected: Path =
+            project.ProjectPath.resolve("src").resolve("test").resolve("java").resolve("$fileName.java")
 
         assertEquals(testFilePathExpected, project.getPathForTestFile(javaCodeFile))
     }
@@ -38,7 +39,7 @@ class MavenRunnerTest {
     fun getPathForTestFolder() {
         val project: Project = ProjectsRepository.projects[0] // java proejct
         log.info("project apth: ${project.ProjectPath}")
-        val expectedTestPath: Path = project.ProjectPath.resolve("src").resolve("test")
+        val expectedTestPath: Path = project.ProjectPath.resolve("src").resolve("test").resolve("java")
         assertEquals(expectedTestPath, project.getTestsPath())
     }
 
