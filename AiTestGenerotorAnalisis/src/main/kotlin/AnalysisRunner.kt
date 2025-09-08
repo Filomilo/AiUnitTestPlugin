@@ -70,12 +70,12 @@ object AnalysisRunner {
     }
 
     fun runAnalysisOnLLMProcessor(llmProcessor: LLMProcessor) {
-//        llmProcessor.load()
+        llmProcessor.load()
         log.info("runAnalysisOnLLMProcessor:: [[$llmProcessor]]")
         for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
             runStrategyOnLLMProcessor(llmProcessor, strategy)
         }
-//        llmProcessor.unload()
+        llmProcessor.unload()
     }
 
     fun runAnalysis() {
