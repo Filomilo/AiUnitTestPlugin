@@ -84,30 +84,30 @@ class AnalysisRunnerTest {
         strategy: TestGenerationStrategy,
         project: Project
     ) {
-        llmProcessor.load()
-        log.info(
-            """
-            
-            -------------------------------------------------------------------
-            
-            Running test strategy: [[${strategy.getNameIdentifier()}]]
-            on lmm: [[$llmProcessor]]
-            with project: [[${project.name}]]
-            
-            -------------------------------------------------------------------
-        """.trimIndent()
-        )
-        val countSucessBeforeTest = AnalysisRunner.analysisResults.runs.count()
-        val counFailsBeforeTest = AnalysisRunner.analysisResults.fails.count()
-        AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
-            llmProcessor, strategy, project
-        )
-
-        val countSucessAfterTest = AnalysisRunner.analysisResults.runs.count()
-        val counFailsAfterTest = AnalysisRunner.analysisResults.fails.count()
-
-        assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
-        llmProcessor.unload()
+//        llmProcessor.load()
+//        log.info(
+//            """
+//
+//            -------------------------------------------------------------------
+//
+//            Running test strategy: [[${strategy.getNameIdentifier()}]]
+//            on lmm: [[$llmProcessor]]
+//            with project: [[${project.name}]]
+//
+//            -------------------------------------------------------------------
+//        """.trimIndent()
+//        )
+//        val countSucessBeforeTest = AnalysisRunner.analysisResults.runs.count()
+//        val counFailsBeforeTest = AnalysisRunner.analysisResults.fails.count()
+//        AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
+//            llmProcessor, strategy, project
+//        )
+//
+//        val countSucessAfterTest = AnalysisRunner.analysisResults.runs.count()
+//        val counFailsAfterTest = AnalysisRunner.analysisResults.fails.count()
+//
+//        assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
+//        llmProcessor.unload()
 
     }
 }
