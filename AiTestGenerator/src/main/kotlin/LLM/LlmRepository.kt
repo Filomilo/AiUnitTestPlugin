@@ -26,7 +26,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
         this.ollamaApi!!.ensureActive()
         val Ollamamodels: Array<String> =
             arrayOf(
-//                "gemma3:1b",
+                "gemma3:1b",
 //                "gemma3",
 ////                "gemma3:12b", // Not enough memory
 ////                "gemma3:27b",  // Not enough memory
@@ -50,7 +50,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "starling-lm",
 //                "codellama",
 //                "llama2-uncensored",
-                "llava",
+//                "llava",
 //                "granite3.3"
             )
         Ollamamodels.forEach { x ->
