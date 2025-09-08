@@ -116,6 +116,11 @@ jobs:
         run: |
           free -m
           top -b -n 1 -o %MEM
+
+      - nmae: kill java
+        run: |
+          killall -9 java
+
       - name: run script
         env:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
