@@ -111,15 +111,15 @@ jobs:
           chmod +x gradlew
           ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
 
+      - name: kill java
+        run: |
+          pkill -9 java
 
       - name: print memory usage
         run: |
           free -m
           top -b -n 1 -o %MEM
 
-      - name: kill java
-        run: |
-          pkill -9 java
 
       - name: run script
         env:
