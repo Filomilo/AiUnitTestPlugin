@@ -44,8 +44,8 @@ class AnalysisRunnerTest {
         fun setup(): Unit {
             log.info("DockerConnection setup")
             this.containerManager = DockerConnection
-//            log.info("llamaApiGenerator.getOllamaApi()")
-//            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
+            log.info("llamaApiGenerator.getOllamaApi()")
+            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
 //            log.info("LlmRepository()")
 //            this.LlmRepository = LlmRepository(
 //                containerManager,
