@@ -75,7 +75,7 @@ class AnalysisRunnerTest {
     }
 
 
-    @Disabled("very long test")
+    @Disabled
     @ParameterizedTest
     @Timeout(15, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")

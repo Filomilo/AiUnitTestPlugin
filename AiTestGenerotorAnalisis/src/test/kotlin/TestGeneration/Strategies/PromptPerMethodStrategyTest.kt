@@ -4,9 +4,7 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies.PromptPerM
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 
-@Disabled("fixinf pipeline")
 class PromptPerMethodStrategyTest {
     @Test
     fun generateTestFiles() {
