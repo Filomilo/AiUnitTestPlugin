@@ -46,12 +46,12 @@ class AnalysisRunnerTest {
             this.containerManager = DockerConnection
             log.info("llamaApiGenerator.getOllamaApi()")
             this.ollamaApi = OllamaApiGenerator.getOllamaApi()
-//            log.info("LlmRepository()")
-//            this.LlmRepository = LlmRepository(
-//                containerManager,
-//                ApiConnectionFactory.getApiConnector(),
-//                this.ollamaApi
-//            )
+            log.info("LlmRepository()")
+            this.LlmRepository = LlmRepository(
+                containerManager,
+                ApiConnectionFactory.getApiConnector(),
+                this.ollamaApi
+            )
 //            log.info("            this.LlmRepository.initlize()")
 //            this.LlmRepository.initlize()
         }
