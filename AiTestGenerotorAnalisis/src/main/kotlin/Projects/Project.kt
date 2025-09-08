@@ -3,10 +3,12 @@ package org.filomilo.AiTestGenerotorAnalisis.Projects
 import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeElements.JavaCodeFile
 import Tools.CodeParsers.CodeParser
+import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.Serializable
 import java.nio.file.Files
@@ -25,6 +27,9 @@ data class Project(
 
 ) :
     Serializable {
+    companion object {
+        val log = LoggerFactory.getLogger(Project.javaClass)
+    }
 
     fun getTestsPath(): Path {
         return projectRunner.getPathForTestFolder(this.ProjectPath)
@@ -61,12 +66,20 @@ data class Project(
 
 
     fun getAllParsedFiles(): Collection<CodeFile> {
-
-        return getAllCodeFiles().map { x ->
-            this.codeParser.parseCodeFile(
-                x
-            )
-        }.toCollection(ArrayList());
+        var files: Collection<CodeFile> = mutableListOf()
+        for (file in getAllCodeFiles()) {
+            try {
+                files += this.codeParser.parseCodeFile(
+                    file
+                )
+            } catch (ex: ParsingException) {
+                log.warn("faile to parse file $file :: ${ex.message}")
+            }
+        }
+        if (files.isEmpty()) {
+            throw ParsingException("no elgible files found")
+        }
+        return files
     }
 
     fun getAllMethods(): Collection<Code> {

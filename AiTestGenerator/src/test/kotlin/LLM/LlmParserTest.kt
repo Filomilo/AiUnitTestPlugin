@@ -34,6 +34,21 @@ class LlmParserTest {
                         import java.util.function.Inta;\n\npublic class Solution {\n\n    /**\n     * Adds two integers.\n     *\n     * @param a The first integer.\n     * @param b The second integer.\n     * @return The sum of a and b.\n     */\n    public static int add(Inta a, Inta b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        // Example usage (optional)\n        Inta x = 10;\n        Inta y = 5;\n        int result = add(x, y);\n        System.out.println(\"The sum of \" + x + \" and \" + y + \" is: \" + result); // Output: The sum of 10 and 5 is: 15\n\n        Inta z = 20;\n        Inta w = 30;\n        int result2 = add(z, w);\n        System.out.println(\"The sum of \" + z + \" and \" + w + \" is: \" + result2); // Output: The sum of 20 and 30 is: 50\n\n    }\n}\n
                     """.trimIndent()
                 )
+            ),
+            Arguments.of(
+                """
+                    ```python\nimport pytest\n\ndef add(a, b):\n    return a + b\n\npytest.test(lambda: add(2, 3))\n```\n\n**Explanation:**\n\n1. **`import pytest`**: This line imports the Pytest framework, which is used for writing and running tests.\n2. **`def add(a, b):`**: This defines the function `add` that takes two arguments, `a` and `b`, and returns their sum.\n3. **`return a + b`**: This line simply returns the sum of `a` and `b`.\n4. **`pytest.test(lambda: add(2, 3))`**: This is the core of the test.\n   - `pytest.test()`: This function runs the provided code as a test case.\n   - `lambda: add(2, 3)`: This creates an anonymous function (lambda expression). This lambda expression calls the `add` function with the arguments `2` and `3`.  The `lambda` allows us to define a small, self-contained test case.\n   - The `pytest` framework will then execute this test case and verify that it produces the correct output.\n\n**To run this test:**\n\n1.  **Save the code:** Save the above code as a Python file (e.g., `test_add.py`).\n2.  **Run Pytest:** Open a terminal or command prompt, navigate to the directory where you saved the file, and run the command:\n\n    ```bash\n    pytest\n    ```\n\n    Pytest will then execute the test case defined by the `pytest.test()` function. You should see output indicating that the test passed or failed (if it failed, it will give you the details).\n\n**Example Output (if the test passes):**\n\n```\n============================= test session starts ==============================\nplatform darwin --- Unix shell used by test ---\nallelib --- Version 2.34.0\n pytest.main(): add(2, 3)\n=========================== test session, yayverted ==============================\n---------------------------------------------------------------------\nCandidates:\n- /path/to/your/file/test_add.py\n...\n================-------------------------------------------------------------------------------\nRock, Paper, Scissors,  # ... (more tests)\n==============================================================================================\n-----------------------------------------------------------------------------------------------\nTest Passed\n```\nv
+                """.trimIndent(),
+                listOf<String>(
+                    """
+                        import pytest\n\ndef add(a, b):\n    return a + b\n\npytest.test(lambda: add(2, 3))\n
+                    """.trimIndent(), """
+                            pytest\n
+                    """.trimIndent(),
+                    """
+                        ============================= test session starts ==============================\nplatform darwin --- Unix shell used by test ---\nallelib --- Version 2.34.0\n pytest.main(): add(2, 3)\n=========================== test session, yayverted ==============================\n---------------------------------------------------------------------\nCandidates:\n- /path/to/your/file/test_add.py\n...\n================-------------------------------------------------------------------------------\nRock, Paper, Scissors,  # ... (more tests)\n==============================================================================================\n-----------------------------------------------------------------------------------------------\nTest Passed\n
+                    """.trimIndent()
+                )
             )
         )
 
@@ -44,7 +59,7 @@ class LlmParserTest {
     @MethodSource("responseAndListingProvider")
     fun extractListingFromLlmResponse(response: String, listings: List<String>) {
         val extractedCodes: Collection<String> = LlmParser.extractListingFromLlmResponse(response)
-        assertEquals(listings, extractedCodes.toList())
+        assertEquals(listings.map { x -> x.trimIndent() }, extractedCodes.toList().map { x -> x.trimIndent() })
     }
 
 }

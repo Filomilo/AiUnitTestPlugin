@@ -105,7 +105,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             try {
                 tests.addAll(generateTestsForMethod(code, llmProcessor, project))
             } catch (ex: CodeRetrivalExcpetion) {
-                log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} ")
+                log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} :: ${ex.stackTrace} ")
             }
         }
         if (tests.isEmpty()) {
