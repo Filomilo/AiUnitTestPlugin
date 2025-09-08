@@ -42,7 +42,7 @@ class AnalysisRunnerTest {
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {
-log.info("DockerConnection setup")
+            log.info("DockerConnection setup")
             this.containerManager = DockerConnection
             log.info("llamaApiGenerator.getOllamaApi()")
             this.ollamaApi = OllamaApiGenerator.getOllamaApi()
@@ -52,7 +52,7 @@ log.info("DockerConnection setup")
                 ApiConnectionFactory.getApiConnector(),
                 this.ollamaApi
             )
-            log.info("            this.LlmRepository.initlize())
+            log.info("            this.LlmRepository.initlize()")
             this.LlmRepository.initlize()
         }
 
