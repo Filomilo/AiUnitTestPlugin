@@ -119,7 +119,7 @@ jobs:
 
       - name: kill java
         run: |
-          killall -9 java
+          pkill -9 java
 
       - name: run script
         env:
