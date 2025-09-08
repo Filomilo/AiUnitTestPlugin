@@ -6,14 +6,28 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.exists
+import kotlin.io.path.name
 import kotlin.io.path.notExists
 
 object PathResolver {
 
 
+    fun getMainProjectDirectory(): Path {
+        var userDir: Path = Paths.get(System.getProperty("user.dir"))
+        if (userDir.name != "AiUnitTestPlugin") {
+            userDir = userDir.parent
+        }
+
+
+        if (userDir.name != "AiUnitTestPlugin") {
+            throw Exception("couldn't get main project path")
+        }
+        return userDir
+    }
+
+
     fun ensureTmpDirectory(): Path {
-        val ProjectTmpPath: Path =
-            Paths.get("").toAbsolutePath().parent.resolve("tmp")
+        val ProjectTmpPath: Path = getMainProjectDirectory().resolve("tmp")
         if (!ProjectTmpPath.exists()) {
             Files.createDirectories(ProjectTmpPath)
         }
@@ -23,7 +37,7 @@ object PathResolver {
 
     fun resolveExampleProject(projectName: String): Path {
 
-        val proejctDir: Path = Paths.get(System.getProperty("user.dir")).parent
+        val proejctDir: Path = getMainProjectDirectory()
 
         val ProjectPath: Path =
             proejctDir.toAbsolutePath().resolve("ExampleProjects").resolve(projectName)
@@ -39,7 +53,7 @@ object PathResolver {
     }
 
     fun getResultFilePath(): Path {
-        val proejctDir: Path = Paths.get(System.getProperty("user.dir")).parent
+        val proejctDir: Path = getMainProjectDirectory()
         val folderPath: Path =
             proejctDir.toAbsolutePath().resolve("Analysis_results")
         if (!folderPath.exists()) {
