@@ -115,7 +115,7 @@ jobs:
       - name: print memory usage
         run: |
           free -m
-          top -b -n 1
+          top -b -n 1 -o %MEM
       - name: run script
         env:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
