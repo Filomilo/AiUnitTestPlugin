@@ -117,7 +117,7 @@ jobs:
           free -m
           top -b -n 1 -o %MEM
 
-      - nmae: kill java
+      - name: kill java
         run: |
           killall -9 java
 
