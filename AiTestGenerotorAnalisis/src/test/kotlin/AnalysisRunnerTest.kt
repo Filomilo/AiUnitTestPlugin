@@ -35,25 +35,25 @@ class AnalysisRunnerTest {
 
     companion object {
         val log: org.slf4j.Logger = LoggerFactory.getLogger(AnalysisRunnerTest::class.java)
-        lateinit var LlmRepository: LlmRepository;
-        lateinit var ollamaApi: OllamaApi
-        lateinit var containerManager: ContainersManager;
+//        lateinit var LlmRepository: LlmRepository;
+//        lateinit var ollamaApi: OllamaApi
+//        lateinit var containerManager: ContainersManager;
 
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {
             log.info("DockerConnection setup")
-            this.containerManager = DockerConnection
-            log.info("llamaApiGenerator.getOllamaApi()")
-            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
-            log.info("LlmRepository()")
-            this.LlmRepository = LlmRepository(
-                containerManager,
-                ApiConnectionFactory.getApiConnector(),
-                this.ollamaApi
-            )
-            log.info("            this.LlmRepository.initlize()")
-            this.LlmRepository.initlize()
+//            this.containerManager = DockerConnection
+//            log.info("llamaApiGenerator.getOllamaApi()")
+//            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
+//            log.info("LlmRepository()")
+//            this.LlmRepository = LlmRepository(
+//                containerManager,
+//                ApiConnectionFactory.getApiConnector(),
+//                this.ollamaApi
+//            )
+//            log.info("            this.LlmRepository.initlize()")
+//            this.LlmRepository.initlize()
         }
 
         @JvmStatic
