@@ -15,6 +15,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Collectors
+import kotlin.io.path.exists
 
 data class Project(
     val name: String,
@@ -36,6 +37,9 @@ data class Project(
     }
 
     fun clone(newPath: Path): Project {
+        if (newPath.exists()) {
+            FilesManagment.deleteDirecotry(newPath)
+        }
         FilesManagment.copyDirectory(this.ProjectPath, newPath)
 
         return Project(
@@ -101,6 +105,11 @@ data class Project(
 
     fun getPathForTestFile(javaCodeFile: JavaCodeFile): Path {
         return getTestsPath().resolve(javaCodeFile.file?.name + ".$codeFileExtension")
+    }
+
+    fun getAllMethodsWithParents(): Collection<Code> {
+        return getAllParsedFiles().stream().map { x -> x.getMethodsWithParents() }.collect(Collectors.toList())
+            .flatten()
     }
 
 

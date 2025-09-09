@@ -2,12 +2,9 @@ package org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements
 
 import Tools.CodeParsers.CodeSeparator
 
-class Code(code: String, children: List<Code>) {
+data class Code(var code: String? = null, var children: List<Code> = listOf(), var parent: Code? = null) {
 
     constructor(code: String) : this(code, listOf())
-
-    var code: String = code
-    var children: List<Code> = children
 
 
     fun getContent(codeSeparator: CodeSeparator): String {
@@ -23,4 +20,6 @@ class Code(code: String, children: List<Code>) {
 
         return StringBuilder.toString()
     }
+
+
 }
