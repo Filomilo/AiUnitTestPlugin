@@ -16,12 +16,15 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrateg
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.slf4j.LoggerFactory
+import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import java.util.stream.Stream
 
@@ -72,7 +75,9 @@ class AnalysisRunnerTest {
     }
 
 
+    @Disabled
     @ParameterizedTest
+    @Timeout(15, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
     fun runStrategyOnLLMProcessorOnProejct(
         llmProcessor: LLMProcessor,

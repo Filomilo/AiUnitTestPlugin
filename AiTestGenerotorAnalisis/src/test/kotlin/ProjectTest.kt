@@ -21,7 +21,7 @@ class ProjectTest {
                 reportExtractor = PytestReportExtractor(),
                 testingFramework = "Pytest",
                 codeParser = JavaParser,
-                codeFileExtension = ".py"
+                codeFileExtension = "py"
             )
         }
 
@@ -35,7 +35,7 @@ class ProjectTest {
                 reportExtractor = PytestReportExtractor(),
                 testingFramework = "Pytest",
                 codeParser = JavaParser,
-                codeFileExtension = ".py"
+                codeFileExtension = "py"
             )
         }
 

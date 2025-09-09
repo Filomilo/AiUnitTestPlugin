@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Projects.ProjectTypes
+import Tools.CodeParsers.PythonParser
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
@@ -25,8 +26,8 @@ object ProjectsRepository {
             projectRunner = PythonRunner("calculator"),
             reportExtractor = PytestReportExtractor(),
             testingFramework = "Pytest",
-            codeParser = JavaParser,
-            codeFileExtension = ".py"
+            codeParser = PythonParser(),
+            codeFileExtension = "py"
         ),
     )
 }

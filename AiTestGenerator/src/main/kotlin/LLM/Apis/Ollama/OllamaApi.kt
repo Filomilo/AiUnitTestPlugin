@@ -5,9 +5,13 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.Tools.Awaiters
+import org.slf4j.LoggerFactory
 import java.time.Duration
 
 class OllamaApi(urlBase: String) {
+    companion object {
+        val log = LoggerFactory.getLogger(OllamaApi.javaClass)
+    }
 
     var urlBase: String;
 
@@ -26,6 +30,7 @@ class OllamaApi(urlBase: String) {
      */
     fun generate(OllamaRequest: OllamaGenerateRequest): OllamaGenerateResponse {
         var resultString: String = ""
+        log.info("Ollama generate request:\n\n ${OllamaRequest}\n\n")
         try {
             resultString = ApiConnectionFactory.getApiConnector().sendPost(
                 "${this.urlBase}api/generate",
@@ -33,14 +38,10 @@ class OllamaApi(urlBase: String) {
             );
             val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
             return resultParsed
-        }
-        catch (ex: NoClassDefFoundError)
-        {
+        } catch (ex: NoClassDefFoundError) {
 
             throw Exception("Error parsing [[${OllamaRequest.toString()}]]: ${ex.message}")
-        }
-
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             this.resolveException(ex.message!!, modelReq = OllamaRequest.model)
             throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
         }
