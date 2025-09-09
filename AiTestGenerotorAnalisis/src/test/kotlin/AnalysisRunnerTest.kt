@@ -79,8 +79,7 @@ class AnalysisRunnerTest {
         return argslist.stream()
     }
 
-
-    @Disabled("tooo long")
+    
     @ParameterizedTest
     @Timeout(15, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")

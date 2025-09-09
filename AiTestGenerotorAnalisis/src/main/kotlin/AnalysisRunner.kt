@@ -55,6 +55,7 @@ object AnalysisRunner {
 
                     )
             )
+            clonedProject.destroy()
         }
 
 
