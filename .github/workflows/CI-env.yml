@@ -14,161 +14,171 @@ on:
         default: false
 
 jobs:
-    prepare-env:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-      container:
-        image: ubuntu:latest
-        options: --user root
-      env:
-        DOCKER_HOST: unix:///var/run/docker.sock
-        GRADLE_OPTS: "-Xmx2g -Dorg.gradle.daemon=false"
-      steps:
-        - name: install dependencies
-          run: |
-            apt update -y
-             apt install git -y
-             apt-get install -y dos2unix
+  prepare-env:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    container:
+      image: ubuntu:latest
+      options: --user root
+    env:
+      DOCKER_HOST: unix:///var/run/docker.sock
+      GRADLE_OPTS: "-Xmx2g -Dorg.gradle.daemon=false"
+    steps:
+      - name: install dependencies
+        run: |
+          apt update -y
+           apt install git -y
+           apt-get install -y dos2unix
 
-        - name: Set up JDK 17
-          run: |
-            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
-            apt-get install -y openjdk-17-jdk
+      - name: Set up JDK 17
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+          apt-get install -y openjdk-17-jdk
 
-        - name: install docker
-          run: |
-            apt-get update
-            apt-get install ca-certificates curl
-            install -m 0755 -d /etc/apt/keyrings
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-            chmod a+r /etc/apt/keyrings/docker.asc
-            echo \
-             "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-             $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-              tee /etc/apt/sources.list.d/docker.list > /dev/null
-            apt-get update
-            apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-        
-
-        - name: start docker
-          run: |
-            dockerd > /var/log/dockerd.log 2>&1 &
-
-        - name: Checkout Repository
-          uses: actions/checkout@v2
+      - name: install docker
+        run: |
+          apt-get update
+          apt-get install ca-certificates curl
+          install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          chmod a+r /etc/apt/keyrings/docker.asc
+          echo \
+           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+           $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+            tee /etc/apt/sources.list.d/docker.list > /dev/null
+          apt-get update
+          apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 
+      - name: start docker
+        run: |
+          dockerd > /var/log/dockerd.log 2>&1 &
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
 
 
-        - name: Cache Gradle
-          uses: actions/cache@v4
-          with:
-            path: |
-              /root/.gradle/caches
-              /root/.gradle/wrapper
-            key: ${{ runner.os }}-gradle-${{ hashFiles('AiUnitTestPlugin/build.gradle.kts', 'AiTestGenerotorAnalisis/build.gradle.kts', 'AiTestGenerator/build.gradle.kts') }}
-            restore-keys: |
-              ${{ runner.os }}-gradle-
+
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            /root/.gradle/caches
+            /root/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('AiUnitTestPlugin/build.gradle.kts', 'AiTestGenerotorAnalisis/build.gradle.kts', 'AiTestGenerator/build.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
 
 
-          
-
-        - name: Start LLM Conatiners
-          run: |
-            dos2unix scripts/CreateMllContainers.sh
-            chmod +x scripts/CreateMllContainers.sh
-            ./scripts/CreateMllContainers.sh
-            dos2unix scripts/addAllConatienersToNetowrk.sh
-            chmod +x scripts/addAllConatienersToNetowrk.sh
-            ./scripts/addAllConatienersToNetowrk.sh
-            
-
-        - name: test ollama
-          run: |
-            curl http://ollama:11434/api/version
-        - name: install example project depenecies
-          run: |
-              dos2unix scripts/example_project_dependency.sh
-              chmod +x scripts/example_project_dependency.sh
-              ./scripts/example_project_dependency.sh
-            
-
-        - name: run prebuild
-          env:
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
-            DOCKER_NETWORK: my-net
-            OLLAMA_API: "http:/ollama:11434/"
-          run: |
-            dos2unix scripts/prebuild.sh
-            chmod +x scripts/prebuild.sh
-            ./scripts/prebuild.sh
-            cd AiTestGenerator
-            dos2unix gradlew
-            chmod +x gradlew
-            ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
-
-        - name: run script
-          env:
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
-            GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
-            DOCKER_NETWORK: my-net
-            OLLAMA_API: "http:/ollama:11434/"
-          run: |
-            cd "${{inputs.folder}}"
-            ./../scripts/"${{ inputs.script }}"
 
 
-        - name: List Gradle files
-          run: |
-            echo "ls ~:::::::::::::::::::" 
-            ls ~ 
-            echo " ls ~/ ~:::::::::::::::::::" 
-            ls ~/
-            echo " ls ./ ~:::::::::::::::::::" 
-            ls ./
-            echo " ls AiTestGenerator ~:::::::::::::::::::" 
-            ls AiTestGenerator
-            echo " ls AiTestGenerotorAnalisis ~:::::::::::::::::::" 
-            ls AiTestGenerotorAnalisis
-        - name: Mark repo as safe
-          if: ${{ inputs.commit-result == true }}
-          run: git config --global --add safe.directory $GITHUB_WORKSPACE
-
-        - name: print files
-          if: ${{ inputs.commit-result == true }}
-          run: |
-                ls
-                ls Analysis_results/
-                ls Analysis_results/result.json
-                cat Analysis_results/result.json
-      
-        - name: commit resulr ${{ inputs.commit-result}}
-          if: ${{ inputs.commit-result == true }}
-          uses: EndBug/add-and-commit@v9 #
-          with:
-                  # The arguments for the `git add` command (see the paragraph below for more info)
-                  # Default: '.'
-                  add: 'Analysis_results/result.json'
-
-                  # The name of the user that will be displayed as the author of the commit.
-                  # Default: depends on the default_author input
-                  author_name: Filomilo
-
-                  # The email of the user that will be displayed as the author of the commit.
-                  # Default: depends on the default_author input
-                  author_email: fborowiec@wp.pl
+      - name: Start LLM Conatiners
+        run: |
+          dos2unix scripts/CreateMllContainers.sh
+          chmod +x scripts/CreateMllContainers.sh
+          ./scripts/CreateMllContainers.sh
+          dos2unix scripts/addAllConatienersToNetowrk.sh
+          chmod +x scripts/addAllConatienersToNetowrk.sh
+          ./scripts/addAllConatienersToNetowrk.sh
 
 
-                  default_author: user_info
+      - name: test ollama
+        run: |
+          curl http://ollama:11434/api/version
+      - name: install example project depenecies
+        run: |
+          dos2unix scripts/example_project_dependency.sh
+          chmod +x scripts/example_project_dependency.sh
+          ./scripts/example_project_dependency.sh
+
+
+      - name: run prebuild
+        env:
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+          DOCKER_NETWORK: my-net
+          OLLAMA_API: "http:/ollama:11434/"
+        run: |
+          dos2unix scripts/prebuild.sh
+          chmod +x scripts/prebuild.sh
+          ./scripts/prebuild.sh
+          cd AiTestGenerator
+          dos2unix gradlew
+          chmod +x gradlew
+          ./gradlew prebuild --scan --no-daemon -Dorg.gradle.jvmargs=-XX:+UseContainerSupport
+
+      - name: kill java
+        run: |
+          pkill -9 java
+
+      - name: print memory usage
+        run: |
+          free -m
+          top -b -n 1 -o %MEM
+
+
+      - name: run script
+        env:
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
+          GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
+          DOCKER_NETWORK: my-net
+          OLLAMA_API: "http:/ollama:11434/"
+        run: |
+          cd "${{inputs.folder}}"
+          ./../scripts/"${{ inputs.script }}"
+
+
+      - name: List Gradle files
+        run: |
+          echo "ls ~:::::::::::::::::::" 
+          ls ~ 
+          echo " ls ~/ ~:::::::::::::::::::" 
+          ls ~/
+          echo " ls ./ ~:::::::::::::::::::" 
+          ls ./
+          echo " ls AiTestGenerator ~:::::::::::::::::::" 
+          ls AiTestGenerator
+          echo " ls AiTestGenerotorAnalisis ~:::::::::::::::::::" 
+          ls AiTestGenerotorAnalisis
+      - name: Mark repo as safe
+        if: ${{ inputs.commit-result == true }}
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: print files
+        if: ${{ inputs.commit-result == true }}
+        run: |
+          ls
+          ls Analysis_results/
+          ls Analysis_results/result.json
+          cat Analysis_results/result.json
+
+      - name: commit resulr ${{ inputs.commit-result}}
+        if: ${{ inputs.commit-result == true }}
+        uses: EndBug/add-and-commit@v9 #
+        with:
+          # The arguments for the `git add` command (see the paragraph below for more info)
+          # Default: '.'
+          add: 'Analysis_results/result.json'
+
+          # The name of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_name: Filomilo
+
+          # The email of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_email: fborowiec@wp.pl
+
+
+          default_author: user_info
 
 
 
-                  # The message for the commit.
-                  # Default: 'Commit from GitHub Actions (name of the workflow)'
-                  message: 'Gh action analyses results'
+          # The message for the commit.
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: 'Gh action analyses results'
 
-                  tag_push: '--force'
+          tag_push: '--force'

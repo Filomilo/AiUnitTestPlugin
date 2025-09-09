@@ -54,9 +54,9 @@ class PythonParser : CodeParser {
             override fun enterClassdef(ctx: Python3Parser.ClassdefContext) {
 
                 val startIndex: Int = ctx.start.startIndex
-                val stopIndex: Int = ctx.stop.stopIndex
+                val stopIndex: Int = ctx.start.stopIndex
 
-                val classdefinitonLine = content.substring(startIndex, stopIndex - 1)
+                val classdefinitonLine = "class ${ctx.name().text}"
                 pythonClassBuilder = pythonfileBuilder.addClass()
                 pythonClassBuilder?.setNameDeclaration(classdefinitonLine)
 
@@ -65,6 +65,12 @@ class PythonParser : CodeParser {
 
             }
 
+            override fun exitClassdef(ctx: Python3Parser.ClassdefContext?) {
+                if (pythonClassBuilder != null) {
+                    pythonClassBuilder?.finishClass()
+                    pythonClassBuilder = null
+                }
+            }
 
             override fun enterFuncdef(ctx: Python3Parser.FuncdefContext) {
                 val name = ctx.name().text
@@ -86,10 +92,10 @@ class PythonParser : CodeParser {
                 if (bodyTrimmed.startsWith(":")) {
                     bodyTrimmed = bodyTrimmed.substring(1).trim()
                 }
-                val classCtx = ctx.findAncestor<Python3Parser.ClassdefContext>()
+                log.info(ctx.ruleContext.toString())
 
                 val functionBuilder: PythonFunctionBuilder =
-                    if (classCtx != null) {
+                    if (pythonClassBuilder != null) {
                         pythonClassBuilder!!.addFunction()
                     } else {
                         pythonClassBuilder?.finishClass()
@@ -143,10 +149,6 @@ class PythonParser : CodeParser {
 
 
         }, tree)
-        if (pythonClassBuilder != null) {
-            pythonClassBuilder?.finishClass()
-            pythonClassBuilder = null
-        }
         return pythonfileBuilder.build()
     }
 

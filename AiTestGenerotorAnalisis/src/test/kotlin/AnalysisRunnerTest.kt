@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.Timeout
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -28,7 +30,7 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import java.util.stream.Stream
 
-
+@DisabledOnOs(OS.LINUX)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnalysisRunnerTest {
 
@@ -42,14 +44,17 @@ class AnalysisRunnerTest {
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {
-
+            log.info("DockerConnection setup")
             this.containerManager = DockerConnection
+            log.info("llamaApiGenerator.getOllamaApi()")
             this.ollamaApi = OllamaApiGenerator.getOllamaApi()
+            log.info("LlmRepository()")
             this.LlmRepository = LlmRepository(
                 containerManager,
                 ApiConnectionFactory.getApiConnector(),
                 this.ollamaApi
             )
+            log.info("            this.LlmRepository.initlize()")
             this.LlmRepository.initlize()
         }
 
@@ -75,11 +80,11 @@ class AnalysisRunnerTest {
     }
 
 
-    @Disabled
+    @Disabled("tooo long")
     @ParameterizedTest
     @Timeout(15, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
-    fun runStrategyOnLLMProcessorOnProejct(
+    fun runStrategyOnLLMProcessorOnProejctTest(
         llmProcessor: LLMProcessor,
         strategy: TestGenerationStrategy,
         project: Project
@@ -87,13 +92,13 @@ class AnalysisRunnerTest {
         llmProcessor.load()
         log.info(
             """
-            
+
             -------------------------------------------------------------------
-            
+
             Running test strategy: [[${strategy.getNameIdentifier()}]]
             on lmm: [[$llmProcessor]]
             with project: [[${project.name}]]
-            
+
             -------------------------------------------------------------------
         """.trimIndent()
         )

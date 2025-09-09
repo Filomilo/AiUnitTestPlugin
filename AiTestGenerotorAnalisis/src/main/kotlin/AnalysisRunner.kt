@@ -79,6 +79,7 @@ object AnalysisRunner {
     }
 
     fun runAnalysis() {
+        log.info("Runnign analysis")
         this.analysisResults = AnalysisResults.load()
         for (llmProcessor: LLMProcessor in this.llmRepository.ListOfLlmProcessors) {
             runAnalysisOnLLMProcessor(llmProcessor)

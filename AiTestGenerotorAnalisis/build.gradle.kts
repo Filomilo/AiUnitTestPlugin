@@ -16,7 +16,7 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven(
-        url  ="https://central.sonatype.com/repository/maven-snapshots/"
+        url = "https://central.sonatype.com/repository/maven-snapshots/"
     )
     repositories {
         mavenCentral()
@@ -52,9 +52,10 @@ kotlin {
 }
 
 
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            compilerOptions {
-                freeCompilerArgs.add("-Xannotation-default-target=param-property")
-                jvmTarget.set(JvmTarget.JVM_17)
-            }
-        }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
+
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}

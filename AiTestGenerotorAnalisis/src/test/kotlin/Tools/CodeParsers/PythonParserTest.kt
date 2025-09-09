@@ -26,11 +26,11 @@ class PythonParserTest {
 
                     pytest.test(lambda: add(2, 3))
 
-                """.trimIndent()
+                """
             ),
             Arguments.of(
                 """
-            class Calculator:
+class Calculator:
     def add(a,b):
         return a+b
     def subtract(a,b):
@@ -41,7 +41,7 @@ class PythonParserTest {
         if(b==0):
             raise "Cannot divide by zero"
         return a/b
-        """.trimIndent()
+        """
             )
         )
     }
