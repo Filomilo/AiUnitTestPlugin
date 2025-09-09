@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.Timeout
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -28,54 +30,54 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import java.util.stream.Stream
 
-
+@DisabledOnOs(OS.LINUX)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnalysisRunnerTest {
 
 
     companion object {
         val log: org.slf4j.Logger = LoggerFactory.getLogger(AnalysisRunnerTest::class.java)
-//        lateinit var LlmRepository: LlmRepository;
-//        lateinit var ollamaApi: OllamaApi
-//        lateinit var containerManager: ContainersManager;
+        lateinit var LlmRepository: LlmRepository;
+        lateinit var ollamaApi: OllamaApi
+        lateinit var containerManager: ContainersManager;
 
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {
             log.info("DockerConnection setup")
-//            this.containerManager = DockerConnection
-//            log.info("llamaApiGenerator.getOllamaApi()")
-//            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
-//            log.info("LlmRepository()")
-//            this.LlmRepository = LlmRepository(
-//                containerManager,
-//                ApiConnectionFactory.getApiConnector(),
-//                this.ollamaApi
-//            )
-//            log.info("            this.LlmRepository.initlize()")
-//            this.LlmRepository.initlize()
+            this.containerManager = DockerConnection
+            log.info("llamaApiGenerator.getOllamaApi()")
+            this.ollamaApi = OllamaApiGenerator.getOllamaApi()
+            log.info("LlmRepository()")
+            this.LlmRepository = LlmRepository(
+                containerManager,
+                ApiConnectionFactory.getApiConnector(),
+                this.ollamaApi
+            )
+            log.info("            this.LlmRepository.initlize()")
+            this.LlmRepository.initlize()
         }
 
         @JvmStatic
         @AfterAll
         fun tearDown(): Unit {
-//            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
+            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
         }
     }
 
 
-//    fun provideProjetLlmStratefyCombinations(): Stream<Arguments> {
-////        var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
-////        for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors) {
-////            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
-////            for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
-////                for (project: Project in ProjectsRepository.projects) {
-////                    argslist.add(Arguments.of(cachedLLMProcessor, strategy, project))
-////                }
-////            }
-////        }
-////        return argslist.stream()
-//    }
+    fun provideProjetLlmStratefyCombinations(): Stream<Arguments> {
+        var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
+        for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors) {
+            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
+            for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
+                for (project: Project in ProjectsRepository.projects) {
+                    argslist.add(Arguments.of(cachedLLMProcessor, strategy, project))
+                }
+            }
+        }
+        return argslist.stream()
+    }
 
 
     @Disabled("tooo long")
@@ -87,30 +89,30 @@ class AnalysisRunnerTest {
         strategy: TestGenerationStrategy,
         project: Project
     ) {
-//        llmProcessor.load()
-//        log.info(
-//            """
-//
-//            -------------------------------------------------------------------
-//
-//            Running test strategy: [[${strategy.getNameIdentifier()}]]
-//            on lmm: [[$llmProcessor]]
-//            with project: [[${project.name}]]
-//
-//            -------------------------------------------------------------------
-//        """.trimIndent()
-//        )
-//        val countSucessBeforeTest = AnalysisRunner.analysisResults.runs.count()
-//        val counFailsBeforeTest = AnalysisRunner.analysisResults.fails.count()
-//        AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
-//            llmProcessor, strategy, project
-//        )
-//
-//        val countSucessAfterTest = AnalysisRunner.analysisResults.runs.count()
-//        val counFailsAfterTest = AnalysisRunner.analysisResults.fails.count()
-//
-//        assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
-//        llmProcessor.unload()
+        llmProcessor.load()
+        log.info(
+            """
+
+            -------------------------------------------------------------------
+
+            Running test strategy: [[${strategy.getNameIdentifier()}]]
+            on lmm: [[$llmProcessor]]
+            with project: [[${project.name}]]
+
+            -------------------------------------------------------------------
+        """.trimIndent()
+        )
+        val countSucessBeforeTest = AnalysisRunner.analysisResults.runs.count()
+        val counFailsBeforeTest = AnalysisRunner.analysisResults.fails.count()
+        AnalysisRunner.runStrategyOnLLMProcessorOnProejct(
+            llmProcessor, strategy, project
+        )
+
+        val countSucessAfterTest = AnalysisRunner.analysisResults.runs.count()
+        val counFailsAfterTest = AnalysisRunner.analysisResults.fails.count()
+
+        assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
+        llmProcessor.unload()
 
     }
 }
