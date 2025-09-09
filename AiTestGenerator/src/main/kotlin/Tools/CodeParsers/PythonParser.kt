@@ -72,7 +72,6 @@ class PythonParser : CodeParser {
                 }
             }
 
-
             override fun enterFuncdef(ctx: Python3Parser.FuncdefContext) {
                 val name = ctx.name().text
                 val params = ctx.parameters().text
@@ -123,7 +122,6 @@ class PythonParser : CodeParser {
 //                log.info("import: $importLine")
             }
 
-
             override fun enterImport_from(ctx: Python3Parser.Import_fromContext) {
                 TODO("not implemetned")
 //                val fromLine = ctx.text
@@ -151,7 +149,6 @@ class PythonParser : CodeParser {
 
 
         }, tree)
-
         return pythonfileBuilder.build()
     }
 
