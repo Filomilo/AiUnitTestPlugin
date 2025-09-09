@@ -6,7 +6,6 @@ import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
-import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy.Companion.cloneProjectToTmpPath
 
 class ManualTestsStrategy : TestGenerationStrategy {
     override fun getNameIdentifier(): String {
@@ -18,9 +17,8 @@ class ManualTestsStrategy : TestGenerationStrategy {
     }
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
-        var projectCopy: Project = cloneProjectToTmpPath(project)
-        projectCopy.runTests()
-        var report: TestReport = projectCopy.getReport()
+        project.runTests()
+        var report: TestReport = project.getReport()
         return AnalysisRunSuccess(
             llmModel = "none",
             project = project.name,

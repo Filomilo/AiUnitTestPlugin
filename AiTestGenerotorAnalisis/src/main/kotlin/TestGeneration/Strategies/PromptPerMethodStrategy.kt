@@ -125,6 +125,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     }
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
+        project.clearTests()
         val methods = project.getAllMethodsWithParents()
         val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project)
         generateTestFiles(tests, project)

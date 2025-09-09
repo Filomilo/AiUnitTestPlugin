@@ -41,7 +41,7 @@ object AnalysisRunner {
     ) {
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-        clonedProject.clearTests()
+
         try {
             var AnalysisRun: AnalysisRunSuccess = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
             this.analysisResults.addRun(AnalysisRun)
@@ -55,11 +55,12 @@ object AnalysisRunner {
 
                     )
             )
+
+
+        } finally {
             clonedProject.destroy()
         }
 
-
-        clonedProject.destroy()
 
     }
 
