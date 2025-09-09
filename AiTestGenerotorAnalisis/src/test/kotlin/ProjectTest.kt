@@ -1,4 +1,5 @@
 import Projects.ProjectTypes
+import org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser
 import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
@@ -14,22 +15,27 @@ class ProjectTest {
 
         assertDoesNotThrow {
             val project = Project(
-                "exmaple",
-                PathResolver.resolveExampleProject("JavaCalculator"),
-                ProjectTypes.PYTHON_PYTEST_PROJECT,
-                PythonRunner("dummy"),
-                PytestReportExtractor()
+                name = "PythonCalculator",
+                ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
+                projectRunner = PythonRunner("calculator"),
+                reportExtractor = PytestReportExtractor(),
+                testingFramework = "Pytest",
+                codeParser = JavaParser,
+                codeFileExtension = "py"
             )
         }
 
 
         assertThrows<IllegalArgumentException> {
             val project = Project(
-                "exmaple",
-                PathResolver.resolveExampleProject("notExisitng"),
-                ProjectTypes.PYTHON_PYTEST_PROJECT,
-                PythonRunner("dummy"),
-                PytestReportExtractor()
+
+                name = "PythonCalculator",
+                ProjectPath = PathResolver.resolveExampleProject("notExisitng"),
+                projectRunner = PythonRunner("calculator"),
+                reportExtractor = PytestReportExtractor(),
+                testingFramework = "Pytest",
+                codeParser = JavaParser,
+                codeFileExtension = "py"
             )
         }
 

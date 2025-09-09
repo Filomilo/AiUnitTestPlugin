@@ -16,7 +16,7 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven(
-        url  ="https://central.sonatype.com/repository/maven-snapshots/"
+        url = "https://central.sonatype.com/repository/maven-snapshots/"
     )
     repositories {
         mavenCentral()
@@ -33,6 +33,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(project(":AiTestGenerator"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+
     implementation("io.github.pdvrieze.xmlutil:core:0.91.2")
     implementation("io.github.pdvrieze.xmlutil:serialization-jvm:0.91.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.19.2")
@@ -50,9 +52,10 @@ kotlin {
 }
 
 
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            compilerOptions {
-                freeCompilerArgs.add("-Xannotation-default-target=param-property")
-                jvmTarget.set(JvmTarget.JVM_17)
-            }
-        }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
+
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
