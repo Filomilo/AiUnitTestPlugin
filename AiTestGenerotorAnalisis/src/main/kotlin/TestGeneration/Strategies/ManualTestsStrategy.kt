@@ -22,7 +22,10 @@ class ManualTestsStrategy: TestGenerationStrategy {
         return AnalysisRunSuccess(
             llmModel = "none",
             project = project.name,
-            strategy = getNameIdentifier()
+            strategy = getNameIdentifier(),
+            report = report,
+            time = TODO(),
+            deviceSpecification = TODO()
         )
     }
 

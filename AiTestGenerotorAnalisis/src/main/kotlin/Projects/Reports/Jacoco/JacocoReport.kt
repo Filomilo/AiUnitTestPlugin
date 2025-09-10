@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import kotlinx.serialization.Serializable
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
+import kotlin.time.Duration
 
 @Serializable
 @JacksonXmlRootElement(localName = "report")
@@ -23,5 +24,17 @@ data class JacocoReport(
     val counter: List<Counter>,
     @JacksonXmlProperty(isAttribute = true, localName = "name")
     val name: String
-): TestReport
+) : TestReport {
+    override fun getCoveragePercent(): Float {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTestGenerationTime(): Duration {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTestRunLogs(): String {
+        TODO("Not yet implemented")
+    }
+}
 
