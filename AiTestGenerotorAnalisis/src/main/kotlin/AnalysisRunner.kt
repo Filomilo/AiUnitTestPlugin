@@ -50,6 +50,7 @@ object AnalysisRunner {
                 AnalysisRun = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
             }
             AnalysisRun.duration = duration
+            AnalysisRun.warnings = strategy.getWarnings()
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
             this.analysisResults.addRunFailure(
@@ -59,11 +60,13 @@ object AnalysisRunner {
                     project = project.name,
                     strategy = strategy.getNameIdentifier(),
                     deviceSpecification = llmProcessor.getDeviceSpecification(),
+                    warnings = strategy.getWarnings()
                 )
             )
 
 
         } finally {
+            strategy.clearWarnings()
             clonedProject.destroy()
         }
 

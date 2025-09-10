@@ -17,5 +17,8 @@ interface TestGenerationStrategy {
     @JsonProperty("Description")
     fun getDescription(): String
     fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess
+    fun getWarnings(): Collection<Exception>
+    fun clearWarnings()
+    
 }
 

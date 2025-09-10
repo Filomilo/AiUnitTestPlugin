@@ -3,23 +3,17 @@ package org.filomilo.AiTestGenerotorAnalisis
 
 import DeviceSpecification
 import Exceptions.LlmProcessingException
-import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.serialization.Serializable
 import Tools.PathResolver
+import kotlinx.serialization.Contextual
 import java.time.Instant
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import  org.filomilo.AiTestGenerator.Tools.InstantSerializer
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.fasterxml.jackson.annotation.JsonSubTypes
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.time.Duration
 
 //@JsonTypeInfo(
 //    use = JsonTypeInfo.Id.NAME,
@@ -38,7 +32,8 @@ sealed class AnalysisRun {
     abstract val strategy: String
     abstract val time: Instant
     abstract val deviceSpecification: DeviceSpecification?
-
+    abstract val executionLogs: String?
+    abstract val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception>
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -72,7 +67,11 @@ data class AnalysisRunFailure(
     override val project: String,
     override val strategy: String,
     @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(), override val deviceSpecification: DeviceSpecification?
+    override val time: Instant = Instant.now(),
+    override val deviceSpecification: DeviceSpecification?,
+    override val executionLogs: String? = null,
+
+    override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
 ) : AnalysisRun()
 
 @SerialName("success")
@@ -84,7 +83,10 @@ data class AnalysisRunSuccess(
     @Serializable(with = InstantSerializer::class)
     override val time: Instant = Instant.now(),
     val report: TestReport, override val deviceSpecification: DeviceSpecification?,
-    var duration: kotlin.time.Duration? = null
+    var duration: kotlin.time.Duration? = null,
+    override val executionLogs: String? = null,
+
+    override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
 ) : AnalysisRun()
 
 

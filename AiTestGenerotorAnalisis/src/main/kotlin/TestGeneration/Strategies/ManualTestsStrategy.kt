@@ -30,4 +30,12 @@ class ManualTestsStrategy : TestGenerationStrategy {
         )
     }
 
+    override fun getWarnings(): Collection<Exception> {
+        return emptyList()
+    }
+
+    override fun clearWarnings() {
+
+    }
+
 }

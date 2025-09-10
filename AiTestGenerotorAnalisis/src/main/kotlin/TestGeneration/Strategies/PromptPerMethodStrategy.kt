@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
+import Exceptions.LlmProcessingException
 import LLM.CodeRetrivalExcpetion
 import LLM.LlmParser
 import LLM.PromptInformationProvider
@@ -25,7 +26,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
 
     val promptBase: String = prompt
-
+    var exceptions: MutableList<Exception> = mutableListOf()
 
     override fun getNameIdentifier(): String {
         return "Simple_Prompt_Strategy"
@@ -67,6 +68,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
                 val codeFile: CodeFile = codeParser.parseContent(listing)
                 codeFiles.add(codeFile)
             } catch (ex: ParsingException) {
+                exceptions.add(ex)
                 log.warn("coudnt parse this listing \n[[\n$listing\n]]\n with parser [[$codeParser]]")
             }
         }
@@ -105,10 +107,12 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             try {
                 tests.addAll(generateTestsForMethod(code, llmProcessor, project))
             } catch (ex: CodeRetrivalExcpetion) {
+                exceptions.add(ex)
                 log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} :: ${ex.stackTrace} ")
             }
         }
         if (tests.isEmpty()) {
+
             throw TestGenerationException("no code generated for tests on project $project using $llmProcessor")
         }
         return tests
@@ -139,5 +143,13 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
         )
+    }
+
+    override fun getWarnings(): Collection<Exception> {
+        return exceptions
+    }
+
+    override fun clearWarnings() {
+        exceptions = mutableListOf()
     }
 }
