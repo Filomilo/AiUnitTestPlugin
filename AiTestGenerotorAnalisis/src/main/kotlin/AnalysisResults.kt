@@ -1,8 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis
 
 
-import DeviceSpecification
-import Exceptions.LlmProcessingException
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.serialization.Serializable
 import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
@@ -32,7 +30,9 @@ sealed class AnalysisRun {
     abstract val project: String
     abstract val strategy: String
     abstract val time: Instant
-    abstract val deviceSpecification: DeviceSpecification
+
+
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -66,8 +66,7 @@ data class AnalysisRunFailure(
     override val project: String = "",
     override val strategy: String = "",
     @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(),
-    override val deviceSpecification: DeviceSpecification
+    override val time: Instant = Instant.now()
 ) : AnalysisRun()
 
 @Serializable
@@ -76,9 +75,7 @@ data class AnalysisRunSuccess(
     override val project: String = "",
     override val strategy: String = "",
     @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(),
-    val report: TestReport,
-    override val deviceSpecification: DeviceSpecification
+    override val time: Instant = Instant.now()
 ) : AnalysisRun()
 
 

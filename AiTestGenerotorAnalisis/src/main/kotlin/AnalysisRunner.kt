@@ -32,32 +32,10 @@ object AnalysisRunner {
     }
     fun runStrategyOnLLMProcessorOnProejct(llmProcessor: LLMProcessor, strategy:TestGenerationStrategy,project: Project){
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
-        val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-
-        try {
-            var AnalysisRun: AnalysisRunSuccess = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
-            this.analysisResults.addRun(AnalysisRun)
-        } catch (ex: LlmProcessingException) {
-            this.analysisResults.addRunFailure(
-                AnalysisRunFailure(
-                    failureReason = ex,
-                    llmModel = llmProcessor.getName(),
-                    project = project.name,
-                    strategy = strategy.getNameIdentifier(),
-                    time = TODO(),
-                    deviceSpecification = TODO(),
-                )
-            )
-
-
-        } finally {
-            clonedProject.destroy()
-        }
-
-
+        var AnalysisRun: AnalysisRunSuccess=         strategy.runTestGenerationStrategy(llmProcessor,project)
+        this.analysisResults.addRun(AnalysisRun)
     }
-
-    fun runStrategyOnLLMProcessor(llmProcessor: LLMProcessor, strategy: TestGenerationStrategy) {
+    fun runStrategyOnLLMProcessor(llmProcessor: LLMProcessor, strategy:TestGenerationStrategy){
         log.info("runStrategyOnLLMProcessor:: [[${strategy.getNameIdentifier()}]]")
         for(project: Project in ProjectsRepository.projects){
             runStrategyOnLLMProcessorOnProejct(llmProcessor,strategy,project)
