@@ -25,4 +25,8 @@ class JacocoReportExtractor : ReportExtractor {
         val JacocoReport: JacocoReport = mapper.readValue(xmlFileConten, JacocoReport::class.java)
         return JacocoReport;
     }
+
+    override fun getReportFiles(projectPath: Path): Collection<Path> {
+        return listOf<Path>(projectPath.resolve("target"))
+    }
 }

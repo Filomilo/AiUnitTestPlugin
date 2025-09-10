@@ -5,7 +5,7 @@ import DeviceSpecification
 import Exceptions.LlmProcessingException
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.serialization.Serializable
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import java.time.Instant
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import  org.filomilo.AiTestGenerator.Tools.InstantSerializer
@@ -19,6 +19,7 @@ import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.Duration
 
 //@JsonTypeInfo(
 //    use = JsonTypeInfo.Id.NAME,
@@ -82,7 +83,8 @@ data class AnalysisRunSuccess(
     override val strategy: String,
     @Serializable(with = InstantSerializer::class)
     override val time: Instant = Instant.now(),
-    val report: TestReport, override val deviceSpecification: DeviceSpecification?
+    val report: TestReport, override val deviceSpecification: DeviceSpecification?,
+    var duration: kotlin.time.Duration? = null
 ) : AnalysisRun()
 
 

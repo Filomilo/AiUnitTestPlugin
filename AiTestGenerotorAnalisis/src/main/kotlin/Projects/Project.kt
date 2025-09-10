@@ -96,7 +96,7 @@ data class Project(
 
     fun clearTests() {
         FilesManagment.deleteContentOfFolder(this.projectRunner.getPathForTestFolder(this.ProjectPath))
-
+        FilesManagment.deleteFilse(this.reportExtractor.getReportFiles(this.ProjectPath))
     }
 
     fun destroy() {

@@ -2,8 +2,10 @@ package org.filomilo.AiTestGenerator.LLM
 
 
 import DeviceSpecification
+import Tools.PathResolver
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.json.JsonMapper
+
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import java.nio.file.Files
 import java.nio.file.Path
@@ -15,7 +17,7 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
     private val llmProcessor: LLMProcessor = llmProcessor
 
     companion object {
-        private val cacheFile: Path = Paths.get("LLMcache.cache")
+        private val cacheFile: Path = PathResolver.getMainProjectDirectory().resolve("LLMcache.cache")
 
         private lateinit var cachedData: MutableMap<String, MutableMap<String, String>>
         private val mapper: JsonMapper = JsonMapper()
@@ -93,7 +95,7 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
     }
 
     override fun getName(): String {
-        return "cache"
+        return "cache-" + this.llmProcessor.getName()
     }
 
     override fun getDeviceSpecification(): DeviceSpecification? {

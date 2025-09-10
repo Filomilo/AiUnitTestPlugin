@@ -7,16 +7,21 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import java.nio.file.Path
 
-class PytestReportExtractor: ReportExtractor {
+class PytestReportExtractor : ReportExtractor {
     companion object {
         private val mapper: JsonMapper = JsonMapper()
     }
 
 
     override fun extractReport(projectPath: Path): TestReport {
-        val  pathToJson: Path= projectPath.resolve("coverage.json")
-        val jsonFileContent: String= pathToJson.toFile().readText()
-        val pytestCoverageReport: PytestCoverageReport =   mapper.readValue(jsonFileContent, PytestCoverageReport::class.java)
+        val pathToJson: Path = projectPath.resolve("coverage.json")
+        val jsonFileContent: String = pathToJson.toFile().readText()
+        val pytestCoverageReport: PytestCoverageReport =
+            mapper.readValue(jsonFileContent, PytestCoverageReport::class.java)
         return pytestCoverageReport;
+    }
+
+    override fun getReportFiles(projectPath: Path): Collection<Path> {
+        return listOf(projectPath.resolve("htmlcov"), projectPath.resolve("coverage.json"))
     }
 }

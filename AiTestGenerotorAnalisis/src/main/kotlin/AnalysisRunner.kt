@@ -11,9 +11,11 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrategyRepository
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Timer
+import kotlin.time.measureTime
 
 object AnalysisRunner {
     private val log: Logger = LoggerFactory.getLogger(AnalysisRunner::class.java)
@@ -43,7 +45,11 @@ object AnalysisRunner {
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
 
         try {
-            var AnalysisRun: AnalysisRunSuccess = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
+            var AnalysisRun: AnalysisRunSuccess
+            val duration = measureTime {
+                AnalysisRun = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
+            }
+            AnalysisRun.duration = duration
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
             this.analysisResults.addRunFailure(
@@ -52,7 +58,6 @@ object AnalysisRunner {
                     llmModel = llmProcessor.getName(),
                     project = project.name,
                     strategy = strategy.getNameIdentifier(),
-                    time = TODO(),
                     deviceSpecification = llmProcessor.getDeviceSpecification(),
                 )
             )

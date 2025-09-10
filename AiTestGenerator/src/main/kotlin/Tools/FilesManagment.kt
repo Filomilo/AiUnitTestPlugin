@@ -4,6 +4,8 @@ import org.apache.commons.io.FileUtils
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.exists
+import kotlin.io.path.isDirectory
 
 
 object FilesManagment {
@@ -34,6 +36,17 @@ object FilesManagment {
 
     fun deleteContentOfFolder(pathForTestFolder: Path) {
         Files.walk(pathForTestFolder).skip(1).forEach { x -> x.toFile().deleteRecursively() }
+    }
+
+    fun deleteFilse(reportFiles: Collection<Path>) {
+        reportFiles.forEach { x ->
+            if (x.exists()) {
+                if (x.isDirectory()) {
+                    FilesManagment.deleteDirecotry(x)
+                } else
+                    Files.delete(x)
+            }
+        }
     }
 
 }

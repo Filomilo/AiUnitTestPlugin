@@ -6,6 +6,7 @@ import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
+import kotlin.time.Duration
 
 class ManualTestsStrategy : TestGenerationStrategy {
     override fun getNameIdentifier(): String {
@@ -24,7 +25,8 @@ class ManualTestsStrategy : TestGenerationStrategy {
             project = project.name,
             strategy = getNameIdentifier(),
             report = report,
-            deviceSpecification = llmProcessor.getDeviceSpecification()
+            deviceSpecification = llmProcessor.getDeviceSpecification(),
+            duration = Duration.ZERO
         )
     }
 

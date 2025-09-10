@@ -137,7 +137,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             project = project.name,
             strategy = "prompt per method: $promptBase",
             report = report,
-            deviceSpecification = TODO()
+            deviceSpecification = llmProcessor.getDeviceSpecification(),
         )
     }
 }

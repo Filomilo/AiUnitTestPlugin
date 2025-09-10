@@ -5,7 +5,7 @@ import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import java.nio.file.Path
 
 interface TestGenerationStrategy {

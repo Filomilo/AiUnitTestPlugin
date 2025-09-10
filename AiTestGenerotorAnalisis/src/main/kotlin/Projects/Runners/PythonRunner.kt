@@ -4,7 +4,7 @@ import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import org.filomilo.AiTestGenerotorAnalisis.Tools.CommandExecutor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import java.nio.file.Path
 
 class PythonRunner(val projectName: String) : ProjectRunner {

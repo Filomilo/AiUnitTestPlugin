@@ -1,6 +1,6 @@
 import Projects.ProjectTypes
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
