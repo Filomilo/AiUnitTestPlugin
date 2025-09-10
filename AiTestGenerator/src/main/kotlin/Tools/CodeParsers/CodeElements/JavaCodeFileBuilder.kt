@@ -1,8 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements
 
 import Tools.CodeParsers.CodeElements.JavaCodeFile
-import Tools.CodeParsers.ParsingException
-import com.intellij.codeInsight.hints.codeVision.CodeVision
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 
 class JavaFunctionBuilder(javaClassBuilder: JavaClassBuilder) {
@@ -14,7 +12,6 @@ class JavaFunctionBuilder(javaClassBuilder: JavaClassBuilder) {
 
     private lateinit var decleration: String
     private lateinit var body: String
-    private var code: Code = Code()
 
     fun setDeclaration(declaration: String): JavaFunctionBuilder {
         this.decleration = declaration
@@ -42,13 +39,8 @@ class JavaClassBuilder(javaCodeFileBuilder: JavaCodeFileBuilder) {
     var Function: Set<Code> = setOf<Code>()
 
     fun finishClass(): JavaCodeFileBuilder {
-        var code: Code = Code(name)
-        Function.forEach { x -> x.parent = code }
-        var codes: List<Code> =
-            (variables.map { x -> Code(x, parent = code) }.toSet() + Function).toList()
-        code.children = codes
-        this.javaCodeFileBuilder.classes += code
-
+        var codes: List<Code> = (variables.map { x -> Code(x) }.toSet() + Function).toList()
+        this.javaCodeFileBuilder.classes += Code(name, codes)
         return this.javaCodeFileBuilder
     }
 
@@ -97,11 +89,8 @@ class JavaCodeFileBuilder {
     }
 
     fun build(): JavaCodeFile {
-        if (classes.isEmpty()) {
-            throw ParsingException("no Java coe found")
-        }
         return JavaCodeFile(
-            packageDelaration = this.packageName,
+            packageDelaration = this.packageName!!,
             dependecies = this.imports,
             codes = classes
         )

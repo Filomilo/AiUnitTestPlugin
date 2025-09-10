@@ -47,16 +47,10 @@ object ApiConnectionOKHttp : ApiConnection {
     }
 
     override fun sendGet(url: String): String {
-        try {
-            logger.info("sendGet: to [[${url}]]")
-            val request: Request = Request.Builder().url(url).build()
-            val response: Response = client.newCall(request).execute()
-            return response.body!!.string()
-        } catch (ex: Exception) {
-            logger.error("sendGet error:: \n" + ex.message + "\n\n" + ex.stackTrace + "\n\n")
-            throw ex
-        }
-
+        logger.info("sendGet: to [[${url}]]")
+        val request: Request = Request.Builder().url(url).build()
+        val response: Response = client.newCall(request).execute()
+        return response.body!!.string()
     }
 
     override fun sendDelete(url: String, content: String): String {

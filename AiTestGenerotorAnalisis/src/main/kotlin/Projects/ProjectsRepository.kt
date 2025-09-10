@@ -1,8 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects
 
 import Projects.ProjectTypes
-import Tools.CodeParsers.PythonParser
-import org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner
@@ -14,20 +12,16 @@ object ProjectsRepository {
         Project(
             name = "JavaCalculator",
             ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
+            projectType = ProjectTypes.JAVA_JUNIT_PROJECT,
             projectRunner = MavenRunner(),
-            reportExtractor = JacocoReportExtractor(),
-            codeParser = JavaParser,
-            testingFramework = "Junit5",
-            codeFileExtension = "java"
+            reportExtractor = JacocoReportExtractor()
         ),
         Project(
             name = "PythonCalculator",
             ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
+            projectType = ProjectTypes.PYTHON_PYTEST_PROJECT,
             projectRunner = PythonRunner("calculator"),
-            reportExtractor = PytestReportExtractor(),
-            testingFramework = "Pytest",
-            codeParser = PythonParser(),
-            codeFileExtension = "py"
+            reportExtractor = PytestReportExtractor()
         ),
     )
 }

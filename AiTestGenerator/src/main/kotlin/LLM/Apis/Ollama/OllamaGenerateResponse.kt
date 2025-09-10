@@ -2,11 +2,11 @@ package org.filomilo.AiTestGenerator.LLM.Apis.Ollama;
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import kotlinx.datetime.serializers.InstantIso8601Serializer
+
 @Serializable
 data class OllamaGenerateResponse(
     var model: String,
-    @Serializable(with = InstantIso8601Serializer::class)
+
     var created_at: Instant,
 
     /** Empty if the response was streamed; if not, this will contain the full response */

@@ -11,10 +11,10 @@ jobs:
       folder: AiTestGenerator
       script: AiTestGeneratorTests.sh
   run-analyiss-test:
-    needs: run-project-test
-    permissions:
-      contents: write
-    uses: ./.github/workflows/CI-env.yml
-    with:
-      folder: AiTestGenerotorAnalisis
-      script: AiTestGenerotorAnalisisTest.sh
+   needs: run-project-test
+   permissions:
+     contents: write
+   uses: ./.github/workflows/CI-env.yml
+   with:
+     folder: AiTestGenerotorAnalisis
+     script: AiTestGenerotorAnalisisTest.sh
