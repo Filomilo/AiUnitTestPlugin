@@ -30,6 +30,7 @@ object DockerConnection : ContainersManager {
 
     init {
         val dockerHost = System.getenv("DOCKER_HOST")
+        log.info("----------------------------------------------------------------dockerHost: $dockerHost")
         require(dockerHost != null) { "The docker host must be set" }
 
         val dockerConfiguration: DockerClientConfig =
