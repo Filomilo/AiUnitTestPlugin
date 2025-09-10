@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerator.LLM.Processors
 
 
+import DeviceSpecification
 import org.filomilo.AiTestGenerator.LLM.Apis.Ollama.*
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
@@ -16,6 +17,7 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
     init {
         this.ollamaApi = ollamaApi
         this.model = model
+
     }
 
     override fun executePrompt(prompt: String): String {
@@ -40,6 +42,20 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
     }
 
     override fun unload() {
-        this.ollamaApi.delete(OllamaDeleteRequest(model = this.model))
+//        this.ollamaApi.delete(OllamaDeleteRequest(model = this.model))
     }
+
+    override fun getName(): String {
+        return "Ollama-${this.model}"
+    }
+
+    override fun getDeviceSpecification(): DeviceSpecification? {
+        return DeviceSpecification.getCurrentDeviceSpecification()
+    }
+
+    override fun toString(): String {
+        return "OllamaProcessors(model='$model', ollamaApi=$ollamaApi)"
+    }
+
+
 }

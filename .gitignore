@@ -56,3 +56,5 @@ ExampleProjects/PythonSimpleCalculator/coverage.json
 scripts/test.txt
 AiTestGenerator/test.txt
 /.kotlin/sessions
+AiTestGenerator/LLMcache.cache
+AiTestGenerotorAnalisis/LLMcache.cache

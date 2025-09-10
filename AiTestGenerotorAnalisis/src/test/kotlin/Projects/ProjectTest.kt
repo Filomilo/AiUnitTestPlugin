@@ -18,6 +18,11 @@ import java.util.stream.Stream
 
 
 class ProjectTest {
+    @Test
+    fun clone() {
+
+    }
+
     private val log: Logger = LoggerFactory.getLogger(ProjectTest::class.java)
 
 
@@ -25,15 +30,31 @@ class ProjectTest {
         @JvmStatic
         fun projectProvider(): Stream<Project> = ProjectsRepository.projects.stream()
     }
+
     @Test
     fun testClone() {
         var project: Project = ProjectsRepository.projects[0]
         var originalFiles: List<Path> = FilesManagment.getFilesRecursively(project.ProjectPath);
-        var clonedPrject=project.clone(PathResolver.ensureTmpDirectory())
-        var clonedFiles=FilesManagment.getFilesRecursively(clonedPrject.ProjectPath);
-        var orgialFileNames:List<String> = originalFiles.stream().map { x->x.fileName.toString() }.toList()
-        var copiedileNames:List<String> = clonedFiles.stream().map { x->x.fileName.toString() }.toList()
-        assertEquals(orgialFileNames,copiedileNames)
+        var clonedPrject = project.clone(PathResolver.ensureTmpDirectory().resolve(project.name))
+        var clonedFiles = FilesManagment.getFilesRecursively(clonedPrject.ProjectPath);
+        var orgialFileNames: List<String> = originalFiles.stream().map { x -> x.fileName.toString() }.toList()
+        var copiedileNames: List<String> = clonedFiles.stream().map { x -> x.fileName.toString() }.toList()
+        clonedPrject.destroy()
+        assertEquals(orgialFileNames, copiedileNames)
+
+    }
+
+    @Test
+    fun testDestroy() {
+        FilesManagment.deleteContentOfFolder(PathResolver.ensureTmpDirectory())
+        assertEquals(0, FilesManagment.getFilesRecursively(PathResolver.ensureTmpDirectory()).size)
+        var project: Project = ProjectsRepository.projects[0]
+        var clonedPrject = project.clone(PathResolver.ensureTmpDirectory().resolve(project.name))
+        assertTrue(FilesManagment.getFilesRecursively(PathResolver.ensureTmpDirectory().resolve(project.name)).size > 0)
+        clonedPrject.destroy()
+        assertEquals(0, FilesManagment.getFilesRecursively(PathResolver.ensureTmpDirectory()).size)
+
+
     }
 
     @AfterEach
@@ -45,16 +66,17 @@ class ProjectTest {
     @MethodSource("projectProvider")
     fun runTests(project: Project) {
         log.info("running tests on project ${project.name}")
-        assertDoesNotThrow{
+        assertDoesNotThrow {
             project.runTests()
         }
 
     }
+
     @ParameterizedTest
     @MethodSource("projectProvider")
     fun extractReport(project: Project) {
         runTests(project)
-        assertDoesNotThrow{
+        assertDoesNotThrow {
             project.getReport()
         }
 
