@@ -14,7 +14,6 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrateg
 import Tools.PathResolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.Timer
 import kotlin.time.measureTime
 
 object AnalysisRunner {
@@ -43,25 +42,32 @@ object AnalysisRunner {
     ) {
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-
+        var AnalysisRun: AnalysisRunSuccess? = null
         try {
-            var AnalysisRun: AnalysisRunSuccess
+
             val duration = measureTime {
                 AnalysisRun = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
             }
-            AnalysisRun.duration = duration
+            AnalysisRun!!.duration = duration
             AnalysisRun.warnings = strategy.getWarnings()
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
+            var AnalysisRunFailure: AnalysisRunFailure = AnalysisRunFailure(
+                failureReason = ex,
+                llmModel = llmProcessor.getName(),
+                project = project.name,
+                strategy = strategy.getNameIdentifier(),
+                deviceSpecification = llmProcessor.getDeviceSpecification(),
+                warnings = strategy.getWarnings(),
+            )
+            if (AnalysisRun != null) {
+                AnalysisRunFailure.promptResults = AnalysisRun!!.promptResults
+                AnalysisRunFailure.executionLogs = AnalysisRun!!.executionLogs
+                AnalysisRunFailure.generatedFiles = AnalysisRun!!.generatedFiles
+            }
+
             this.analysisResults.addRunFailure(
-                AnalysisRunFailure(
-                    failureReason = ex,
-                    llmModel = llmProcessor.getName(),
-                    project = project.name,
-                    strategy = strategy.getNameIdentifier(),
-                    deviceSpecification = llmProcessor.getDeviceSpecification(),
-                    warnings = strategy.getWarnings()
-                )
+                AnalysisRunFailure
             )
 
 

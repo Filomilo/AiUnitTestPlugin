@@ -8,8 +8,10 @@ import Tools.PathResolver
 import java.nio.file.Path
 
 class PythonRunner(val projectName: String) : ProjectRunner {
-    override fun runTests(projectPath: Path) {
-        CommandExecutor.runCommand(" pytest tests/ --cov=${projectName} --cov-report json\n", projectPath)
+    override fun runTests(projectPath: Path): String {
+        val result: String =
+            CommandExecutor.runCommand(" pytest tests/ --cov=${projectName} --cov-report json\n", projectPath)
+        return result
     }
 
     override fun getPathForTestFile(

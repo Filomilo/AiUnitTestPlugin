@@ -53,8 +53,8 @@ data class Project(
         )
     }
 
-    fun runTests() {
-        projectRunner.runTests(this.ProjectPath)
+    fun runTests(): String {
+        return projectRunner.runTests(this.ProjectPath)
     }
 
     fun getReport(): TestReport {

@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerator.LLM.Apis.Ollama
 
+import Exceptions.ApiPromptingException
 import com.fasterxml.jackson.databind.annotation.NoClass
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -43,7 +44,7 @@ class OllamaApi(urlBase: String) {
             throw Exception("Error parsing [[${OllamaRequest.toString()}]]: ${ex.message}")
         } catch (ex: Exception) {
             this.resolveException(ex.message!!, modelReq = OllamaRequest.model)
-            throw Exception("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
+            throw ApiPromptingException("Error with reuqest [[${OllamaRequest.toString()}]]: ${ex.message}")
         }
     }
 

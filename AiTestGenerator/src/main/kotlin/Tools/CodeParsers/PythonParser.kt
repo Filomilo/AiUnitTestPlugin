@@ -125,9 +125,10 @@ class PythonParser : CodeParser {
 
 
             override fun enterImport_from(ctx: Python3Parser.Import_fromContext) {
-                TODO("not implemetned")
-//                val fromLine = ctx.text
-//                log.info("from: ${ctx!!.text}")
+
+                val fromLine = content.substring(ctx.start.startIndex, ctx.stop.stopIndex + 1)
+                pythonfileBuilder.addImport(fromLine)
+
             }
 
             override fun enterSimple_stmt(ctx: Python3Parser.Simple_stmtContext) {

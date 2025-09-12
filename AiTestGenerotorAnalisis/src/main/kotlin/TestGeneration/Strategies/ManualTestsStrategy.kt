@@ -18,7 +18,7 @@ class ManualTestsStrategy : TestGenerationStrategy {
     }
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
-        project.runTests()
+        val logs = project.runTests()
         var report: TestReport = project.getReport()
         return AnalysisRunSuccess(
             llmModel = "none",
@@ -26,7 +26,12 @@ class ManualTestsStrategy : TestGenerationStrategy {
             strategy = getNameIdentifier(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
-            duration = Duration.ZERO
+            duration = Duration.ZERO,
+            executionLogs = listOf<String>(logs),
+            promptResults = mapOf(),
+            time = TODO(),
+            warnings = TODO(),
+            generatedFiles = TODO(),
         )
     }
 

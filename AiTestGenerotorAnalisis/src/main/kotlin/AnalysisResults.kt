@@ -5,12 +5,12 @@ import DeviceSpecification
 import Exceptions.LlmProcessingException
 import kotlinx.serialization.Serializable
 import Tools.PathResolver
-import kotlinx.serialization.Contextual
 import java.time.Instant
 import  org.filomilo.AiTestGenerator.Tools.InstantSerializer
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory
 //    JsonSubTypes.Type(value = AnalysisRunSuccess::class, name = "success"),
 //    JsonSubTypes.Type(value = AnalysisRunFailure::class, name = "failure")
 //)
+
+
 @Serializable
 @Polymorphic
 sealed class AnalysisRun {
@@ -32,8 +34,10 @@ sealed class AnalysisRun {
     abstract val strategy: String
     abstract val time: Instant
     abstract val deviceSpecification: DeviceSpecification?
-    abstract val executionLogs: String?
+    abstract val executionLogs: List<String>?
     abstract val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception>
+    abstract val promptResults: Map<String, String>?
+    abstract val generatedFiles: List<PathObject>?
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -69,9 +73,11 @@ data class AnalysisRunFailure(
     @Serializable(with = InstantSerializer::class)
     override val time: Instant = Instant.now(),
     override val deviceSpecification: DeviceSpecification?,
-    override val executionLogs: String? = null,
+    override var executionLogs: List<String>? = null,
 
     override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+    override var promptResults: Map<String, String>? = null,
+    override var generatedFiles: List<PathObject>? = null,
 ) : AnalysisRun()
 
 @SerialName("success")
@@ -84,9 +90,11 @@ data class AnalysisRunSuccess(
     override val time: Instant = Instant.now(),
     val report: TestReport, override val deviceSpecification: DeviceSpecification?,
     var duration: kotlin.time.Duration? = null,
-    override val executionLogs: String? = null,
+    override val executionLogs: List<String>? = null,
 
     override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+    override val promptResults: Map<String, String>?,
+    override val generatedFiles: List<PathObject>? = null
 ) : AnalysisRun()
 
 

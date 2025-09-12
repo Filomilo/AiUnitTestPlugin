@@ -10,6 +10,7 @@ import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
@@ -17,6 +18,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
+import java.util.Dictionary
 
 class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
@@ -76,19 +78,24 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         return codeFiles;
     }
 
-    fun generateTestsForMethod(method: Code, llmProcessor: LLMProcessor, project: Project): Collection<CodeFile> {
+    fun generateTestsForMethod(
+        method: Code, llmProcessor: LLMProcessor, project: Project,
+        promptResults: MutableMap<String, String>
+    ): Collection<CodeFile> {
+        val prompt: String = PromptFormatter.resolveArguments(
+            this.promptBase,
+            SingleMethodProvider(
+                method.getContent(project.codeParser.getCodeSeparator()),
 
-        var promptResult: String = llmProcessor.executePrompt(
-            PromptFormatter.resolveArguments(
-                this.promptBase,
-                SingleMethodProvider(
-                    method.getContent(project.codeParser.getCodeSeparator()),
+                project.testingFramework
 
-                    project.testingFramework
-
-                )
             )
         )
+        var promptResult: String = llmProcessor.executePrompt(
+            prompt
+        )
+
+        promptResults.put(prompt, promptResult)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
@@ -100,12 +107,13 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     fun generateTestsForMethods(
         method: Collection<Code>,
         llmProcessor: LLMProcessor,
-        project: Project
+        project: Project,
+        promptResults: MutableMap<String, String>
     ): Collection<CodeFile> {
         var tests: MutableCollection<CodeFile> = mutableListOf()
         for (code in method) {
             try {
-                tests.addAll(generateTestsForMethod(code, llmProcessor, project))
+                tests.addAll(generateTestsForMethod(code, llmProcessor, project, promptResults))
             } catch (ex: CodeRetrivalExcpetion) {
                 exceptions.add(ex)
                 log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} :: ${ex.stackTrace} ")
@@ -131,9 +139,10 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
         project.clearTests()
         val methods = project.getAllMethodsWithParents()
-        val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project)
+        val promptResults: MutableMap<String, String> = mutableMapOf<String, String>()
+        val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project, promptResults)
         generateTestFiles(tests, project)
-        project.runTests()
+        val logs: String = project.runTests()
         val report: TestReport = project.getReport()
 
         return AnalysisRunSuccess(
@@ -142,6 +151,9 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             strategy = "prompt per method: $promptBase",
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
+            executionLogs = listOf(logs),
+            promptResults = promptResults,
+            generatedFiles = FilesManagment.getFolderContent(project.getTestsPath()),
         )
     }
 
