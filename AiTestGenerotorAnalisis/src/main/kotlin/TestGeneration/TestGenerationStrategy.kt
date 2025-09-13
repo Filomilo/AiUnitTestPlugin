@@ -19,6 +19,7 @@ interface TestGenerationStrategy {
     fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess
     fun getWarnings(): Collection<Exception>
     fun clearWarnings()
-    
+    fun clearBuffers()
+
 }
 

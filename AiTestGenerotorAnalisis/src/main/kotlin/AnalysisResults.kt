@@ -94,7 +94,6 @@ data class AnalysisRunSuccess(
     val report: TestReport, override val deviceSpecification: DeviceSpecification?,
     var duration: kotlin.time.Duration? = null,
     override val executionLogs: List<String>? = null,
-
     override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
     override val promptResults: HashSet<@Contextual LLMResponse>?,
     override val generatedFiles: List<PathObject>? = null
