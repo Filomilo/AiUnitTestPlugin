@@ -1,5 +1,4 @@
-package org.filomilo.AiTestGenerotorAnalisis.Tools
-
+package Tools
 
 import java.io.File
 import java.nio.file.Files

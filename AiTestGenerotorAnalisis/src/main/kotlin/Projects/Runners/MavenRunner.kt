@@ -4,15 +4,15 @@ import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import org.filomilo.AiTestGenerotorAnalisis.Tools.CommandExecutor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 import java.nio.file.Path
 import kotlin.io.path.exists
 
 class MavenRunner() : ProjectRunner {
 
 
-    override fun runTests(projectPath: Path) {
-        CommandExecutor.runCommand("mvn clean install", projectPath)
+    override fun runTests(projectPath: Path): String {
+        return CommandExecutor.runCommand("mvn clean install", projectPath)
     }
 
     override fun getPathForTestFile(

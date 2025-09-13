@@ -40,7 +40,7 @@ class LlmRepositoryTest {
         org.junit.jupiter.api.assertDoesNotThrow {
             this.llmRepository!!.ListOfLlmProcessors.forEach { x ->
                 x.load()
-                var answer: String = x.executePrompt("why is sky blue?")
+                var answer: String = x.executePrompt("why is sky blue?").response
                 assertNotNull(answer)
                 assertTrue(answer.isNotEmpty())
                 x.unload()

@@ -7,7 +7,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReport
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
 
 object ProjectsRepository {
     val projects: List<Project> = listOf(

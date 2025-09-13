@@ -1,4 +1,6 @@
 package LLM
 
-class TestGenerationException(override val message: String?) : Exception(message) {
+import Exceptions.LlmProcessingException
+
+class TestGenerationException(override val message: String?) : LlmProcessingException(message) {
 }

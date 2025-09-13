@@ -53,9 +53,15 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "llava",
 //                "granite3.3"
             )
+
+
         Ollamamodels.forEach { x ->
             this.ListOfLlmProcessors += (OllamaProcessors(x, this.ollamaApi!!))
         }
+        if (Environment.shouldCacheLLM()) {
+            this.ListOfLlmProcessors = this.ListOfLlmProcessors.map { x -> CachedLLMProcessor(x) }
+        }
+
 
     }
 }
