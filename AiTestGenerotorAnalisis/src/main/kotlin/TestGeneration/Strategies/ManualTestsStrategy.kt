@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
+import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
@@ -28,7 +29,7 @@ class ManualTestsStrategy : TestGenerationStrategy {
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             duration = Duration.ZERO,
             executionLogs = listOf<String>(logs),
-            promptResults = mapOf(),
+            promptResults = HashSet<LLMResponse>(),
             time = TODO(),
             warnings = TODO(),
             generatedFiles = TODO(),

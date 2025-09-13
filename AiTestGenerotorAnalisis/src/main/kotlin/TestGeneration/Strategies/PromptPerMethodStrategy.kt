@@ -9,6 +9,7 @@ import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
+import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerator.Tools.StringTools
@@ -80,7 +81,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     fun generateTestsForMethod(
         method: Code, llmProcessor: LLMProcessor, project: Project,
-        promptResults: MutableMap<String, String>
+        promptResults: HashSet<LLMResponse>
     ): Collection<CodeFile> {
         val prompt: String = PromptFormatter.resolveArguments(
             this.promptBase,
@@ -91,11 +92,13 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
             )
         )
-        var promptResult: String = llmProcessor.executePrompt(
+        var llmreponse: LLMResponse = llmProcessor.executePrompt(
             prompt
         )
+        var response: LLMResponse = llmreponse
+        var promptResult: String = response.response
 
-        promptResults.put(prompt, promptResult)
+        promptResults.add(response)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
@@ -108,12 +111,12 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         method: Collection<Code>,
         llmProcessor: LLMProcessor,
         project: Project,
-        promptResults: MutableMap<String, String>
+        responses: HashSet<LLMResponse>
     ): Collection<CodeFile> {
         var tests: MutableCollection<CodeFile> = mutableListOf()
         for (code in method) {
             try {
-                tests.addAll(generateTestsForMethod(code, llmProcessor, project, promptResults))
+                tests.addAll(generateTestsForMethod(code, llmProcessor, project, responses))
             } catch (ex: CodeRetrivalExcpetion) {
                 exceptions.add(ex)
                 log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} :: ${ex.stackTrace} ")
@@ -139,7 +142,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
         project.clearTests()
         val methods = project.getAllMethodsWithParents()
-        val promptResults: MutableMap<String, String> = mutableMapOf<String, String>()
+        val promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
         val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project, promptResults)
         generateTestFiles(tests, project)
         val logs: String = project.runTests()

@@ -12,6 +12,8 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrategyRepository
 import Tools.PathResolver
+import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
+import org.filomilo.AiTestGenerator.LLM.Processors.OllamaProcessors
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.time.measureTime
@@ -48,8 +50,12 @@ object AnalysisRunner {
             val duration = measureTime {
                 AnalysisRun = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
             }
+
             AnalysisRun!!.duration = duration
             AnalysisRun.warnings = strategy.getWarnings()
+            if (llmProcessor is CachedLLMProcessor) {
+                AnalysisRun.duration = AnalysisRun.duration?.plus(llmProcessor.emptyDurationBuffer())
+            }
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
             var AnalysisRunFailure: AnalysisRunFailure = AnalysisRunFailure(
@@ -65,6 +71,7 @@ object AnalysisRunner {
                 AnalysisRunFailure.executionLogs = AnalysisRun!!.executionLogs
                 AnalysisRunFailure.generatedFiles = AnalysisRun!!.generatedFiles
             }
+
 
             this.analysisResults.addRunFailure(
                 AnalysisRunFailure
@@ -101,6 +108,7 @@ object AnalysisRunner {
         for (llmProcessor: LLMProcessor in this.llmRepository.ListOfLlmProcessors) {
             runAnalysisOnLLMProcessor(llmProcessor)
         }
+
         this.analysisResults.save()
     }
 }

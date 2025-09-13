@@ -5,11 +5,13 @@ import DeviceSpecification
 import Exceptions.LlmProcessingException
 import kotlinx.serialization.Serializable
 import Tools.PathResolver
+import kotlinx.serialization.Contextual
 import java.time.Instant
 import  org.filomilo.AiTestGenerator.Tools.InstantSerializer
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
+import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.Logger
@@ -36,7 +38,7 @@ sealed class AnalysisRun {
     abstract val deviceSpecification: DeviceSpecification?
     abstract val executionLogs: List<String>?
     abstract val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception>
-    abstract val promptResults: Map<String, String>?
+    abstract val promptResults: HashSet<LLMResponse>?
     abstract val generatedFiles: List<PathObject>?
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -76,7 +78,8 @@ data class AnalysisRunFailure(
     override var executionLogs: List<String>? = null,
 
     override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-    override var promptResults: Map<String, String>? = null,
+
+    override var promptResults: HashSet<@Contextual LLMResponse>? = null,
     override var generatedFiles: List<PathObject>? = null,
 ) : AnalysisRun()
 
@@ -93,7 +96,7 @@ data class AnalysisRunSuccess(
     override val executionLogs: List<String>? = null,
 
     override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-    override val promptResults: Map<String, String>?,
+    override val promptResults: HashSet<@Contextual LLMResponse>?,
     override val generatedFiles: List<PathObject>? = null
 ) : AnalysisRun()
 
