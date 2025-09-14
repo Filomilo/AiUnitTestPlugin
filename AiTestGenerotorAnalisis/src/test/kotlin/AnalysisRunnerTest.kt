@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import java.util.stream.Stream
 
-@DisabledOnOs(OS.LINUX)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnalysisRunnerTest {
 
@@ -79,7 +78,7 @@ class AnalysisRunnerTest {
         return argslist.stream()
     }
 
-    
+
     @ParameterizedTest
     @Timeout(15, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
