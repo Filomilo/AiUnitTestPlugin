@@ -1,7 +1,7 @@
 package CodeMetric
 
-import org.filomilo.AiTestGenerotorAnalisis.CodeMetric.CodeMetricReport
-import org.filomilo.AiTestGenerotorAnalisis.CodeMetric.MultiMetricCodeMetricCalculator
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
+import Tools.CodeMetric.ProjectMetricsReportMutlimetric
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.junit.jupiter.api.Test
 
@@ -17,9 +17,10 @@ class MultiMetricCodeMetricCalculatorTest {
         var multiMetricCodeMetricCalculator: MultiMetricCodeMetricCalculator = MultiMetricCodeMetricCalculator()
         assertDoesNotThrow {
             var path: Path = ProjectsRepository.projects.get(1).ProjectPath.resolve("tests")
-            var CodeMetricReport: CodeMetricReport = multiMetricCodeMetricCalculator.calculateCodeMetricsForDirectory(
-                path.toAbsolutePath()
-            )
+            var CodeMetricReport: ProjectMetricsReportMutlimetric =
+                multiMetricCodeMetricCalculator.calculateCodeMetricsForDirectory(
+                    path.toAbsolutePath()
+                )
             assertNotNull(CodeMetricReport)
         }
     }

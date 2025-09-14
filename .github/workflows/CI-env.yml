@@ -126,7 +126,11 @@ jobs:
         run: |
           free -m
           top -b -n 1 -o %MEM
+          
 
+      - name: test multimetric
+        run: |
+          multimetric
 
       - name: run script
         env:
