@@ -78,9 +78,9 @@ jobs:
         with:
           path: |
             LLMcache.cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('LLMcache.cache') }}
+          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-llmResponse-
 
 
       - name: Start LLM Conatiners
