@@ -30,6 +30,8 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
+           apt-get install python -y
+           pip3 install multimetric 
 
       - name: Set up JDK 17
         run: |
@@ -126,7 +128,7 @@ jobs:
         run: |
           free -m
           top -b -n 1 -o %MEM
-          
+
 
       - name: test multimetric
         run: |
