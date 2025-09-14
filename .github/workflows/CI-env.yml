@@ -30,7 +30,7 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
-           apt-get install python -y
+           apt-get install python3 -y
            pip3 install multimetric 
 
       - name: Set up JDK 17
