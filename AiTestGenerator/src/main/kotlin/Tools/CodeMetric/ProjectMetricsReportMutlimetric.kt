@@ -74,5 +74,4 @@ data class Stats(
     val mean: Metrics,
     val median: Metrics,
     val min: Metrics,
-    val sd: Metrics
 )

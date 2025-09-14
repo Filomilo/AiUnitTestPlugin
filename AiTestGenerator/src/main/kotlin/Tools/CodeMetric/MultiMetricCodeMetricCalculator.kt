@@ -13,11 +13,20 @@ class MultiMetricCodeMetricCalculator : CodeMetricCalculator {
         val log = LoggerFactory.getLogger(MultiMetricCodeMetricCalculator.javaClass)
     }
 
-    override fun calculateCodeMetricsForDirectory(path: Path): ProjectMetricsReportMutlimetric {
-        val filesInDirectory: Collection<Path> = FilesManagment.getFilesRecursively(path)
-        val command: String =
-            "multimetric files ${filesInDirectory.map { x -> "\"$x.absolutePathString()\"" }.joinToString(" ")}"
+
+    override fun calculateCodeMetricsForFiles(paths: List<Path>): ProjectMetricsReportMutlimetric {
+        val filteredFiles: List<Path> = paths.filter { x -> x.toFile().length() > 0 }
+
+        val commandBuilder: StringBuilder = StringBuilder()
+        commandBuilder.append("multimetric ");
+        if (filteredFiles.count() > 1) {
+            commandBuilder.append("files ");
+        }
+        commandBuilder.append(filteredFiles.map { x -> "\"${x.absolutePathString()}\"" }.joinToString(" "))
+        val command: String = commandBuilder.toString()
         log.info("mulitmetic ocmmad [[$command]]")
+
+
         val response: String = CommandExecutor.runCommand(command)
         log.info("mulitmetic ocmmad response [[$response]]")
         return Json.decodeFromString<ProjectMetricsReportMutlimetric>(response)

@@ -16,6 +16,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Collectors
 import kotlin.io.path.exists
+import kotlin.io.path.extension
 
 data class Project(
     val name: String,
@@ -110,6 +111,12 @@ data class Project(
     fun getAllMethodsWithParents(): Collection<Code> {
         return getAllParsedFiles().stream().map { x -> x.getMethodsWithParents() }.collect(Collectors.toList())
             .flatten()
+    }
+
+    fun getTestFiles(): List<Path> {
+        return FilesManagment.getFilesRecursively(getTestsPath()).filter { x -> x.extension == this.codeFileExtension }
+            .toList()
+
     }
 
 

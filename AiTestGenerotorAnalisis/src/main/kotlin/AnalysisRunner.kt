@@ -2,6 +2,7 @@ package org.filomilo.AiTestGenerotorAnalisis
 
 import Exceptions.LlmProcessingException
 import LLM.Apis.Ollama.OllamaApiGenerator
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
@@ -14,6 +15,7 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrateg
 import Tools.PathResolver
 import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
 import org.filomilo.AiTestGenerator.LLM.Processors.OllamaProcessors
+import org.filomilo.AiTestGenerator.Tools.System
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.time.measureTime
@@ -53,6 +55,10 @@ object AnalysisRunner {
 
             AnalysisRun!!.duration = duration
             AnalysisRun.warnings = strategy.getWarnings()
+            if (System.isCodeMetricCalculatorAvaialabe()) {
+                AnalysisRun.CodeMetrics =
+                    MultiMetricCodeMetricCalculator().calculateCodeMetricsForFiles(project.getTestFiles())
+            }
             if (llmProcessor is CachedLLMProcessor) {
                 AnalysisRun.duration = AnalysisRun.duration?.plus(llmProcessor.emptyDurationBuffer())
             }
