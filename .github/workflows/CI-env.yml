@@ -32,6 +32,7 @@ jobs:
            apt-get install -y dos2unix
            apt-get install python3 -y
            apt-get -y install python3-pip 
+           pip3 install chardet  --break-system-packages
            pip3 install multimetric --break-system-packages
 
       - name: Set up JDK 17
