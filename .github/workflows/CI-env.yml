@@ -78,9 +78,9 @@ jobs:
         with:
           path: |
             LLMcache.cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('LLMcache.cache') }}
+          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-llmResponse-
 
 
       - name: Start LLM Conatiners
@@ -156,8 +156,10 @@ jobs:
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
       - name: print files
-        if: ${{ inputs.commit-result == true }}
         run: |
+          echo "current dir"
+          pwd
+          echo "files: "
           ls
           ls Analysis_results/
           ls Analysis_results/result.json
