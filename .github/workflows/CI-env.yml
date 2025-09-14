@@ -73,7 +73,14 @@ jobs:
             ${{ runner.os }}-gradle-
 
 
-
+      - name: Cache LLMResponse
+        uses: actions/cache@v4
+        with:
+          path: |
+            /LLMcache.cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('LLMcache.cache') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
 
       - name: Start LLM Conatiners

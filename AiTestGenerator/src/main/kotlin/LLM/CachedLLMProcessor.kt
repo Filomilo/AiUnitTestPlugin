@@ -46,7 +46,11 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
         }
 
         private fun updateCacheFile() {
-            var newCacheContent: String = Json.encodeToString(cachedData)
+            val json = Json {
+                prettyPrint = true
+                prettyPrintIndent = "  "
+            }
+            var newCacheContent: String = json.encodeToString(cachedData)
             Files.write(cacheFile, newCacheContent.toByteArray(Charsets.UTF_8))
         }
 

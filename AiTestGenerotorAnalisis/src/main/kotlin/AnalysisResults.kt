@@ -136,8 +136,11 @@ data class AnalysisResults(
 
     fun save() {
 
-
-        val content = Json.encodeToString(this)
+        val json = Json {
+            prettyPrint = true
+            prettyPrintIndent = "  "
+        }
+        val content = json.encodeToString(this)
         log.info("save:: content [[$content]] to path [[$filePath.toAbsolutePath()]] ")
         filePath.toFile().writeText(content)
     }
