@@ -3,7 +3,6 @@ package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
-import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
@@ -18,10 +17,10 @@ class ManualTestsStrategy : TestGenerationStrategy {
         return "Manual test made already in project"
     }
 
-    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
+    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRun {
         val logs = project.runTests()
         var report: TestReport = project.getReport()
-        return AnalysisRunSuccess(
+        return AnalysisRun(
             llmModel = "none",
             project = project.name,
             strategy = getNameIdentifier(),
@@ -33,6 +32,7 @@ class ManualTestsStrategy : TestGenerationStrategy {
             time = TODO(),
             warnings = TODO(),
             generatedFiles = TODO(),
+            failureReason = null,
         )
     }
 
@@ -40,7 +40,8 @@ class ManualTestsStrategy : TestGenerationStrategy {
         return emptyList()
     }
 
-    override fun clearWarnings() {
+
+    override fun clearBuffers() {
 
     }
 

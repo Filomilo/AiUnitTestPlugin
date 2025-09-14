@@ -30,16 +30,21 @@ import org.slf4j.LoggerFactory
 
 @Serializable
 @Polymorphic
-sealed class AnalysisRun {
-    abstract val llmModel: String
-    abstract val project: String
-    abstract val strategy: String
-    abstract val time: Instant
-    abstract val deviceSpecification: DeviceSpecification?
-    abstract val executionLogs: List<String>?
-    abstract val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception>
-    abstract val promptResults: HashSet<LLMResponse>?
-    abstract val generatedFiles: List<PathObject>?
+data class AnalysisRun(
+    val failureReason: LlmProcessingException?,
+    val llmModel: String,
+    val project: String,
+    val strategy: String,
+    @Serializable(with = InstantSerializer::class)
+    val time: Instant = Instant.now(),
+    val deviceSpecification: DeviceSpecification?,
+    var executionLogs: List<String>? = null,
+    var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+    var promptResults: HashSet<@Contextual LLMResponse>? = null,
+    var generatedFiles: List<PathObject>? = null,
+    var duration: kotlin.time.Duration? = null,
+    val report: TestReport?
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -65,39 +70,39 @@ sealed class AnalysisRun {
     }
 }
 
-@SerialName("failure")
-@Serializable
-data class AnalysisRunFailure(
-    val failureReason: LlmProcessingException,
-    override val llmModel: String,
-    override val project: String,
-    override val strategy: String,
-    @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(),
-    override val deviceSpecification: DeviceSpecification?,
-    override var executionLogs: List<String>? = null,
-
-    override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-
-    override var promptResults: HashSet<@Contextual LLMResponse>? = null,
-    override var generatedFiles: List<PathObject>? = null,
-) : AnalysisRun()
-
-@SerialName("success")
-@Serializable
-data class AnalysisRunSuccess(
-    override val llmModel: String,
-    override val project: String,
-    override val strategy: String,
-    @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(),
-    val report: TestReport, override val deviceSpecification: DeviceSpecification?,
-    var duration: kotlin.time.Duration? = null,
-    override val executionLogs: List<String>? = null,
-    override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-    override val promptResults: HashSet<@Contextual LLMResponse>?,
-    override val generatedFiles: List<PathObject>? = null
-) : AnalysisRun()
+//@SerialName("failure")
+//@Serializable
+//data class AnalysisRunFailure(
+//    val failureReason: LlmProcessingException,
+//    override val llmModel: String,
+//    override val project: String,
+//    override val strategy: String,
+//    @Serializable(with = InstantSerializer::class)
+//    override val time: Instant = Instant.now(),
+//    override val deviceSpecification: DeviceSpecification?,
+//    override var executionLogs: List<String>? = null,
+//
+//    override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+//
+//    override var promptResults: HashSet<@Contextual LLMResponse>? = null,
+//    override var generatedFiles: List<PathObject>? = null,
+//) : AnalysisRun()
+//
+//@SerialName("success")
+//@Serializable
+//data class AnalysisRunSuccess(
+//    override val llmModel: String,
+//    override val project: String,
+//    override val strategy: String,
+//    @Serializable(with = InstantSerializer::class)
+//    override val time: Instant = Instant.now(),
+//    val report: TestReport, override val deviceSpecification: DeviceSpecification?,
+//    var duration: kotlin.time.Duration? = null,
+//    override val executionLogs: List<String>? = null,
+//    override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+//    override val promptResults: HashSet<@Contextual LLMResponse>?,
+//    override val generatedFiles: List<PathObject>? = null
+//) : AnalysisRun()
 
 
 @Serializable
@@ -137,7 +142,7 @@ data class AnalysisResults(
         filePath.toFile().writeText(content)
     }
 
-    fun addRun(analysisRun: AnalysisRunSuccess) {
+    fun addRun(analysisRun: AnalysisRun) {
         log.info("addRun:: [[$analysisRun]] ")
         if (this.runs.contains(analysisRun)) {
             this.runs.remove(analysisRun)
@@ -148,7 +153,7 @@ data class AnalysisResults(
         }
     }
 
-    fun addRunFailure(analysisRun: AnalysisRunFailure) {
+    fun addRunFailure(analysisRun: AnalysisRun) {
         log.info("addRunFailure:: [[$analysisRun]] ")
         if (this.fails.contains(analysisRun)) {
             this.fails.remove(analysisRun)

@@ -13,7 +13,7 @@ import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerator.Tools.StringTools
-import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
+import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
@@ -139,7 +139,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     }
 
-    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
+    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRun {
         project.clearTests()
         val methods = project.getAllMethodsWithParents()
         val promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
@@ -148,7 +148,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         val logs: String = project.runTests()
         val report: TestReport = project.getReport()
 
-        return AnalysisRunSuccess(
+        return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
             strategy = "prompt per method: $promptBase",
@@ -157,6 +157,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             executionLogs = listOf(logs),
             promptResults = promptResults,
             generatedFiles = FilesManagment.getFolderContent(project.getTestsPath()),
+            failureReason = null
         )
     }
 
@@ -164,7 +165,9 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         return exceptions
     }
 
-    override fun clearWarnings() {
+    override fun clearBuffers() {
         exceptions = mutableListOf()
     }
+
+
 }

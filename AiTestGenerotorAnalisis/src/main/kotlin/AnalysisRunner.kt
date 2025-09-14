@@ -44,7 +44,7 @@ object AnalysisRunner {
     ) {
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-        var AnalysisRun: AnalysisRunSuccess? = null
+        var AnalysisRun: AnalysisRun? = null
         try {
 
             val duration = measureTime {
@@ -58,13 +58,14 @@ object AnalysisRunner {
             }
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
-            var AnalysisRunFailure: AnalysisRunFailure = AnalysisRunFailure(
+            var AnalysisRunFailure: AnalysisRun = AnalysisRun(
                 failureReason = ex,
                 llmModel = llmProcessor.getName(),
                 project = project.name,
                 strategy = strategy.getNameIdentifier(),
                 deviceSpecification = llmProcessor.getDeviceSpecification(),
                 warnings = strategy.getWarnings(),
+                report = null
             )
             if (AnalysisRun != null) {
                 AnalysisRunFailure.promptResults = AnalysisRun!!.promptResults
@@ -79,7 +80,7 @@ object AnalysisRunner {
 
 
         } finally {
-            strategy.clearWarnings()
+            strategy.clearBuffers()
             clonedProject.destroy()
         }
 
