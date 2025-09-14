@@ -156,8 +156,10 @@ jobs:
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
       - name: print files
-        if: ${{ inputs.commit-result == true }}
         run: |
+          echo "current dir"
+          pwd
+          echo "files: "
           ls
           ls Analysis_results/
           ls Analysis_results/result.json
