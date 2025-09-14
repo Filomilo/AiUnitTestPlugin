@@ -134,7 +134,7 @@ jobs:
 
       - name: test multimetric
         run: |
-          multimetric
+          multimetric -h
 
       - name: run script
         env:
