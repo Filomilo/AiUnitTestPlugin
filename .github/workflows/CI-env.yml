@@ -77,7 +77,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            /LLMcache.cache
+            LLMcache.cache
           key: ${{ runner.os }}-gradle-${{ hashFiles('LLMcache.cache') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
