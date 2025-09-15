@@ -86,6 +86,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-llmResponse-
 
+      - name: Print LLMResponse cache
+        run: |
+          cat LLMcache.cache
+
 
       - name: Start LLM Conatiners
         run: |
