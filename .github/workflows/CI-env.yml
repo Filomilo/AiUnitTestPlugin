@@ -82,7 +82,7 @@ jobs:
         with:
           path: |
             LLMcache.cache
-          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}
+          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-llmResponse-
 
@@ -151,6 +151,9 @@ jobs:
           cd "${{inputs.folder}}"
           ./../scripts/"${{ inputs.script }}"
 
+      - name: Print LLMResponse cache
+        run: |
+          cat LLMcache.cache 
 
       - name: List Gradle files
         run: |
