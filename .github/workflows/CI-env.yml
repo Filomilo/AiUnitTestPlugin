@@ -30,6 +30,10 @@ jobs:
           apt update -y
            apt install git -y
            apt-get install -y dos2unix
+           apt-get install python3 -y
+           apt-get -y install python3-pip 
+           pip3 install chardet  --break-system-packages
+           pip3 install multimetric --break-system-packages
 
       - name: Set up JDK 17
         run: |
@@ -78,9 +82,13 @@ jobs:
         with:
           path: |
             LLMcache.cache
-          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}
+          key: ${{ runner.os }}-llmResponse-${{ hashFiles('LLMcache.cache') }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-llmResponse-
+
+      - name: Print LLMResponse cache
+        run: |
+          cat LLMcache.cache 
 
 
       - name: Start LLM Conatiners
@@ -128,16 +136,24 @@ jobs:
           top -b -n 1 -o %MEM
 
 
+      - name: test multimetric
+        run: |
+          multimetric -h
+
       - name: run script
         env:
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_ACCEPTED: "yes"
           GRADLE_ENTERPRISE_TERMS_OF_SERVICE_URL: "https://gradle.com/terms-of-service"
           DOCKER_NETWORK: my-net
+          LLM_CACHE: "yes"
           OLLAMA_API: "http:/ollama:11434/"
         run: |
           cd "${{inputs.folder}}"
           ./../scripts/"${{ inputs.script }}"
 
+      - name: Print LLMResponse cache
+        run: |
+          cat LLMcache.cache 
 
       - name: List Gradle files
         run: |

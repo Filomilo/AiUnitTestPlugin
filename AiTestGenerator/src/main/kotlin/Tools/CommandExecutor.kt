@@ -1,6 +1,5 @@
-package org.filomilo.AiTestGenerotorAnalisis.Tools
+package Tools
 
-import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.Tools.System
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,8 +27,8 @@ class StreamGobbler(private val inputStream: InputStream, private val consumer: 
 object CommandExecutor {
     private val log: Logger = LoggerFactory.getLogger(CommandExecutor::class.java)
 
-    fun runCommand(command: String, path: Path): String {
-        log.info("executing command [[$command]] in location [[${path.toAbsolutePath()}]]")
+    fun runCommand(command: String, path: Path? = null): String {
+        log.info("executing command [[$command]] in location [[${path?.toAbsolutePath()}]]")
         val builder = ProcessBuilder()
         if (System.isWindows) {
             builder.command("cmd.exe", "/c", command)
@@ -37,8 +36,8 @@ object CommandExecutor {
             builder.command("bash", "-c", command)
         }
 
-
-        builder.directory(path.toFile())
+        if (path != null)
+            builder.directory(path.toFile())
 
 
         val process = builder.start()

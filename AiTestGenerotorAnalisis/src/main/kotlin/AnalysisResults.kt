@@ -3,6 +3,8 @@ package org.filomilo.AiTestGenerotorAnalisis
 
 import DeviceSpecification
 import Exceptions.LlmProcessingException
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
+import Tools.CodeMetric.ProjectMetricsReportMutlimetric
 import kotlinx.serialization.Serializable
 import Tools.PathResolver
 import kotlinx.serialization.Contextual
@@ -39,6 +41,7 @@ data class AnalysisRun(
     val time: Instant = Instant.now(),
     val deviceSpecification: DeviceSpecification?,
     var executionLogs: List<String>? = null,
+    var CodeMetrics: ProjectMetricsReportMutlimetric? = null,
     var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
     var promptResults: HashSet<@Contextual LLMResponse>? = null,
     var generatedFiles: List<PathObject>? = null,
