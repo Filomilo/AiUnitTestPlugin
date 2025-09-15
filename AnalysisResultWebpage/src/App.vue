@@ -1,16 +1,12 @@
 <script setup lang="ts">
 
 import { RouterLink, RouterView } from 'vue-router'
+import NavigationBar from './Components/NavigationBar.vue';
 
 </script>
 
 <template>
-  <h1>Hello App!</h1>
-  <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
-  <nav>
-    <RouterLink to="/RawRuns">Go to Home</RouterLink>
-    <RouterLink to="/RawPrompts">Go to About</RouterLink>
-  </nav>
+  <NavigationBar />
   <main>
     <RouterView />
   </main>

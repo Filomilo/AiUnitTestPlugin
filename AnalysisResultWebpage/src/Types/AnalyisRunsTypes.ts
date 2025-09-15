@@ -15,7 +15,8 @@ export interface Run {
   executionLogs: string[]
   promptResults: PromptResult[]
   generatedFiles: GeneratedFile[]
-  fails: Fail[] // some runs also include nested fails
+  fails: Fail[]
+  warnings?: Warning[]
 }
 
 export interface Report {

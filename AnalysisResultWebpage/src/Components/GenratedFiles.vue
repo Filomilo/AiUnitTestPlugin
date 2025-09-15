@@ -1,8 +1,13 @@
 <template>
   <div class="files_container">
-    <!-- <Tree v-model:selectionKeys="selectedKey" :value="treeNodes" selectionMode="single" class="w-full md:w-[30rem] ">
-    </Tree> -->
-    <pre>{{ JSON.stringify(props.generatedFiles, null, 2) }}</pre>
+    <div class="leftPanel">
+      <tree :value="treeNodes" selection-mode="single" :selection-keys="selectedKey"
+        @update:selection-keys="(e) => selectedKey = e" />
+    </div>
+    <div class="files_content">
+      <pre v-if="selectedContent !== undefined">{{ selectedContent }}</pre>
+    </div>
+    <!-- {{ JSON.stringify(treeNodes, null, 2) }} -->
   </div>
 
 </template>
@@ -14,7 +19,7 @@ import type { GeneratedFile } from '@/Types/AnalyisRunsTypes';
 import { ref, onMounted, type ComputedRef, computed, type Ref } from 'vue';
 import type { TreeNode } from 'primevue/treenode';
 import { mapToTreeNode } from '@/Tools/Mapper';
-const selectedKey: Ref<TreeSelectionKeys | undefined> = ref(undefined);
+const selectedKey: Ref<any> = ref(undefined);
 
 
 const props = defineProps({
@@ -28,6 +33,30 @@ const treeNodes: ComputedRef<TreeNode[]> = computed(() => {
   return props.generatedFiles.map(f => mapToTreeNode(f, f.name));
 })
 
+const selectedContent: ComputedRef<String | undefined> = computed(() => {
+  if (selectedKey.value === undefined || Object.keys(selectedKey.value)[0] === undefined) {
+    return undefined;
+  }
+  console.log(JSON.stringify(selectedKey.value));
+  // console.log("path: " + JSON.stringify(Object.keys(selectedKey.value)[0]));
+  const path = (Object.keys(selectedKey.value)[0] as string).split('/');
+  // console.log("path: " + JSON.stringify(path));
+  let current: GeneratedFile | undefined;
+  for (const part of path) {
+    if (current === undefined) {
+      current = props.generatedFiles.find(f => f.name === part);
+    } else {
+      if (current.children === undefined) {
+        return undefined;
+      }
+      current = current.children.find(f => f.name === part);
+    }
+    if (current === undefined) {
+      return undefined;
+    }
+  }
+  return current.content;
+})
 
 </script>
 
@@ -39,10 +68,18 @@ const treeNodes: ComputedRef<TreeNode[]> = computed(() => {
   padding-right: 1rem;
 }
 
+.files_content {
+  width: 70%;
+  padding-left: 1rem;
+  overflow: scroll;
+
+}
+
 .files_container {
   padding: 1rem;
   border-left: 1px solid #ccc;
-  overflow: scroll;
+  display: flex;
+  justify-content: flex-start;
 
 }
 </style>

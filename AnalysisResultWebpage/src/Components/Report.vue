@@ -19,7 +19,7 @@ const props = defineProps({
 
 <style scoped>
 .report {
-  background-color: #f0f0f0;
+  background-color: --surface-b;
   padding: 16px;
   border-radius: 4px;
 }

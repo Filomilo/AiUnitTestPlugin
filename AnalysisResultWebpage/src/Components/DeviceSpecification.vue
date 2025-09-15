@@ -22,7 +22,7 @@ const props = defineProps({
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 6px;
-  background: #fafafa;
+  background: var(--surface-ground);
 }
 
 .device-specification h2 {

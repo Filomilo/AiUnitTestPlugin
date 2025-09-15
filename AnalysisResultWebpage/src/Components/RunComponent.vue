@@ -44,13 +44,18 @@
 
       </AccordionTab>
 
-      <AccordionTab header="Prompt results" v-if="generatedFiles !== undefined">
-        <div v-for="prompResult in promptResults">
-          <PrompResult :promptResults="promptResults" />
+      <AccordionTab header="Prompt results" v-if="promptResults !== undefined">
 
-        </div>
-
+        <PromptResponsesList :responses="promptResults" />
       </AccordionTab>
+
+
+      <AccordionTab :header="'Warnings (' + warnings.length + ')'" v-if="warnings !== undefined && warnings.length > 0">
+        <div v-for="warning in warnings">
+          <Warning :warning="warning" />
+        </div>
+      </AccordionTab>
+
 
     </Accordion>
 
@@ -61,14 +66,15 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { formatDuration, isoToDate } from "@/Tools/StringTools";
-import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult } from "@/Types/AnalyisRunsTypes";
+import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, WarningType, FailureReason } from "@/Types/AnalyisRunsTypes";
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Report from '@/Components/Report.vue';
-
+import Warning from '@/Components/Warning.vue';
 import DeviceSpecification from '@/Components/DeviceSpecification.vue';
 import GenratedFiles from "./GenratedFiles.vue";
 import PrompResult from "./PrompResult.vue";
+import PromptResponsesList from "./PromptResponsesList.vue";
 const props = defineProps({
   run: {
     type: Object as () => Run | Fail,
@@ -88,17 +94,18 @@ const deviceSpec: DeviceSpecificationType | undefined = (props.run as Run).devic
 
 const generatedFiles: GeneratedFile[] | undefined = (props.run as Run).generatedFiles
 const promptResults: PromptResult[] | undefined = (props.run as Run).promptResults
-
+const warnings: WarningType[] | undefined = (props.run as Run).warnings
+const failureReasaon: FailureReason | undefined = (props.run as Fail).failureReason
 
 console.log(JSON.stringify(deviceSpec));
 </script>
 <style scoped>
 .runContainer {
-  border: 1px solid #ccc;
+  border: 1px solid var(--surface-d);
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--surface-ground);
 }
 
 .project-name {
