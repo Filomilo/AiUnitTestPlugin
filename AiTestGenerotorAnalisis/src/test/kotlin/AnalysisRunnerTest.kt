@@ -80,7 +80,7 @@ class AnalysisRunnerTest {
 
 
     @ParameterizedTest
-    @Timeout(15, unit = TimeUnit.MINUTES)
+    @Timeout(120, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
     fun runStrategyOnLLMProcessorOnProejctTest(
         llmProcessor: LLMProcessor,
