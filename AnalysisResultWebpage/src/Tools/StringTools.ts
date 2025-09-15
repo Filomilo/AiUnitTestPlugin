@@ -17,3 +17,7 @@ export const formatDuration = (str: String) => {
 
   return `${pad(hours)}:${pad(minutes)}:${pad(sec)}.${pad(ms, 3)}`
 }
+
+export const FormatEscapeSequences = (str: string) => {
+  return str.replace(/\\n/g, '\n').replace(/\\t/g, '\t').replace(/\\r/g, '\r')
+}

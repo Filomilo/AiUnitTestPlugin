@@ -1,6 +1,7 @@
 <template>
-  <div class="report">
-    Coverage: {{ JSON.stringify(props.report.CoveragePercent) }}%
+  <div class="report" v-if="props.report !== null">
+    <!-- {{ JSON.stringify(props.report, null, 2) }} -->
+    Coverage: {{ props.report.CoveragePercent }}%
   </div>
 </template>
 

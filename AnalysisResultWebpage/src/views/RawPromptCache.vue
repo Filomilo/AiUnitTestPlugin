@@ -1,14 +1,17 @@
 <template>
   <div class="raw-prompt-cache">
     <h1>Raw Prompt Cache</h1>
-    <p>This is an example Vue 3 view component.</p>
+    <PromptResponsesList :responses="prompts" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import PromptResponsesList from '@/Components/PromptResponsesList.vue';
+import { LLMCache } from '@/Data/PromptCache'
+import type { PromptResult } from '@/Types/AnalyisRunsTypes';
 import { ref } from 'vue'
 
-const message = ref('Hello from RawPromptCache!')
+const prompts: PromptResult[] = LLMCache as unknown as PromptResult[];
 </script>
 
 <style scoped>
