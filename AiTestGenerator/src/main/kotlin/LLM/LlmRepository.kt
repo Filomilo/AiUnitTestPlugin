@@ -42,16 +42,16 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "llama3.2-vision:90b",// Not enough memory
                 "llama3.1",
 ////                "llama3.1:405b",// Not enough memory
-                "phi4",
-                "phi4-mini",
-                "mistral",
-                "moondream",
-                "neural-chat",
-                "starling-lm",
-                "codellama",
-                "llama2-uncensored",
-                "llava",
-                "granite3.3"
+//                "phi4",
+//                "phi4-mini",
+//                "mistral",
+//                "moondream",
+//                "neural-chat",
+//                "starling-lm",
+//                "codellama",
+//                "llama2-uncensored",
+//                "llava",
+//                "granite3.3"
             )
 
 
