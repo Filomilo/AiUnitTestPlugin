@@ -2,6 +2,7 @@ package org.filomilo.AiTestGenerotorAnalisis
 
 import Exceptions.LlmProcessingException
 import LLM.Apis.Ollama.OllamaApiGenerator
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
@@ -14,6 +15,7 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrateg
 import Tools.PathResolver
 import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
 import org.filomilo.AiTestGenerator.LLM.Processors.OllamaProcessors
+import org.filomilo.AiTestGenerator.Tools.System
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.time.measureTime
@@ -44,7 +46,7 @@ object AnalysisRunner {
     ) {
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-        var AnalysisRun: AnalysisRunSuccess? = null
+        var AnalysisRun: AnalysisRun? = null
         try {
 
             val duration = measureTime {
@@ -53,18 +55,23 @@ object AnalysisRunner {
 
             AnalysisRun!!.duration = duration
             AnalysisRun.warnings = strategy.getWarnings()
+            if (System.isCodeMetricCalculatorAvaialabe()) {
+                AnalysisRun.CodeMetrics =
+                    MultiMetricCodeMetricCalculator().calculateCodeMetricsForFiles(project.getTestFiles())
+            }
             if (llmProcessor is CachedLLMProcessor) {
                 AnalysisRun.duration = AnalysisRun.duration?.plus(llmProcessor.emptyDurationBuffer())
             }
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
-            var AnalysisRunFailure: AnalysisRunFailure = AnalysisRunFailure(
+            var AnalysisRunFailure: AnalysisRun = AnalysisRun(
                 failureReason = ex,
                 llmModel = llmProcessor.getName(),
                 project = project.name,
                 strategy = strategy.getNameIdentifier(),
                 deviceSpecification = llmProcessor.getDeviceSpecification(),
                 warnings = strategy.getWarnings(),
+                report = null
             )
             if (AnalysisRun != null) {
                 AnalysisRunFailure.promptResults = AnalysisRun!!.promptResults
@@ -79,7 +86,7 @@ object AnalysisRunner {
 
 
         } finally {
-            strategy.clearWarnings()
+            strategy.clearBuffers()
             clonedProject.destroy()
         }
 

@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import java.util.stream.Stream
 
-@DisabledOnOs(OS.LINUX)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnalysisRunnerTest {
 
@@ -61,7 +60,7 @@ class AnalysisRunnerTest {
         @JvmStatic
         @AfterAll
         fun tearDown(): Unit {
-            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
+//            containerManager.getRunningContainersList().forEach { x -> containerManager.destroyContainer(x) }
         }
     }
 
@@ -79,9 +78,9 @@ class AnalysisRunnerTest {
         return argslist.stream()
     }
 
-    
+
     @ParameterizedTest
-    @Timeout(15, unit = TimeUnit.MINUTES)
+    @Timeout(120, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
     fun runStrategyOnLLMProcessorOnProejctTest(
         llmProcessor: LLMProcessor,

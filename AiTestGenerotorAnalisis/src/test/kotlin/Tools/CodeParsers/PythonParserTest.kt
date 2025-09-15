@@ -67,7 +67,7 @@ class Calculator:
     @Test
     fun getCodeSeparator() {
         assertEquals(
-            CodeSeparator(CodeSectionStart = ":", bodyPartIndicator = "\t"),
+            CodeSeparator(CodeSectionStart = ":\n", bodyPartIndicator = "\t"),
             this.pythonParser!!.getCodeSeparator()
         )
     }

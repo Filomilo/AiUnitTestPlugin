@@ -1,12 +1,10 @@
 package org.filomilo.AiTestGenerotorAnalisis.Projects.Runners
 
 import Tools.CodeParsers.CodeElements.CodeFile
-import Tools.CodeParsers.CodeParser
-import org.filomilo.AiTestGenerotorAnalisis.Tools.CommandExecutor
+import Tools.CommandExecutor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
 import Tools.PathResolver
 import java.nio.file.Path
-import kotlin.io.path.exists
 
 class MavenRunner() : ProjectRunner {
 

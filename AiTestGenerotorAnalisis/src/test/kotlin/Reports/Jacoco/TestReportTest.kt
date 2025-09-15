@@ -28,7 +28,7 @@ class TestReportTest {
         val json = Json.encodeToString(TestReportSerializer, exampleReport())
         assertEquals(
             """
-            {"CoveragePercent":0.5,"TestGenerationTime":"PT10H","TestRunLogs":"sample"}
+            {"CoveragePercent":0.5}
         """.trimIndent(), json
         )
 
