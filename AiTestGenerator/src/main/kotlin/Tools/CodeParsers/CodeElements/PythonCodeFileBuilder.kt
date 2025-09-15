@@ -50,8 +50,11 @@ class PythonClassBuilder(pythonCodeFileBuilder: PythonCodeFileBuilder) {
     var Function: MutableSet<Code> = mutableSetOf<Code>()
 
     fun finishClass(): PythonCodeFileBuilder {
+        val classCode: Code = Code(name)
         var codes: List<Code> = (variables.map { x -> Code(x) }.toSet() + Function).toList()
-        this.pythonCodeFileBuilder.classes += Code(name, codes)
+        codes.forEach { x -> x.parent = classCode }
+        classCode.children = codes
+        this.pythonCodeFileBuilder.classes += classCode
         return this.pythonCodeFileBuilder
     }
 

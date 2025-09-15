@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
+import Exceptions.LlmProcessingException
 import LLM.CodeRetrivalExcpetion
 import LLM.LlmParser
 import LLM.PromptInformationProvider
@@ -8,14 +9,17 @@ import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
+import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerator.Tools.StringTools
-import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunSuccess
+import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
+import java.util.Dictionary
 
 class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
@@ -25,7 +29,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
 
     val promptBase: String = prompt
-
+    var exceptions: MutableList<Exception> = mutableListOf()
 
     override fun getNameIdentifier(): String {
         return "Simple_Prompt_Strategy"
@@ -67,6 +71,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
                 val codeFile: CodeFile = codeParser.parseContent(listing)
                 codeFiles.add(codeFile)
             } catch (ex: ParsingException) {
+                exceptions.add(ex)
                 log.warn("coudnt parse this listing \n[[\n$listing\n]]\n with parser [[$codeParser]]")
             }
         }
@@ -74,19 +79,26 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         return codeFiles;
     }
 
-    fun generateTestsForMethod(method: Code, llmProcessor: LLMProcessor, project: Project): Collection<CodeFile> {
+    fun generateTestsForMethod(
+        method: Code, llmProcessor: LLMProcessor, project: Project,
+        promptResults: HashSet<LLMResponse>
+    ): Collection<CodeFile> {
+        val prompt: String = PromptFormatter.resolveArguments(
+            this.promptBase,
+            SingleMethodProvider(
+                method.getContent(project.codeParser.getCodeSeparator()),
 
-        var promptResult: String = llmProcessor.executePrompt(
-            PromptFormatter.resolveArguments(
-                this.promptBase,
-                SingleMethodProvider(
-                    method.getContent(project.codeParser.getCodeSeparator()),
+                project.testingFramework
 
-                    project.testingFramework
-
-                )
             )
         )
+        var llmreponse: LLMResponse = llmProcessor.executePrompt(
+            prompt
+        )
+        var response: LLMResponse = llmreponse
+        var promptResult: String = response.response
+
+        promptResults.add(response)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
@@ -98,17 +110,20 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     fun generateTestsForMethods(
         method: Collection<Code>,
         llmProcessor: LLMProcessor,
-        project: Project
+        project: Project,
+        responses: HashSet<LLMResponse>
     ): Collection<CodeFile> {
         var tests: MutableCollection<CodeFile> = mutableListOf()
         for (code in method) {
             try {
-                tests.addAll(generateTestsForMethod(code, llmProcessor, project))
+                tests.addAll(generateTestsForMethod(code, llmProcessor, project, responses))
             } catch (ex: CodeRetrivalExcpetion) {
+                exceptions.add(ex)
                 log.warn("Failed to genereatet test for method [[${code.getContent(project.codeParser.getCodeSeparator())}]] :: ${ex.message} :: ${ex.stackTrace} ")
             }
         }
         if (tests.isEmpty()) {
+
             throw TestGenerationException("no code generated for tests on project $project using $llmProcessor")
         }
         return tests
@@ -124,19 +139,35 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     }
 
-    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRunSuccess {
+    override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRun {
         project.clearTests()
         val methods = project.getAllMethodsWithParents()
-        val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project)
+        val promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
+        val tests: Collection<CodeFile> = this.generateTestsForMethods(methods, llmProcessor, project, promptResults)
         generateTestFiles(tests, project)
-        project.runTests()
+        val logs: String = project.runTests()
         val report: TestReport = project.getReport()
 
-        return AnalysisRunSuccess(
+        return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
             strategy = "prompt per method: $promptBase",
-            report = report
+            report = report,
+            deviceSpecification = llmProcessor.getDeviceSpecification(),
+            executionLogs = listOf(logs),
+            promptResults = promptResults,
+            generatedFiles = FilesManagment.getFolderContent(project.getTestsPath()),
+            failureReason = null
         )
     }
+
+    override fun getWarnings(): Collection<Exception> {
+        return exceptions
+    }
+
+    override fun clearBuffers() {
+        exceptions = mutableListOf()
+    }
+
+
 }

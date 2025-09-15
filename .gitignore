@@ -58,3 +58,4 @@ AiTestGenerator/test.txt
 /.kotlin/sessions
 AiTestGenerator/LLMcache.cache
 AiTestGenerotorAnalisis/LLMcache.cache
+/.kotlin

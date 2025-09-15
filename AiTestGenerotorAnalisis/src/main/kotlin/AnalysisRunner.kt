@@ -2,6 +2,7 @@ package org.filomilo.AiTestGenerotorAnalisis
 
 import Exceptions.LlmProcessingException
 import LLM.Apis.Ollama.OllamaApiGenerator
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
@@ -11,9 +12,13 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrategyRepository
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
+import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
+import org.filomilo.AiTestGenerator.LLM.Processors.OllamaProcessors
+import org.filomilo.AiTestGenerator.Tools.System
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.time.measureTime
 
 object AnalysisRunner {
     private val log: Logger = LoggerFactory.getLogger(AnalysisRunner::class.java)
@@ -41,23 +46,47 @@ object AnalysisRunner {
     ) {
         log.info("runStrategyOnLLMProcessorOnProejct:: [[${project.name}]]")
         val clonedProject: Project = project.clone(PathResolver.resolveTmpFolder(project.name))
-
+        var AnalysisRun: AnalysisRun? = null
         try {
-            var AnalysisRun: AnalysisRunSuccess = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
+
+            val duration = measureTime {
+                AnalysisRun = strategy.runTestGenerationStrategy(llmProcessor, clonedProject)
+            }
+
+            AnalysisRun!!.duration = duration
+            AnalysisRun.warnings = strategy.getWarnings()
+            if (System.isCodeMetricCalculatorAvaialabe()) {
+                AnalysisRun.CodeMetrics =
+                    MultiMetricCodeMetricCalculator().calculateCodeMetricsForFiles(project.getTestFiles())
+            }
+            if (llmProcessor is CachedLLMProcessor) {
+                AnalysisRun.duration = AnalysisRun.duration?.plus(llmProcessor.emptyDurationBuffer())
+            }
             this.analysisResults.addRun(AnalysisRun)
         } catch (ex: LlmProcessingException) {
-            this.analysisResults.addRunFailure(
-                AnalysisRunFailure(
-                    failureReason = ex,
-                    llmModel = llmProcessor.getName(),
-                    project = project.name,
-                    strategy = strategy.getNameIdentifier(),
+            var AnalysisRunFailure: AnalysisRun = AnalysisRun(
+                failureReason = ex,
+                llmModel = llmProcessor.getName(),
+                project = project.name,
+                strategy = strategy.getNameIdentifier(),
+                deviceSpecification = llmProcessor.getDeviceSpecification(),
+                warnings = strategy.getWarnings(),
+                report = null
+            )
+            if (AnalysisRun != null) {
+                AnalysisRunFailure.promptResults = AnalysisRun!!.promptResults
+                AnalysisRunFailure.executionLogs = AnalysisRun!!.executionLogs
+                AnalysisRunFailure.generatedFiles = AnalysisRun!!.generatedFiles
+            }
 
-                    )
+
+            this.analysisResults.addRunFailure(
+                AnalysisRunFailure
             )
 
 
         } finally {
+            strategy.clearBuffers()
             clonedProject.destroy()
         }
 
@@ -86,6 +115,7 @@ object AnalysisRunner {
         for (llmProcessor: LLMProcessor in this.llmRepository.ListOfLlmProcessors) {
             runAnalysisOnLLMProcessor(llmProcessor)
         }
+
         this.analysisResults.save()
     }
 }

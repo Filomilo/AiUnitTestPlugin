@@ -6,10 +6,10 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerati
 
 object TestGenerationStrategyRepository {
     val strategies: Collection<TestGenerationStrategy> = mutableListOf(
-        ManualTestsStrategy(),
+//        ManualTestsStrategy(),
         PromptPerMethodStrategy(
             """
-                Create ##framework## for function ##functions##
+                Create ##framework## tests for function ##functions##
             """.trimIndent()
         )
     )

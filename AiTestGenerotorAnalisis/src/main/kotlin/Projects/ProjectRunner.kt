@@ -5,7 +5,7 @@ import Tools.CodeParsers.CodeParser
 import java.nio.file.Path
 
 interface ProjectRunner {
-    fun runTests(projectPath: Path)
+    fun runTests(projectPath: Path): String
     fun getPathForTestFile(codeFile: CodeFile, projectPath: Path): Path
     fun getPathForTestFolder(projectPath: Path): Path
 }

@@ -1,39 +1,53 @@
 package org.filomilo.AiTestGenerotorAnalisis
 
 
+import DeviceSpecification
 import Exceptions.LlmProcessingException
-import com.fasterxml.jackson.databind.json.JsonMapper
+import Tools.CodeMetric.MultiMetricCodeMetricCalculator
+import Tools.CodeMetric.ProjectMetricsReportMutlimetric
 import kotlinx.serialization.Serializable
-import org.filomilo.AiTestGenerotorAnalisis.Tools.PathResolver
+import Tools.PathResolver
+import kotlinx.serialization.Contextual
 import java.time.Instant
-import java.time.LocalDateTime
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import  org.filomilo.AiTestGenerator.Tools.InstantSerializer
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.json.Json
+import org.filomilo.AiTestGenerator.LLM.LLMResponse
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
-)
-@JsonSubTypes(
-    JsonSubTypes.Type(value = AnalysisRunSuccess::class, name = "success"),
-    JsonSubTypes.Type(value = AnalysisRunFailure::class, name = "failure")
-)
+//@JsonTypeInfo(
+//    use = JsonTypeInfo.Id.NAME,
+//    include = JsonTypeInfo.As.PROPERTY,
+//    property = "type"
+//)
+//@JsonSubTypes(
+//    JsonSubTypes.Type(value = AnalysisRunSuccess::class, name = "success"),
+//    JsonSubTypes.Type(value = AnalysisRunFailure::class, name = "failure")
+//)
+
+
 @Serializable
-sealed class AnalysisRun {
-    abstract val llmModel: String
-    abstract val project: String
-    abstract val strategy: String
-    abstract val time: Instant
-
-
+@Polymorphic
+data class AnalysisRun(
+    val failureReason: LlmProcessingException?,
+    val llmModel: String,
+    val project: String,
+    val strategy: String,
+    @Serializable(with = InstantSerializer::class)
+    val time: Instant = Instant.now(),
+    val deviceSpecification: DeviceSpecification?,
+    var executionLogs: List<String>? = null,
+    var CodeMetrics: ProjectMetricsReportMutlimetric? = null,
+    var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+    var promptResults: HashSet<@Contextual LLMResponse>? = null,
+    var generatedFiles: List<PathObject>? = null,
+    var duration: kotlin.time.Duration? = null,
+    val report: TestReport?
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -59,25 +73,39 @@ sealed class AnalysisRun {
     }
 }
 
-@Serializable
-data class AnalysisRunFailure(
-    val failureReason: LlmProcessingException,
-    override val llmModel: String,
-    override val project: String,
-    override val strategy: String,
-    @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now()
-) : AnalysisRun()
-
-@Serializable
-data class AnalysisRunSuccess(
-    override val llmModel: String,
-    override val project: String,
-    override val strategy: String,
-    @Serializable(with = InstantSerializer::class)
-    override val time: Instant = Instant.now(),
-    val report: TestReport
-) : AnalysisRun()
+//@SerialName("failure")
+//@Serializable
+//data class AnalysisRunFailure(
+//    val failureReason: LlmProcessingException,
+//    override val llmModel: String,
+//    override val project: String,
+//    override val strategy: String,
+//    @Serializable(with = InstantSerializer::class)
+//    override val time: Instant = Instant.now(),
+//    override val deviceSpecification: DeviceSpecification?,
+//    override var executionLogs: List<String>? = null,
+//
+//    override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+//
+//    override var promptResults: HashSet<@Contextual LLMResponse>? = null,
+//    override var generatedFiles: List<PathObject>? = null,
+//) : AnalysisRun()
+//
+//@SerialName("success")
+//@Serializable
+//data class AnalysisRunSuccess(
+//    override val llmModel: String,
+//    override val project: String,
+//    override val strategy: String,
+//    @Serializable(with = InstantSerializer::class)
+//    override val time: Instant = Instant.now(),
+//    val report: TestReport, override val deviceSpecification: DeviceSpecification?,
+//    var duration: kotlin.time.Duration? = null,
+//    override val executionLogs: List<String>? = null,
+//    override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
+//    override val promptResults: HashSet<@Contextual LLMResponse>?,
+//    override val generatedFiles: List<PathObject>? = null
+//) : AnalysisRun()
 
 
 @Serializable
@@ -91,14 +119,14 @@ data class AnalysisResults(
         private val log: Logger = LoggerFactory.getLogger(AnalysisResults::class.java)
 
         val filePath = PathResolver.getResultFilePath()
-        val mapper: JsonMapper = JsonMapper()
+
         public fun load(): AnalysisResults {
             try {
                 if (!filePath.toFile().exists()) {
                     return AnalysisResults()
                 }
                 val fileContent: String = filePath.toFile().readText()
-                val analysisResults: AnalysisResults = mapper.readValue(fileContent, AnalysisResults::class.java)
+                val analysisResults: AnalysisResults = Json.decodeFromString<AnalysisResults>(fileContent)
                 return analysisResults
             } catch (ex: Exception) {
                 log.info("Error while reading analysisResults" + ex.message)
@@ -106,21 +134,21 @@ data class AnalysisResults(
             }
         }
 
-        init {
-            mapper.registerModule(JavaTimeModule());
-        }
 
     }
 
     fun save() {
 
-
-        val content = mapper.writeValueAsString(this)
+        val json = Json {
+            prettyPrint = true
+            prettyPrintIndent = "  "
+        }
+        val content = json.encodeToString(this)
         log.info("save:: content [[$content]] to path [[$filePath.toAbsolutePath()]] ")
         filePath.toFile().writeText(content)
     }
 
-    fun addRun(analysisRun: AnalysisRunSuccess) {
+    fun addRun(analysisRun: AnalysisRun) {
         log.info("addRun:: [[$analysisRun]] ")
         if (this.runs.contains(analysisRun)) {
             this.runs.remove(analysisRun)
@@ -131,7 +159,7 @@ data class AnalysisResults(
         }
     }
 
-    fun addRunFailure(analysisRun: AnalysisRunFailure) {
+    fun addRunFailure(analysisRun: AnalysisRun) {
         log.info("addRunFailure:: [[$analysisRun]] ")
         if (this.fails.contains(analysisRun)) {
             this.fails.remove(analysisRun)

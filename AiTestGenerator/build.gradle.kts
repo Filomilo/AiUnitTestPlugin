@@ -20,7 +20,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     runtimeOnly("com.squareup.okio:okio-jvm:3.15.0")
     implementation("org.antlr:antlr4-runtime:4.13.2")
-
+    implementation("com.github.oshi:oshi-core:6.8.3")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.9.0")
@@ -74,7 +74,7 @@ tasks {
         untilBuild.set("242.*")
     }
 
-    
+
 }
 
 kotlin {
