@@ -62,23 +62,23 @@ const filterProjects = (runs: (Run | Fail)[]): (Run | Fail)[] => {
     .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy)).sort((a, b) => a.strategy.localeCompare(b.strategy));
 }
 
-const selectedProjects: Ref<String[] | undefined> = ref();
+const selectedProjects: Ref<string[] | undefined> = ref();
 
-const projects: ComputedRef<String[]> = computed(() => {
-  const projs = new Set<String>();
+const projects: ComputedRef<string[]> = computed(() => {
+  const projs = new Set<string>();
   analysisRunsData.runs.forEach(r => projs.add(r.project));
   analysisRunsData.fails.forEach(r => projs.add(r.project));
   return Array.from(projs).sort((a, b) => a.localeCompare(b));
 })
 
 
-const selectedStrategy: Ref<String[] | undefined> = ref();
+const selectedStrategy: Ref<string[] | undefined> = ref();
 
-const strategies: ComputedRef<String[]> = computed(() => {
-  const strats = new Set<String>();
+const strategies: ComputedRef<string[]> = computed(() => {
+  const strats = new Set<string>();
   analysisRunsData.runs.forEach(r => strats.add(r.strategy));
   analysisRunsData.fails.forEach(r => strats.add(r.strategy));
-  return Array.from(strats).sort((a, b) => a.localeCompare(b));
+  return Array.from(strats).sort((a: string, b: string) => a.localeCompare(b));
 })
 
 

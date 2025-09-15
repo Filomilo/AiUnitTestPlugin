@@ -55,7 +55,7 @@ const selectedContent: ComputedRef<String | undefined> = computed(() => {
       return undefined;
     }
   }
-  return current.content;
+  return current!.content;
 })
 
 </script>

@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { formatDuration, isoToDate } from "@/Tools/StringTools";
-import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, WarningType, FailureReason } from "@/Types/AnalyisRunsTypes";
+import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, Warning as WarningType, FailureReason } from "@/Types/AnalyisRunsTypes";
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Report from '@/Components/Report.vue';

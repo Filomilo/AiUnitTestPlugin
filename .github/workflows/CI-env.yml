@@ -12,6 +12,11 @@ on:
         required: false
         type: boolean
         default: false
+      publish-webpage:
+        required: false
+        type: boolean
+        default: false
+        
 
 jobs:
   prepare-env:
@@ -207,3 +212,9 @@ jobs:
           message: 'Gh action analyses results'
 
           tag_push: '--force'
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/pages'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./AnalysisResultWebpage/dist
