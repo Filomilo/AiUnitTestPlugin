@@ -3,6 +3,7 @@ apt-get update
 apt-get install -y curl
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 apt-get install -y nodejs
+apt-get install npm -y
 echo "instlal yarn"
 npm install -g yarn
 yarn --cwd "$SCRIPT_DIR"/../AnalysisResultWebpage/ install
