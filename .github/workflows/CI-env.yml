@@ -25,6 +25,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      pages: write
     container:
       image: ubuntu:latest
       options: --user root
