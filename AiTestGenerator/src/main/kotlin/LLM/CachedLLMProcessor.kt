@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.serialization.json.Json
 
 import org.filomilo.AiTestGenerator.Tools.StringTools
+import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -23,7 +24,7 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
 
     companion object {
         private val cacheFile: Path = PathResolver.getMainProjectDirectory().resolve("LLMcache.cache")
-
+        val log = LoggerFactory.getLogger(CachedLLMProcessor.javaClass)
         private lateinit var cachedData: HashSet<LLMResponse>
 
         init {
@@ -59,8 +60,9 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
             modelName: String,
             device: DeviceSpecification?
         ): LLMResponse? {
+            log.info("attmpet to retrive pacage: \n prompt: $prompt \n model name: $modelName, \n device: $device")
             var retrived: LLMResponse? = this.cachedData.find { x -> x.compareConfig(prompt, modelName, device) }
-
+            log.info(" retrive pacage foe : \n prompt: $prompt \n model name: $modelName, \n device: $device \n\n:: $retrived")
             return retrived
         }
 
