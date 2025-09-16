@@ -1,24 +1,23 @@
 name: analyses
 on:
-  push
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
 
 
 
-  # perfrom_analyses:
-  #   permissions:
-  #     contents: write
-  #   uses: ./.github/workflows/CI-env.yml
-  #   with:
-  #     folder: AiTestGenerotorAnalisis
-  #     script: RunAnalysis.sh
-  #     commit-result: true
+  perfrom_analyses:
+    permissions:
+      contents: write
+    uses: ./.github/workflows/CI-env.yml
+    with:
+      folder: AiTestGenerotorAnalisis
+      script: RunAnalysis.sh
+      commit-result: true
   Deploy_webpage:
-    # needs: perfrom_analyses
+    needs: perfrom_analyses
     permissions:
       contents: write
       id-token: write
