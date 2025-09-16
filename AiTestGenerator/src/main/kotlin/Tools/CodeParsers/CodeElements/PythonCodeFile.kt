@@ -18,7 +18,7 @@ class PythonCodeFile(
 
         stringBuilder.append(this.dependecies.joinToString("\n") + "\n")
         stringBuilder.append(
-            this.codes.stream().map { x -> x.getContent(CodeSeparator(":", bodyPartIndicator = "\t")) }.toList()
+            this.codes.stream().map { x -> x.getContent(CodeSeparator(":\n", bodyPartIndicator = "\t")) }.toList()
                 .joinToString("\n") + "\n"
         )
         return stringBuilder.toString()

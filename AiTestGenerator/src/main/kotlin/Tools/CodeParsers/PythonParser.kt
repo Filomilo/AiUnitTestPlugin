@@ -74,6 +74,9 @@ class PythonParser : CodeParser {
 
 
             override fun enterFuncdef(ctx: Python3Parser.FuncdefContext) {
+                val defintionStartInxes = ctx.start.startIndex
+                val definitionStopIndex = ctx.stop.stopIndex
+                val defintion = content.substring(defintionStartInxes, definitionStopIndex + 1)
                 val name = ctx.name().text
                 val params = ctx.parameters().text
                 val returnType = if (ctx.test() != null) " -> ${ctx.test().text}" else ""
@@ -82,17 +85,25 @@ class PythonParser : CodeParser {
                 val bodyStop: Token = ctx.block().stop
                 val startIdx = bodyStart.startIndex
                 val stopIdx = bodyStop.stopIndex
-                val body = content.substring(startIdx, stopIdx + 1)
-
+                val indent: Int = ctx.block().INDENT().text.length
+                val body = content.substring(startIdx + 1, stopIdx + 1)
+                val lines: List<String> = body.split('\n')
+                val linesindentd: MutableList<String> = mutableListOf(lines[0])
+                linesindentd.addAll(
+                    lines.stream().filter { x -> x.isNotBlank() }.skip(1).map<String> { line: String ->
+                        line.substring(indent)
+                    }.toList()
+                )
+                val bodyParsed = linesindentd.joinToString("\n")
 //                val body: String = tokens.getText(bodyStart, bodyStop)
 
                 log.info("enter func def: $defHeader")
                 log.info("body: $body")
 
-                var bodyTrimmed = body
-                if (bodyTrimmed.startsWith(":")) {
-                    bodyTrimmed = bodyTrimmed.substring(1).trim()
-                }
+//                var bodyTrimmed = body
+//                if (bodyTrimmed.startsWith(":")) {
+//                    bodyTrimmed = bodyTrimmed.substring(1).trim()
+//                }
                 log.info(ctx.ruleContext.toString())
 
                 val functionBuilder: PythonFunctionBuilder =
@@ -108,7 +119,7 @@ class PythonParser : CodeParser {
 
                 functionBuilder
                     .setDeclaration(defHeader)
-                    .setBody(bodyTrimmed)
+                    .setBody(bodyParsed)
                     .finish()
             }
 

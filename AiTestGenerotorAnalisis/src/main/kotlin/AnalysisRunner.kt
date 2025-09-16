@@ -68,6 +68,7 @@ object AnalysisRunner {
                 failureReason = ex,
                 llmModel = llmProcessor.getName(),
                 project = project.name,
+                strategyDescription = strategy.getDescription(),
                 strategy = strategy.getNameIdentifier(),
                 deviceSpecification = llmProcessor.getDeviceSpecification(),
                 warnings = strategy.getWarnings(),

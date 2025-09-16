@@ -151,7 +151,8 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
-            strategy = "prompt per method: $promptBase",
+            strategy = getNameIdentifier(),
+            strategyDescription = getDescription(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             executionLogs = listOf(logs),
