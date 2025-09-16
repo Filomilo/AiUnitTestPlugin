@@ -60,9 +60,9 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
             modelName: String,
             device: DeviceSpecification?
         ): LLMResponse? {
-            log.info("attmpet to retrive pacage: \n prompt: $prompt \n model name: $modelName, \n device: $device")
+            log.info("attmpet to retrive prompt: \n prompt: $prompt \n model name: $modelName, \n device: $device")
             var retrived: LLMResponse? = this.cachedData.find { x -> x.compareConfig(prompt, modelName, device) }
-            log.info(" retrive pacage foe : \n prompt: $prompt \n model name: $modelName, \n device: $device \n\n:: $retrived")
+            log.info(" retrive prompt foe : \n prompt: $prompt \n model name: $modelName, \n device: $device \n\n:: $retrived")
             return retrived
         }
 

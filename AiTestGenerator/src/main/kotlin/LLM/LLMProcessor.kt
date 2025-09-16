@@ -77,7 +77,7 @@ data class LLMResponse(
     val deviceSpecification: DeviceSpecification?
 ) {
     fun compareConfig(prompt: String, modelName: String, device: DeviceSpecification?): Boolean {
-        return prompt == this.prompt && modelName == this.modelName && this.deviceSpecification == device
+        return prompt == this.prompt && modelName == this.modelName && this.deviceSpecification!!.equals(device)
     }
 
     override fun equals(other: Any?): Boolean {
