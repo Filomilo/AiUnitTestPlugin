@@ -214,7 +214,7 @@ jobs:
           tag_push: '--force'
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        if: github.ref == 'refs/heads/pages'
+        if: ${{ inputs.publish-webpage == true }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./AnalysisResultWebpage/dist

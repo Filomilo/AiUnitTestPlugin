@@ -25,4 +25,4 @@ jobs:
     with:
       folder: AiTestGenerotorAnalisis
       script: BuildWebpage.sh
-      commit-result: true
+      publish-webpage: true
