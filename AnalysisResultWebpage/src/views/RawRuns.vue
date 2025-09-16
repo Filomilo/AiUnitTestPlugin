@@ -3,9 +3,11 @@
     <h1>Raw Runs</h1>
     <div class="filters">
       <MultiSelect v-model="selectedProjects" :options="projects" filter placeholder="Select Projects"
-        :maxSelectedLabels="3" class="w-full md:w-80" />
+        class="w-full md:w-80" />
       <MultiSelect v-model="selectedStrategy" :options="strategies" filter placeholder="Select strategies"
-        :maxSelectedLabels="3" class="w-full md:w-80" />
+        class="w-full md:w-80" />
+      <MultiSelect v-model="selectedModels" :options="models" filter placeholder="Select models"
+        class="w-full md:w-80" />
     </div>
 
 
@@ -59,7 +61,8 @@ const Fails = computed(() => filterProjects(analysisRunsData.fails));
 const filterProjects = (runs: (Run | Fail)[]): (Run | Fail)[] => {
   return runs
     .filter(r => selectedProjects.value === undefined || selectedProjects.value.length === 0 || selectedProjects.value.includes(r.project)).sort((a, b) => a.project.localeCompare(b.project))
-    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy)).sort((a, b) => a.strategy.localeCompare(b.strategy));
+    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy)).sort((a, b) => a.strategy.localeCompare(b.strategy))
+    .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel));
 }
 
 const selectedProjects: Ref<string[] | undefined> = ref();
@@ -81,7 +84,14 @@ const strategies: ComputedRef<string[]> = computed(() => {
   return Array.from(strats).sort((a: string, b: string) => a.localeCompare(b));
 })
 
+const selectedModels: Ref<string[] | undefined> = ref();
 
+const models: ComputedRef<string[]> = computed(() => {
+  const mdls = new Set<string>();
+  analysisRunsData.runs.forEach(r => mdls.add(r.llmModel));
+  analysisRunsData.fails.forEach(r => mdls.add(r.llmModel));
+  return Array.from(mdls).sort((a: string, b: string) => a.localeCompare(b));
+})
 
 </script>
 
