@@ -2,7 +2,7 @@ name: analyses
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
 
