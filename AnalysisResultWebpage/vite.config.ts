@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: "/AiUnitTestPlugin/",
   plugins: [vue(), vueDevTools()],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.cache'],
