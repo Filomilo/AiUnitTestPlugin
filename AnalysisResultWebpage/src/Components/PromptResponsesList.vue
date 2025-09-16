@@ -8,12 +8,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from 'vue'
 import PrompResult from './PrompResult.vue'
+import type { PromptResult } from '@/Types/AnalyisRunsTypes';
 const props = defineProps({
   responses: {
-    type: Array,
+    type: Array as () => PromptResult[],
     required: true,
     default: () => []
   }

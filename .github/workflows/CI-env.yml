@@ -12,12 +12,20 @@ on:
         required: false
         type: boolean
         default: false
+      publish-webpage:
+        required: false
+        type: boolean
+        default: false
+
+        
 
 jobs:
   prepare-env:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
+      pages: write
     container:
       image: ubuntu:latest
       options: --user root
@@ -39,7 +47,9 @@ jobs:
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
           apt-get install -y openjdk-17-jdk
-
+      - name: Setup Pages
+        if: ${{ inputs.publish-webpage == true }}
+        uses: actions/configure-pages@v5
       - name: install docker
         run: |
           apt-get update
@@ -207,3 +217,18 @@ jobs:
           message: 'Gh action analyses results'
 
           tag_push: '--force'
+      # - name: Deploy
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   if: ${{ inputs.publish-webpage == true }}
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./AnalysisResultWebpage/dist
+      - name: Upload artifact
+        if: ${{ inputs.publish-webpage == true }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './AnalysisResultWebpage/dist'
+      - name: Deploy to GitHub Pages
+        if: ${{ inputs.publish-webpage == true }}
+        id: deployment
+        uses: actions/deploy-pages@v4
