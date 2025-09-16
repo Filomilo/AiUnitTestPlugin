@@ -70,10 +70,10 @@ class AnalysisRunnerTest {
     fun provideProjetLlmStratefyCombinations(): Stream<Arguments> {
         var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
         for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors) {
-            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
+//            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
             for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
                 for (project: Project in ProjectsRepository.projects) {
-                    argslist.add(Arguments.of(cachedLLMProcessor, strategy, project))
+                    argslist.add(Arguments.of(llm, strategy, project))
                 }
             }
         }

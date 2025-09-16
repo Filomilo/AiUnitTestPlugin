@@ -252,27 +252,6 @@
     }
   },
   {
-    "prompt": "Create Pytest tests for function class Calculator:\ndef subtract(self,a,b):\n return a-b\n    ",
-    "response": " Here is an example of how you could write pytest tests for the `Calculator` class:\\n```\\nimport pytest\\nfrom calculator import Calculator\\n\\ndef test_subtract():\\n    calc = Calculator()\\n    assert calc.subtract(5, 2) == 3\\n    assert calc.subtract(0, -1) == 1\\n    assert calc.subtract(-2, 3) == -1\\n    assert calc.subtract(0, 0) == 0\\n\\ndef test_negative_numbers():\\n    calc = Calculator()\\n    assert calc.subtract(5, -2) == 7\\n    assert calc.subtract(-5, 3) == -2\\n    assert calc.subtract(-1, -1) == -2\\n    assert calc.subtract(-2, -1) == -3\\n```\\nThis would test the `subtract` method of the `Calculator` class by calling it with different arguments and checking that the returned value is correct. ",
-    "modelName": "Ollama-llava",
-    "generationTime": "7m 29.091988200s",
-    "deviceSpecification": {
-      "ramBytes": 17112657920,
-      "system": "Windows 11",
-      "processor": {
-        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
-        "physicalCores": 6,
-        "logicalCores": 6
-      },
-      "gpu": [
-        {
-          "name": "NVIDIA GeForce GTX 1060 3GB",
-          "VRamBytes": 3221225472
-        }
-      ]
-    }
-  },
-  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static double divide(doublea,doubleb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    }}",
     "response": " To create JUnit 5 tests for the `Calculator` class, you'll need to include the required dependencies and write test cases for various scenarios. Here's an example of how you can structure your tests:\\n\\n1. First, make sure you have added the following dependencies in your build.gradle file (if using Gradle):\\n\\n```groovy\\ndependencies {\\n    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'\\n    testImplementation 'org.junit.platform:junit-platform-console-runner:1.8.2'\\n}\\n```\\n\\n2. Create a new package named `test` in your project and inside it create a new Java class called `CalculatorTest`.\\n\\n3. Here is the content of the `CalculatorTest.java` file with the test cases:\\n\\n```java\\npackage com.example; // Replace this package name with your actual package\\nimport static org.junit.jupiter.api.Assertions.*;\\nimport org.junit.jupiter.api.*;\\n\\npublic class CalculatorTest {\\n    @Test\\n    public void testDivide() {\\n        double a = 10;\\n        double b = 2;\\n        assertEquals(5, Calculator.divide(a, b), \\\"Division should be correct\\\");\\n    }\\n\\n    @Test\\n    public void testDivideByZero() {\\n        assertThrows(ArithmeticException.class, () -> Calculator.divide(10, 0));\\n    }\\n}\\n```\\n\\n4. Run the tests using the following command in your terminal (assuming you have run `gradlew build` or `./gradlew build` before):\\n\\n```sh\\n./gradlew test\\n```\\n\\nThis will execute the JUnit 5 tests for the Calculator class and report any failures.",
     "modelName": "Ollama-mistral",
@@ -861,6 +840,48 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float add(floata,floatb){\n        return a + b;\n    \n}\n}\n",
+    "response": " Sure, here's an example of how you could write JUnit 5 tests for the `add` method in the `Calculator` class:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTest {\\n\\n    @Test\\n    void testAddition() {\\n        float a = 2;\\n        float b = 3;\\n        float expectedResult = 5;\\n        float actualResult = Calculator.add(a, b);\\n        assertEquals(expectedResult, actualResult);\\n    }\\n\\n    @Test\\n    void testNegativeNumbers() {\\n        float a = -2;\\n        float b = -3;\\n        float expectedResult = -5;\\n        float actualResult = Calculator.add(a, b);\\n        assertEquals(expectedResult, actualResult);\\n    }\\n\\n    @Test\\n    void testAdditionWithZero() {\\n        float a = 1;\\n        float b = 0;\\n        float expectedResult = 1;\\n        float actualResult = Calculator.add(a, b);\\n        assertEquals(expectedResult, actualResult);\\n    }\\n\\n    @Test\\n    void testAdditionWithLargeNumbers() {\\n        float a = 1000000;\\n        float b = 999999;\\n        long expectedResult = 1000000000L;\\n        long actualResult = Calculator.add(a, b);\\n        assertEquals(expectedResult, actualResult);\\n    }\\n}\\n```\\nIn this example, we have four test cases that cover different scenarios: adding two positive numbers, adding two negative numbers, adding one number to zero, and adding two very large numbers. We use the `assertEquals` method from JUnit 5 to check that the result of the `add` method matches our expected result for each scenario. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "6m 1.969103100s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Pytest tests for function class Calculator:\n\tdef add(self,a,b):\n\t\treturn a+b\n\n\n",
+    "response": " Sure! Here are some examples of Pytest tests you could write for the `Calculator` class:\\n```python\\nimport pytest\\nfrom calculator import Calculator\\n\\nclass TestCalculator:\\n    def test_add(self):\\n        calc = Calculator()\\n        result = calc.add(2, 3)\\n        assert result == 5\\n    \\n    def test_add_zero(self):\\n        calc = Calculator()\\n        result = calc.add(4, 0)\\n        assert result == 4\\n    \\n    def test_add_negative_numbers(self):\\n        calc = Calculator()\\n        result = calc.add(-1, -2)\\n        assert result == -3\\n    \\n    def test_add_large_numbers(self):\\n        calc = Calculator()\\n        result = calc.add(1000000000000000000, 999999999999999999)\\n        assert result == 1999999999999999999\\n    \\n    def test_add_floats(self):\\n        calc = Calculator()\\n        result = calc.add(2.5, 3.7)\\n        assert result == 6.2\\n```\\nThese tests check that the `Calculator` class's `add` method behaves correctly for a variety of inputs. The first test checks that the method correctly adds two positive integers. The second test checks that the method correctly handles adding zero to another number. The third test checks that the method correctly handles adding negative numbers. The fourth test checks that the method can handle very large numbers. Finally, the fifth test checks that the method can add floating-point numbers. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "23m 13.070464700s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Pytest tests for function class Calculator:\ndef multiply(a,b):\n return a*b\n    ",
     "response": "Sure, here's an example pytest test case for the `multiply()` function:\\n\\n```python\\nimport unittest\\nfrom calculate import multiply\\nclass TestCalculate(unittest.TestCase):\\n def test_multiply(self):\\n self.assertEqual(12, multiply(4, 3))\\n # More tests here\\n```\\n\\nThis code creates a new `pytest` test class named `TestCalculate`, imports the `calculate` module with its `multiply()` function and then defines a new test case for this function. The test asserts that when `multiply(4, 3)` is called, it should return `12`. You can add more tests here to ensure all possible combinations of input parameters work correctly.",
     "modelName": "Ollama-llama2-uncensored",
@@ -1096,27 +1117,6 @@
     "response": "Sure, here's an example of how you can write JUnit5 tests for the above function:\\n\\n## Test 1: Check if the function returns the correct value when input is 3 and 2.\\n```java\\nimport org.junit.jupiter.api.Test;\\npublic class CalculatorTest {\\n @Test\\n public void testAdd() {\\n int a = 3, b = 2;\\n int result = Calculator.add(a, b);\\n assertEquals(5, result);\\n }\\n}\\n```\\nThis test checks if the function returns 5 when passed with input of 3 and 2. The `assertEquals()` method is used to compare the expected result (5) with the actual result (returned by the function). This ensures that the function works as intended.\\n\\n## Test 2: Check if the function returns an error message if input is negative.\\n```java\\nimport org.junit.jupiter.api.Test;\\npublic class CalculatorTest {\\n @Test\\n public void testAdd() {\\n int a = -1, b = 2;\\n try{\\n int result = Calculator.add(a, b);\\n } catch (Exception e) {\\n assertTrue(e instanceof ArithmeticException);\\n }\\n assertEquals(0, result);\\n }\\n}\\n```\\nThis test checks if the function returns an error message `java.lang.ArithmeticException: Invalid operation for integer` when passed with input of -1 and 2 (since `-1 + 2 is not a valid integer value). The `try-catch` block ensures that the exception is caught, and the `assertTrue()` method checks if it's an `ArithmeticException`.\\n\\n## Test 3: Check if the function returns an error message if input is less than zero.\\n```java\\nimport org.junit.jupiter.api.Test;\\npublic class CalculatorTest {\\n @Test\\n public void testAdd() {\\n int a = -1, b = -2;\\n try{\\n int result = Calculator.add(a, b);\\n } catch (Exception e) {\\n assertTrue(e instanceof ArithmeticException);\\n }\\n assertEquals(0, result);\\n }\\n}\\n```\\nThis test checks if the function returns an error message `java.lang.ArithmeticException: Invalid operation for integer` when passed with input of -1 and -2 (since `-1 + (-2) is not a valid integer value). The `try-catch` block ensures that the exception is caught, and the `assertTrue()` method checks if it's an `ArithmeticException`.\\n\\n## Test 4: Check if the function returns an error message if input is greater than the maximum int value.\\n```java\\nimport org.junit.jupiter.api.Test;\\npublic class CalculatorTest {\\n @Test\\n public void testAdd() {\\n int a = Integer.MAX_VALUE, b = 1;\\n try{\\n int result = Calculator.add(a, b);\\n } catch (Exception e) {\\n assertTrue(e instanceof ArithmeticException);\\n }\\n assertEquals(0, result);\\n }\\n}\\n```\\nThis test checks if the function returns an error message `java.lang.ArithmeticException: Overflow` when passed with input of `Integer.MAX_VALUE` and 1 (since `Integer.MAX_VALUE + 1 is not a valid integer value`). The `try-catch` block ensures that the exception is caught, and the `assertTrue()` method checks if it's an `ArithmeticException`.\\n\\n## Test 5: Check if the function returns a correct result when input is zero.\\n```java\\nimport org.junit.jupiter.api.Test;\\npublic class CalculatorTest {\\n @Test\\n public void testAdd() {\\n int a = 0, b = 2;\\n int result = Calculator.add(a, b);\\n assertEquals(2, result);\\n }\\n}\\n```\\nThis test checks if the function returns `2` when passed with input of `0` and `2`. The `assertEquals()` method is used to compare the expected result (2) with the actual result (returned by the function). This ensures that the function works as intended.",
     "modelName": "Ollama-llama2-uncensored",
     "generationTime": "9m 34.284275300s",
-    "deviceSpecification": {
-      "ramBytes": 17112657920,
-      "system": "Windows 11",
-      "processor": {
-        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
-        "physicalCores": 6,
-        "logicalCores": 6
-      },
-      "gpu": [
-        {
-          "name": "NVIDIA GeForce GTX 1060 3GB",
-          "VRamBytes": 3221225472
-        }
-      ]
-    }
-  },
-  {
-    "prompt": "Create Pytest tests for function class Calculator:\ndef add(self,a,b):\n return a+b\n    ",
-    "response": " Here is an example of how you could write pytest tests for the `Calculator` class and its `add` method:\\n```\\nclass TestCalculator:\\n    def test_add_two_positive_numbers(self, calculator):\\n        result = calculator.add(2, 3)\\n        assert result == 5\\n\\n    def test_add_two_negative_numbers(self, calculator):\\n        result = calculator.add(-2, -3)\\n        assert result == -5\\n\\n    def test_add_a_positive_and_a_negative_number(self, calculator):\\n        result = calculator.add(1, -2)\\n        assert result == 1\\n\\n    def test_add_two_zeroes(self, calculator):\\n        result = calculator.add(0, 0)\\n        assert result == 0\\n```\\nThis tests the `add` method with different inputs and checks that the result is correct.\\n\\nYou can also test other methods of the class like subtract , multiply , divide and so on. ",
-    "modelName": "Ollama-llava",
-    "generationTime": "10m 32.735446100s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -1390,27 +1390,6 @@
     "response": "Sure! Here are some JUnit5 tests for the `divide` function in the `Calculator` class:\\n\\n```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTests {\\n @Test\\n public void divideByZeroShouldThrowException() {\\n float a = 10, b = 0;\\n float result = Calculator.divide(a, b);\\n assertThrows(ArithmeticException.class, () -> result);\\n }\\n}\\n```\\n\\nThis test will fail because the `divide` method throws an `ArithmeticException` when `b == 0`. The `assertThrows` method is used to check if a certain exception was thrown during a specific operation. In this case, it checks if an instance of `ArithmeticException` was thrown by the `divide` method with arguments `10`, `0`.\\n\\n```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTests {\\n @Test\\n public void divideShouldWorkForNonZeroArguments() {\\n float a = 10, b = 5;\\n float result = Calculator.divide(a, b);\\n assertEquals(2, result, \\\"Result should be 2\\\");\\n }\\n}\\n```\\n\\nThis test will pass because the `divide` method works correctly for non-zero arguments. The `assertEquals` method is used to check if two values are equal. In this case, it checks if the value returned by the `divide` method (`2`) is equal to the expected value (`2`).\\n\\nI hope these tests help you understand how JUnit5 works and how to write effective unit tests for your code!",
     "modelName": "Ollama-llama2-uncensored",
     "generationTime": "3m 34.101521400s",
-    "deviceSpecification": {
-      "ramBytes": 17112657920,
-      "system": "Windows 11",
-      "processor": {
-        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
-        "physicalCores": 6,
-        "logicalCores": 6
-      },
-      "gpu": [
-        {
-          "name": "NVIDIA GeForce GTX 1060 3GB",
-          "VRamBytes": 3221225472
-        }
-      ]
-    }
-  },
-  {
-    "prompt": "Create Pytest tests for function class Calculator:\ndef divide(self,a,b):\n if(b==0):\n            raise \"Cannot divide by zero\"\n        return a/b",
-    "response": " Here are some example Pytest tests that you can use to test the `divide` method of your `Calculator` class:\\n```\\nimport pytest\\nfrom calculator import Calculator\\n\\ndef test_divide_by_non_zero_numbers():\\n    calc = Calculator()\\n    assert calc.divide(5, 2) == 2.5\\n    assert calc.divide(-3, 9) == -0.33333333333333333333\\n\\ndef test_divide_by_zero():\\n    with pytest.raises(RuntimeError):\\n        calc = Calculator()\\n        calc.divide(1, 0)\\n``` ",
-    "modelName": "Ollama-llava",
-    "generationTime": "6m 41.595242200s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -1978,6 +1957,27 @@
     "response": " ```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTest {\\n\\n    @Test\\n    void testAddition() {\\n        // Arrange\\n        float a = 10.5f;\\n        float b = 2.0f;\\n\\n        // Act\\n        float result = Calculator.add(a, b);\\n\\n        // Assert\\n        assertEquals(12.5f, result);\\n    }\\n\\n    @Test\\n    void testAdditionWithZero() {\\n        // Arrange\\n        float a = 0.0f;\\n        float b = 2.0f;\\n\\n        // Act\\n        float result = Calculator.add(a, b);\\n\\n        // Assert\\n        assertEquals(2.0f, result);\\n    }\\n}\\n``` ",
     "modelName": "Ollama-llava",
     "generationTime": "1m 27.777167900s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Pytest tests for function class Calculator:\n\tdef add(self,a,b):\n\treturn a+b\n\n\n",
+    "response": "Sure! Below are some pytest test cases to validate the behavior of your `Calculator`'s `add` method:\n\n```python\nimport unittest\n\nclass TestCalculator(unittest.TestCase):\n\n    def setUp(self):\n        self.calc = Calculator()\n\n    def test_add_positive_numbers(self):\n        result = self.calc.add(2, 3)\n        self.assertEqual(result, 5)\n\n    def test_add_negative_and_positive_number(self):\n        result = self.calc.add(-1, 4)\n        self.assertEqual(result, 3)\n\n    def test_add_two_negative_numbers(self):\n        result = self.calc.add(-1, -7)\n        self.assertEqual(result, -8)\n\n    def test_add_zero_to_a_nonzero_number(self):\n        result = self.calc.add(5, 0)\n        self.assertEqual(result, 5)\n\n    def test_add_zero(self):\n        result = self.calc.add(0, 0)\n        self.assertEqual(result, 0)\n\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\nNote that this code uses the built-in `unittest` framework for writing tests. Pytest is typically more streamlined and commonly used separately from other testing frameworks like `unittest`. Here’s how you might write equivalent tests using pytest:\n\n```python\nimport pytest\n\ndef test_add_positive_numbers():\n    calc = Calculator()\n    assert calc.add(2, 3) == 5\n\ndef test_add_negative_and_positive_number():\n    calc = Calculator()\n    assert calc.add(-1, 4) == 3\n\ndef test_add_two_negative_numbers():\n    calc = Calculator()\n    assert calc.add(-1, -7) == -8\n\ndef test_add_zero_to_a_nonzero_number():\n    calc = Calculator()\n    assert calc.add(5, 0) == 5\n\ndef test_add_zero():\n    calc = Calculator()\n    assert calc.add(0, 0) == 0\n```\n\nYou can run the pytest tests using `pytest` command in your terminal. Make sure you have both unittest and pytest installed to manage different formats of testing.\n\nBefore running these tests with either framework:\n\n1. Save them into separate files named respectively: e.g., `test_calculator_unittest.py`, or use Python's built-in module if you're sticking only with PyTest.\n2. Run the test file using appropriate commands for each respective tester (`python -m unittest` and/or directly running pytest).",
+    "modelName": "Ollama-phi4-mini",
+    "generationTime": "5m 56.091541500s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -3087,6 +3087,27 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float multiply(floata,floatb){\n        return a * b;\n    \n}\n}\n",
+    "response": " Sure! Here's an example of how you can write JUnit 5 tests for the `multiply` method in the `Calculator` class:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\npublic class CalculatorTest {\\n    \\n    @Test\\n    public void testMultiply() {\\n        float a = 2;\\n        float b = 3;\\n        float expectedResult = 6.0f;\\n        \\n        float result = Calculator.multiply(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n    \\n    @Test\\n    public void testMultiplyingZero() {\\n        float a = 2;\\n        float b = 0;\\n        float expectedResult = 0.0f;\\n        \\n        float result = Calculator.multiply(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n    \\n    @Test\\n    public void testMultiplyingNegativeNumbers() {\\n        float a = -2;\\n        float b = -3;\\n        float expectedResult = 6.0f; // the product of negative numbers is positive\\n        \\n        float result = Calculator.multiply(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n    \\n    @Test\\n    public void testMultiplyingNaN() {\\n        float a = Float.NaN;\\n        float b = 3;\\n        float expectedResult = Float.NaN;\\n        \\n        float result = Calculator.multiply(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n}\\n```\\nIn this example, we have four test cases: `testMultiply`, `testMultiplyingZero`, `testMultiplyingNegativeNumbers`, and `testMultiplyingNaN`. Each test case tests a different scenario for the `multiply` method.\\n\\nThe `testMultiply` test case tests the behavior of the `multiply` method when both input numbers are positive. It checks that the product of 2 and 3 is 6.0f.\\n\\nThe `testMultiplyingZero` test case tests what happens when one or both of the input numbers is zero. In this case, we expect the result to be zero as well.\\n\\nThe `testMultiplyingNegativeNumbers` test case tests what happens when both input numbers are negative. In this case, we expect the result to be positive (since the product of two negative numbers is positive).\\n\\nThe `testMultiplyingNaN` test case tests what happens when one or both of the input numbers is NaN (Not-a-Number). In this case, we expect the result to be NaN as well. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "9m 21.361492s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static float add(floata,floatb){\n        return a + b;\n    }}",
     "response": " To create the JUnit 5 test cases for the Calculator class's add() method, we will first write a test class. Then, we can write individual test methods to validate different scenarios of the add() function, including handling valid and invalid input values. Here's the basic skeleton code:\\n\\n```java\\npackage com.example;\\n\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nimport org.junit.jupiter.api.Test;\\n\\npublic class CalculatorTests {\\n    private Calculator calculator = new Calculator();\\n\\n    @Test\\n    public void testValidAddition() {\\n        // Write the test logic here to check the addition of two valid floats.\\n    }\\n\\n    @Test\\n    public void testZeroAddedToNumber() {\\n        // Write the test logic here to check the result when zero is added to a non-zero number.\\n    }\\n\\n    @Test\\n    public void testNegativeAndPositiveNumbersAddition() {\\n        // Write the test logic here to check the addition of a negative and positive numbers.\\n    }\\n\\n    @Test\\n    public void testInvalidInputTypes() {\\n        // Write the test logic here to handle invalid input types like strings, ints, etc. in add().\\n    }\\n}\\n```\\n\\nTo make it more comprehensive, you can extend this with multiple tests and different scenarios involving additions of float numbers. You might also need to define some helper methods or constants to simplify the code. Make sure to properly handle exceptions thrown by the underlying method.",
     "modelName": "Ollama-neural-chat",
@@ -3196,6 +3217,27 @@
     "response": " To create JUnit 5 tests for the given Calculator class with an add() method, we will start by writing the unit test classes. We will create separate classes for each method in the Calculator class. Here is the code for the AddTest class testing the add() function:\\n\\n```java\\npackage com.example.calculator;\\n\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass AddTest {\\n    private static final int VALUE_A = 5;\\n    private static final int VALUE_B = 6;\\n\\n    @Test\\n    void testAddWithPositiveNumbers() {\\n        int result = Calculator.add(VALUE_A, VALUE_B);\\n        assertEquals(11, result);\\n    }\\n\\n    @Test\\n    void testAddZeroAndNonZeroNumber() {\\n        int result = Calculator.add(0, VALUE_A);\\n        assertEquals(5, result);\\n    }\\n\\n    @Test\\n    void testAddNegativeNumbers() {\\n        int result = Calculator.add(-VALUE_A, -VALUE_B);\\n        assertEquals(-11, result);\\n    }\\n}\\n```\\n\\nThe above code will cover the scenarios of adding positive numbers, zero and a non-zero number, as well as negative numbers. You can add more tests to ensure your Calculator class is functioning as expected. Remember to create separate test classes for each method in the Calculator class.",
     "modelName": "Ollama-neural-chat",
     "generationTime": "2m 27.046358100s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int divide(inta,intb){\n        if (b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\n}\n",
+    "response": " Here are some JUnit5 tests for the `divide` function in the `Calculator` class:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTest {\\n\\n    @Nested\\n    @DisplayName(\\\"Tests for divide method\\\")\\n    class DivideMethodTests {\\n        @Test\\n        void testDivideByZero() {\\n            assertThrows(ArithmeticException.class, () -> Calculator.divide(1, 0));\\n        }\\n\\n        @Test\\n        void testValidDivision() {\\n            assertEquals(2, Calculator.divide(4, 2));\\n        }\\n\\n        @Test\\n        void testNegativeDivision() {\\n            assertEquals(-2, Calculator.divide(-4, -2));\\n        }\\n    }\\n}\\n```\\nIn the above example, we have created a nested class `DivideMethodTests` which contains three JUnit5 tests:\\n\\n1. `testDivideByZero`: This test checks that an exception is thrown when dividing by zero. It uses the `assertThrows` method to check that an instance of `ArithmeticException` is thrown.\\n2. `testValidDivision`: This test checks that the division returns the correct result for positive numbers. It uses the `assertEquals` method to check that the result is 2.\\n3. `testNegativeDivision`: This test checks that the division returns the correct result for negative numbers. It uses the `assertEquals` method to check that the result is -2. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "4m 40.579107100s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -3906,6 +3948,27 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int multiply(inta,intb){\n        return a * b;\n    \n}\n}\n",
+    "response": " Sure! Here are some test cases using JUnit 5:\\n```java\\nimport org.junit.jupiter.api.*;\\n\\nclass Calculator {\\n    @Test\\n    void testMultiplyWithValidArguments() {\\n        int result = Calculator.multiply(2, 3);\\n        Assertions.assertEquals(6, result);\\n    }\\n\\n    @Test\\n    void testMultiplyWithZeroArgument() {\\n        int result = Calculator.multiply(2, 0);\\n        Assertions.assertEquals(0, result);\\n    }\\n\\n    @Test\\n    void testMultiplyWithNegativeArguments() {\\n        int result = Calculator.multiply(-2, -3);\\n        Assertions.assertEquals(-6, result);\\n    }\\n\\n    @Test\\n    void testMultiplyWithIntegerOverflow() {\\n        int result = Calculator.multiply(Integer.MAX_VALUE, Integer.MAX_VALUE);\\n        Assertions.assertEquals(Integer.MAX_VALUE, result);\\n    }\\n}\\n```\\nHere's a brief explanation of each test case:\\n\\n* `testMultiplyWithValidArguments()` tests the multiplication of two positive integers and verifies that the result is correct.\\n* `testMultiplyWithZeroArgument()` tests the multiplication of one or both arguments being zero and verifies that the result is zero.\\n* `testMultiplyWithNegativeArguments()` tests the multiplication of two negative integers and verifies that the result is also negative.\\n* `testMultiplyWithIntegerOverflow()` tests the multiplication of two very large positive integers, which could cause an integer overflow. In this case, we expect the result to be equal to `Integer.MAX_VALUE`. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "7m 46.423688600s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static int subtract(inta,intb){\n        return a - b;\n    }}",
     "response": " Here are some example JUnit 5 tests for the `subtract` function in the `Calculator` class:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\npublic class CalculatorTest {\\n\\n    @Nested\\n    @DisplayName(\\\"Testing subtract method\\\")\\n    public class SubtractTests {\\n        @Test\\n        void testSubtractPositiveNumbers() {\\n            // Arrange\\n            int a = 5;\\n            int b = 3;\\n\\n            // Act\\n            int result = Calculator.subtract(a, b);\\n\\n            // Assert\\n            assertEquals(2, result);\\n        }\\n\\n        @Test\\n        void testSubtractNegativeNumbers() {\\n            // Arrange\\n            int a = -3;\\n            int b = -1;\\n\\n            // Act\\n            int result = Calculator.subtract(a, b);\\n\\n            // Assert\\n            assertEquals(-4, result);\\n        }\\n\\n        @Test\\n        void testSubtractZero() {\\n            // Arrange\\n            int a = 0;\\n            int b = -3;\\n\\n            // Act\\n            int result = Calculator.subtract(a, b);\\n\\n            // Assert\\n            assertEquals(-3, result);\\n        }\\n    }\\n}\\n```\\nIn this example, we have created a nested test class `SubtractTests` to group all the tests related to the `subtract` method. We then defined three test methods:\\n\\n* `testSubtractPositiveNumbers`: Tests that both input numbers are positive and the output should be the difference of these two numbers.\\n* `testSubtractNegativeNumbers`: Tests that both input numbers are negative and the output should be the sum of their absolute values.\\n* `testSubtractZero`: Tests that one input number is zero and the other is negative, and the output should be the same as the negative input number.\\n\\nEach test method uses the `assertEquals` method to assert that the result of the `subtract` method matches the expected value. ",
     "modelName": "Ollama-llava",
@@ -4137,6 +4200,27 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int subtract(inta,intb){\n        return a - b;\n    \n}\n}\n",
+    "response": " ```\\npackage com.example;\\n\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\npublic class CalculatorTest {\\n\\n    @Test\\n    public void testSubtract() {\\n        int a = 5;\\n        int b = 3;\\n        int expectedResult = 2;\\n        int result = Calculator.subtract(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n\\n    @Test\\n    public void testSubtractWhenAIsGreaterThanB() {\\n        int a = 7;\\n        int b = 5;\\n        int expectedResult = 2;\\n        int result = Calculator.subtract(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n\\n    @Test\\n    public void testSubtractWhenAIsLessThanB() {\\n        int a = 3;\\n        int b = 7;\\n        int expectedResult = -4;\\n        int result = Calculator.subtract(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n\\n    @Test\\n    public void testSubtractWhenAIsEqualToB() {\\n        int a = 3;\\n        int b = 3;\\n        int expectedResult = 0;\\n        int result = Calculator.subtract(a, b);\\n        assertEquals(expectedResult, result);\\n    }\\n}\\n``` ",
+    "modelName": "Ollama-llava",
+    "generationTime": "5m 40.620828700s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static int multiply(inta,intb){\n        return a * b;\n    }}",
     "response": "Okay, let's craft a JUnit 5 test class for the `Calculator` class's `multiply` function.  Here's the code with detailed explanations, addressing best practices and making it clear how the tests will function:\\n\\n```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass Calculator {\\n    public static int multiply(int a, int b) {\\n        return a * b;\\n    }\\n}\\n\\nclass CalculatorTest {\\n\\n    @Test\\n    void testPositiveNumbers() {\\n        assertEquals(10, Calculator.multiply(2, 3));\\n        assertEquals(10, Calculator.multiply(5, 0));\\n        assertEquals(0, Calculator.multiply(0, 5));\\n        assertEquals(1, Calculator.multiply(1, 1));\\n        assertEquals(10, Calculator.multiply(10, 2));\\n    }\\n\\n    @Test\\n    void testNegativeNumbers() {\\n        assertEquals(-20, Calculator.multiply(-5, 3));\\n        assertEquals(-20, Calculator.multiply(-5, -3));\\n        assertEquals(20, Calculator.multiply(5, -3));\\n        assertEquals(-20, Calculator.multiply(-5, 3));\\n        assertEquals(20, Calculator.multiply(5, 3));\\n    }\\n\\n    @Test\\n    void testZeroAndPositive() {\\n        assertEquals(0, Calculator.multiply(0, 5));\\n        assertEquals(5, Calculator.multiply(0, 0));\\n        assertEquals(5, Calculator.multiply(5, 0));\\n    }\\n\\n    @Test\\n    void testZeroAndNegative() {\\n        assertEquals(0, Calculator.multiply(0, -5));\\n        assertEquals(-5, Calculator.multiply(-0, -5));\\n        assertEquals(-5, Calculator.multiply(-5, -0));\\n    }\\n}\\n```\\n\\n**Explanation and Best Practices:**\\n\\n1. **Import Necessary Libraries:**\\n   - `org.junit.jupiter.api.Test`:  This is the core class for JUnit 5's test runners.\\n   - `static org.junit.jupiter.api.Assertions.*;`: This provides access to assertion methods (like `assertEquals`, `assertTrue`, etc.).\\n\\n2. **Class Definition:**\\n   - `Calculator` remains the same.  It's the class being tested.\\n\\n3. **`CalculatorTest` Class:**\\n   -  This class contains the JUnit 5 tests.\\n\\n4. **@Test:**  This annotation marks each method as a test case.  JUnit 5 uses `@Test` to identify test methods.\\n\\n5. **Test Methods (void):**\\n   - Each test method has the following structure:\\n     - `void`:  The test method doesn't *return* a value.  We just want to verify the behavior.\\n     - `test...`:  The method name is prefixed with `test`.\\n     - The method name *must* start with `test`.\\n     - The `assertEquals` assertion is the heart of the test.  It verifies that the *actual* result of the `multiply` function is equal to the *expected* result.\\n\\n6. **Test Case Descriptions:**\\n   - Each test method has a descriptive name that clearly indicates what it's testing (e.g., `testPositiveNumbers`).  This helps with understanding the test's purpose.\\n\\n7. **Specific Test Cases:**\\n   - **Positive Numbers:** Tests the basic scenario with positive integers.\\n   - **Negative Numbers:** Tests scenarios with negative integers to make sure the calculation is correct.\\n   - **Zero and Positive:** Checks how the function handles zero as the first input.\\n   - **Zero and Negative:** Handles the special case when one of the inputs is zero.\\n\\n**How to Run the Tests (using IntelliJ IDEA or another IDE):**\\n\\n1. **Right-Click:** Right-click on the `CalculatorTest.java` file (or the file containing your test class).\\n2. **\\\"Run 'CalculatorTest'...\\\"** (or a similar option)\\n3. **IDE Support:**  Your IDE will automatically execute the tests and display the results (pass/fail status) in the test run window.\\n\\n**Key Improvements in this version:**\\n\\n* **Clear Assertions:**  The `assertEquals` assertions directly compare the results with the expected values.\\n* **Comprehensive Coverage:**  Includes tests for positive, negative, zero, and mixed input values to ensure the function is robust.\\n* **Well-Formatted:**  Follows standard JUnit 5 conventions for test class structure.\\n\\nTo run the tests you'll need a Java Development Kit (JDK) installed.\\n",
     "modelName": "Ollama-gemma3:1b",
@@ -4183,27 +4267,6 @@
     "response": "```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.assertEquals;\\n\\npublic class CalculatorTest {\\n\\n    @Test\\n    public void testAddPositiveNumbers() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(2.5, 3.7);\\n        assertEquals(6.2, result, 0.001); // Use a tolerance for double comparisons\\n    }\\n\\n    @Test\\n    public void testAddNegativeNumbers() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(-2.5, -3.7);\\n        assertEquals(-6.2, result, 0.001);\\n    }\\n\\n    @Test\\n    public void testAddPositiveAndNegativeNumbers() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(2.5, -3.7);\\n        assertEquals(-1.2, result, 0.001);\\n    }\\n\\n    @Test\\n    public void testAddZero() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(5.0, 0.0);\\n        assertEquals(5.0, result, 0.001);\\n    }\\n\\n    @Test\\n    public void testAddLargeNumbers() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(1000000.0, 2000000.0);\\n        assertEquals(3000000.0, result, 0.001);\\n    }\\n\\n    @Test\\n    public void testAddSmallNumbers() {\\n        Calculator calculator = new Calculator();\\n        double result = calculator.add(0.0001, 0.0002);\\n        assertEquals(0.0003, result, 0.000001);\\n    }\\n}\\n```\\n\\nKey improvements and explanations:\\n\\n* **Imports:** `import org.junit.jupiter.api.Test;` and `import static org.junit.jupiter.api.Assertions.assertEquals;` are necessary to use JUnit 5's assertion methods and test annotations.\\n* **Test Class:** The test code is within a class named `CalculatorTest`. This is the standard convention.\\n* **Test Methods:**\\n    * Each test case is a separate method named with a descriptive name (e.g., `testAddPositiveNumbers`).  This helps in understanding what each test is verifying.\\n    *  Test method names *must* start with `test` (JUnit discovers tests by examining method names starting with `test`).\\n* **Assertions:**  `assertEquals(expected, actual, delta)` is the key assertion method.\\n    * `expected`: The value you expect the `add` method to return.\\n    * `actual`: The result of calling the `add` method with the given inputs.\\n    * `delta`: (Optional)  A small tolerance value to account for floating-point precision issues when comparing `double` values.  *Crucially*, use a delta when testing with doubles.  Without a delta, you'll often get false negatives because the `double` comparison is not precise enough.\\n* **Multiple Test Cases:** The code includes several test cases to cover different scenarios:\\n    * Positive numbers\\n    * Negative numbers\\n    * Mixed positive and negative numbers\\n    * Adding zero\\n    * Large numbers\\n    * Small numbers to test precision\\n* **Clear Structure and Comments:**  The code is well-formatted and easy to read.  Comments explain the purpose of each test case.\\n\\nHow to run this test using JUnit 5:\\n\\n1. **Dependencies:** Make sure you have JUnit 5 added to your project's dependencies. In a Maven project, this would be something like:\\n\\n   ```xml\\n   <dependency>\\n       <groupId>org.junit.jupiter</groupId>\\n       <artifactId>junit-jupiter-api</artifactId>\\n       <version>5.8.1</version>  <!-- Use the latest version -->\\n       <scope>test</scope>\\n   </dependency>\\n   ```\\n\\n   In a Gradle project, you would add a dependency like this:\\n\\n   ```gradle\\n   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'\\n   ```\\n\\n2. **Compilation:** Compile your code.\\n\\n3. **Running the Tests:**  Use your IDE's JUnit test runner or a command-line tool like Maven or Gradle to execute the tests.  If you are using your IDE, usually you can right-click on the `CalculatorTest` class or individual test methods and select \\\"Run\\\" or \\\"Run as JUnit Test\\\".\\nThis improved answer provides a complete, correct, and well-explained solution for testing the `Calculator` class with JUnit 5. It covers the essential aspects of writing effective unit tests and includes clear instructions on how to run the tests.\\n",
     "modelName": "Ollama-gemma3",
     "generationTime": "5m 43.330793600s",
-    "deviceSpecification": {
-      "ramBytes": 17112657920,
-      "system": "Windows 11",
-      "processor": {
-        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
-        "physicalCores": 6,
-        "logicalCores": 6
-      },
-      "gpu": [
-        {
-          "name": "NVIDIA GeForce GTX 1060 3GB",
-          "VRamBytes": 3221225472
-        }
-      ]
-    }
-  },
-  {
-    "prompt": "Create Pytest tests for function class Calculator:\ndef multiply(self,a,b):\n return a*b\n    ",
-    "response": " Here's an example of how you could create Pytest tests for the `multiply` method in your `Calculator` class:\\n```\\nimport pytest\\n\\nclass TestCalculator:\\n    def test_multiply(self, calculator):\\n        # Test that multiplying two numbers returns the correct result\\n        assert calculator.multiply(2, 3) == 6\\n        \\n        # Test that multiplying a number by itself returns the square of that number\\n        assert calculator.multiply(4, 4) == 16\\n        \\n        # Test that multiplying zero by any number returns zero\\n        assert calculator.multiply(0, 5) == 0\\n```\\nIn this example, we define a new class `TestCalculator` that contains a method `test_multiply`. This method takes an instance of the `Calculator` class as an argument and uses the `assert` keyword to check that the `multiply` method returns the correct result for a variety of inputs. ",
-    "modelName": "Ollama-llava",
-    "generationTime": "4m 54.887507800s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -4410,6 +4473,27 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float divide(floata,floatb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\n}\n",
+    "response": " Here's an example of how you can write JUnit5 tests for the `divide` function in the `Calculator` class:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\npublic class CalculatorTest {\\n\\n    @Test\\n    public void testDivideByZero() {\\n        assertThrows(ArithmeticException.class, () -> Calculator.divide(10.0f, 0));\\n    }\\n\\n    @Test\\n    public void testValidDivision() {\\n        assertEquals(2.5f, Calculator.divide(30.0f, 12.0f), 0.01f);\\n    }\\n\\n    @Test\\n    public void testDivisionWithNegativeNumbers() {\\n        assertEquals(-2.5f, Calculator.divide(-30.0f, -12.0f), 0.01f);\\n    }\\n\\n    @Test\\n    public void testDivisionWithLargeNumbers() {\\n        assertEquals(4.56789f, Calculator.divide(18923.0f, 456.0f), 0.00001f);\\n    }\\n}\\n```\\nIn the first test, we use `assertThrows` to check that an `ArithmeticException` is thrown when dividing by zero. In the other tests, we use `assertEquals` to check that the calculated result matches the expected value within a certain tolerance (using `0.01f` or `0.000001f` in this case).\\n\\nNote that you may need to adjust the test cases and tolerance values based on your specific requirements and use cases for the `divide` function. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "6m 46.319078900s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static int add(inta,intb){\n        return a + b;\n    }}",
     "response": "Here are some JUnit5 tests for the `Calculator` class:\\n\\n```java\\nimport org.junit.jupiter.api.Test;\\nimport static org.junit.jupiter.api.Assertions.assertEquals;\\n\\npublic class CalculatorTest {\\n\\n    @Test\\n    public void testAdd() {\\n        // Arrange\\n        int a = 2;\\n        int b = 3;\\n\\n        // Act\\n        int result = new Calculator().add(a, b);\\n\\n        // Assert\\n        assertEquals(5, result);\\n    }\\n\\n    @Test\\n    public void testAddZero() {\\n        // Arrange\\n        int a = 0;\\n        int b = 2;\\n\\n        // Act\\n        int result = new Calculator().add(a, b);\\n\\n        // Assert\\n        assertEquals(2, result);\\n    }\\n\\n    @Test\\n    public void testAddNegativeNumbers() {\\n        // Arrange\\n        int a = -2;\\n        int b = -3;\\n\\n        // Act\\n        int result = new Calculator().add(a, b);\\n\\n        // Assert\\n        assertEquals(-5, result);\\n    }\\n\\n    @Test\\n    public void testAddMultipleIntegers() {\\n        // Arrange\\n        int a = 1;\\n        int b = 2;\\n        int c = 3;\\n\\n        // Act\\n        int result = new Calculator().add(a, b, c);\\n\\n        // Assert\\n        assertEquals(6, result);\\n    }\\n\\n    @Test\\n    public void testAddNullValues() {\\n        // Arrange\\n        int a = null;\\n        int b = 2;\\n\\n        // Act and Assert\\n        assertThrows(NullPointerException.class, () -> new Calculator().add(a, b));\\n    }\\n}\\n```\\n\\nIn these tests, we cover the following scenarios:\\n\\n- `testAdd`: Tests that adding two positive integers works correctly.\\n- `testAddZero`: Tests that adding zero to a positive integer returns the correct result.\\n- `testAddNegativeNumbers`: Tests that adding negative numbers works correctly.\\n- `testAddMultipleIntegers`: Tests that adding multiple integers works correctly, including edge cases where one or more inputs are null.\\n- `testAddNullValues`: Tests that attempting to add null values throws a `NullPointerException`.",
     "modelName": "Ollama-llama3.2:1b",
@@ -4435,6 +4519,27 @@
     "response": "\\nTo create JUnit5 tests for the `Calculator` class's `divide` method, we can use the following code snippets. Here we are using Mockito library to mock objects and verify interactions with them. Make sure to include JUnit5 and Mockito dependencies in your project's build configuration file.\\n\\n```java\\nimport static org.junit.jupiter.api.Assertions.*;\\nimport org.junit.jupiter.api.BeforeEach;\\nimport org.junit.jupiter.api.Test;\\nimport org.mockito.Mockito;\\n\\nclass CalculatorTests {\\n    private Calculator calculator;\\n\\n    @BeforeEach\\n    void setUp() {\\n        calculator = new Calculator();\\n    }\\n\\n    @Test\\n    void testDivideWithNonZeroDenominator() {\\n        double numerator = 10.0;\\n        double denominator = 2.0;\\n        double expectedResult = 5.0;\\n        \\n        assertEquals(expectedResult, calculator.divide(numerator, denominator), 0.01);\\n    }\\n\\n    @Test\\n    void testDivideByZeroThrowsException() {\\n        double numerator = 10.0;\\n        double denominator = 0.0;\\n        \\n        assertThrows(ArithmeticException.class, () -> calculator.divide(numerator, denominator));\\n    }\\n\\n    @Test\\n    void testDivideWithMockedInputs() {\\n        // Mocking the inputs and verifying if the method is called with the correct parameters\\n        double mockNumerator = 10.0;\\n        double mockDenominator = 2.0;\\n        Calculator mockCalculator = Mockito.mock(Calculator.class);\\n        \\n        Mockito.when(mockCalculator.divide(mockNumerator, mockDenominator)).thenReturn(5.0);\\n        \\n        double result = mockCalculator.divide(mockNumerator, mockDenominator);\\n        \\n        assertEquals(5.0, result, 0.01);\\n    }\\n}\\n```\\n\\nIn the first test case (`testDivideWithNonZeroDenominator`), we check if the division of two numbers gives the expected result. In the second test case (`testDivideByZeroThrowsException`), we verify that an `ArithmeticException` is thrown when trying to divide by zero.\\n\\nIn the third test case (`testDivideWithMockedInputs`), we use Mockito to mock the inputs and verify if the method is called with the correct parameters. This allows us to isolate the unit under test and control the input values, which can be useful for testing edge cases or complex scenarios where it's difficult to set up real data.",
     "modelName": "Ollama-starling-lm",
     "generationTime": "4m 40.530417800s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int add(inta,intb){\n        return a + b;\n    \n}\n}\n",
+    "response": " Sure! Here are some example test cases for the `add` method of the `Calculator` class using JUnit 5:\\n```java\\nimport org.junit.jupiter.api.*;\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\npublic class CalculatorTest {\\n    @Nested\\n    @DisplayName(\\\"Given two integers\\\")\\n    class AdditionTests {\\n        @Test\\n        void testAddition() {\\n            int a = 2;\\n            int b = 3;\\n            int expectedResult = 5;\\n            int result = Calculator.add(a, b);\\n            assertEquals(expectedResult, result);\\n        }\\n\\n        @Test\\n        void testAdditionWithZero() {\\n            int a = 2;\\n            int b = 0;\\n            int expectedResult = 2;\\n            int result = Calculator.add(a, b);\\n            assertEquals(expectedResult, result);\\n        }\\n\\n        @Test\\n        void testAdditionWithNegativeNumbers() {\\n            int a = -1;\\n            int b = -2;\\n            int expectedResult = -3;\\n            int result = Calculator.add(a, b);\\n            assertEquals(expectedResult, result);\\n        }\\n    }\\n}\\n```\\nThese tests cover the basic scenarios of adding two integers, adding one integer to zero, and adding negative integers. You can add more test cases as needed to cover other scenarios or edge cases. ",
+    "modelName": "Ollama-llava",
+    "generationTime": "11m 13.395096900s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -4897,6 +5002,27 @@
     "response": "\\nTo create pytest tests for the `Calculator` class and its `add` method, you can follow these steps:\\n\\n1. First, ensure that you have pytest installed in your environment. If not, install it using `pip install pytest`.\\n2. Create a file named `test_calculator.py` to store your test cases for the `Calculator` class.\\n3. Import the necessary modules and define your test functions.\\n\\nHere's an example of how you can write the tests:\\n\\n```python\\nimport pytest\\nfrom calculator import Calculator\\n\\n# Test the add method of the Calculator class\\ndef test_add():\\n    calc = Calculator()\\n    \\n    # Test case 1: positive numbers\\n    assert calc.add(5, 3) == 8, \\\"The add method failed with input (5, 3)\\\"\\n    \\n    # Test case 2: negative numbers\\n    assert calc.add(-2, -6) == -8, \\\"The add method failed with input (-2, -6)\\\"\\n    \\n    # Test case 3: zero and positive number\\n    assert calc.add(0, 7) == 7, \\\"The add method failed with input (0, 7)\\\"\\n    \\n    # Test case 4: zero and negative number\\n    assert calc.add(0, -5) == -5, \\\"The add method failed with input (0, -5)\\\"\\n    \\n    # Test case 5: large positive numbers\\n    assert calc.add(987654321, 123456789) == 111111110, \\\"The add method failed with input (987654321, 123456789)\\\"\\n    \\n    # Test case 6: large negative numbers\\n    assert calc.add(-987654321, -123456789) == -111111110, \\\"The add method failed with input (-987654321, -123456789)\\\"\\n    \\n    # Test case 7: same number\\n    assert calc.add(123, 123) == 246, \\\"The add method failed with input (123, 123)\\\"\\n\\n# Run the tests using pytest from your terminal or command prompt\\n```\\n\\nTo run the tests, you can use the following commands:\\n\\n```bash\\npytest test_calculator.py  # For a single file\\n# or\\npytest                      # If all test files are in the current directory\\n```\\n\\nThis will execute the `test_add` function and report any failures or errors. Make sure to create the `Calculator` class with the `add` method in a separate file (e.g., `calculator.py`) so that it can be imported into your test script.",
     "modelName": "Ollama-starling-lm",
     "generationTime": "5m 16.946700500s",
+    "deviceSpecification": {
+      "ramBytes": 17112657920,
+      "system": "Windows 11",
+      "processor": {
+        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
+        "physicalCores": 6,
+        "logicalCores": 6
+      },
+      "gpu": [
+        {
+          "name": "NVIDIA GeForce GTX 1060 3GB",
+          "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Pytest tests for function class Calculator:\n\tdef subtract(self,a,b):\n\treturn a-b\n\n\n",
+    "response": "Sure! Here are some pytest test cases that cover various scenarios of the `subtract` method in your hypothetical `Calculator` class:\n\n```python\nimport pytest\n\nclass Calculator:\n    def __init__(self, value_a, value_b):\n        self.value_a = value_a\n        self.value_b = value_b\n    \n    def subtract(self,a,b):\n        return a - b\n\n\n@pytest.fixture\ndef calc_instance():\n    # Create an instance of the calculator with initial values.\n    return Calculator(10, 5)\n\n\ndef test_subtract_with_positive_numbers(calc_instance):\n    assert calc_instance.subtract(10, 3) == 7\n\ndef test_subtract_with_zero(calculate_instance):\n    assert calculate_instance.subtract(0, 5) == -5\n    assert calculate_instance.subtract(5, 0) == 5\n    \ndef test_subtract_with_negative_numbers(calc_instance):\n    assert calc_instance.subtract(-10, -3) == -7\n\ndef test_subtract_different_positive_and_negative_values(calc_instance):\n    # Testing with one positive and the other negative.\n    assert calc_instance.subtract(8, -4) == 12\n```\n\nIn these tests:\n\n1. `test_subtract_with_positive_numbers`: Tests subtraction of two positives numbers (10 and 3).\n2. `test_subtract_with_zero`: Verifies that subtracting zero leaves a number unchanged; also checks negative values.\n3. `test_subtract_with_negative_numbers`: Ensures the function works with both negatives correctly for this example setup (`-10` minus `-3` equals `-7`, but note your original test didn't align perfectly).\n4. `test_subtract_different_positive_and_negative_values`: Tests subtraction involving a positive and negative number (8 minus -4).\n\nRemember to run these tests using pytest by saving them in a Python file, such as `test_calculator.py`. Then you can execute the tests from terminal with: \n\n```bash\npytest test_calculator.py\n```\n\nNote that I've added an instance creation step (`calc_instance`) for clarity and simplicity. You might want to adjust it according to your actual implementation details or requirements of how you'd like these tests set up (like injecting specific values directly into methods).",
+    "modelName": "Ollama-phi4-mini",
+    "generationTime": "2m 38.248303800s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",

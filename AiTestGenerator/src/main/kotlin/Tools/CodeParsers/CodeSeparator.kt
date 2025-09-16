@@ -6,6 +6,9 @@ data class CodeSeparator(
     val bodyPartIndicator: String = ""
 ) {
     fun increaseIndicator(): CodeSeparator {
+        if (bodyPartIndicator.isBlank()) {
+            return this
+        }
         return CodeSeparator(
             CodeSectionStart,
             CodeSectionEnd,
