@@ -119,5 +119,9 @@ data class Project(
 
     }
 
+    fun getLanguage(): String {
+        return codeParser.getLanguage()
+    }
+
 
 }

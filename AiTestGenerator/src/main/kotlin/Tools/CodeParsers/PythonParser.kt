@@ -180,6 +180,10 @@ class PythonParser : CodeParser {
     override fun parseContent(content: String): CodeFile {
         return parseFileContents(content)
     }
+
+    override fun getLanguage(): String {
+        return "python"
+    }
 }
 
 inline fun <reified T : ParserRuleContext> ParserRuleContext.findAncestor(): T? {

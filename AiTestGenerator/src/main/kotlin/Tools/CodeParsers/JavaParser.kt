@@ -136,5 +136,9 @@ object JavaParser : CodeParser {
         return parseFileContents(content)
     }
 
+    override fun getLanguage(): String {
+        return "java"
+    }
+
 
 }

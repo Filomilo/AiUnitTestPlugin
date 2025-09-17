@@ -15,6 +15,7 @@ import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.File
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
@@ -64,8 +65,9 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
     fun getCodeFilesFromLlmResult(promptResult: String, project: Project): Collection<CodeFile> {
         var codeFiles: MutableList<CodeFile> = emptyList<CodeFile>().toMutableList()
         var codeParser: CodeParser = project.codeParser
-        var listings: Collection<String> = LlmParser.extractListingFromLlmResponse(promptResult)
-            .map { x -> StringTools.turnCharsIntoEscapeSequance(x) }.toList()
+        var listings: Collection<String> =
+            LlmParser.extractListingFromLlmResponse(promptResult, project.getLanguage())
+                .map { x -> StringTools.turnCharsIntoEscapeSequance(x) }.toList()
         for (listing in listings) {
             try {
                 val codeFile: CodeFile = codeParser.parseContent(listing)
@@ -100,6 +102,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
         promptResults.add(response)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
+        codeFilesFromResult.forEach { x -> x.file = java.io.File("test_${method.code!!.replace(" ", "")}") }
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
         }

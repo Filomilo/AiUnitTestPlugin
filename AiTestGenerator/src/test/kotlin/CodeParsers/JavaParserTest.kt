@@ -105,7 +105,7 @@ public class Calculator {
     @MethodSource("DataProviders#provideLlmResults")
     fun parseLLmResults(llmResult: String, llmResultSpecification: LlmResultSpecification) {
         var codeFiles: MutableList<CodeFile> = listOf<CodeFile>().toMutableList()
-        for (code: String in LlmParser.extractListingFromLlmResponse(llmResult)) {
+        for (code: String in LlmParser.extractListingFromLlmResponse(llmResult, "java")) {
             val txtWithEscapeSeq: String = StringTools.turnCharsIntoEscapeSequance(code)
             log.info { "parse llm code:: \n[[\n$txtWithEscapeSeq\n]]\n\n" }
             val codeParser: CodeParser = DataProviders.getFileParser(llmResultSpecification.language)

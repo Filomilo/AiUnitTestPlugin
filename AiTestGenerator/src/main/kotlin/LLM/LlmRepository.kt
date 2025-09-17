@@ -37,13 +37,13 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "llama4:maverick", // Not enough memory
 ////                "llama3.3", // Not enough memory
 //                "llama3.2",
-//                "llama3.2:1b",
+                "llama3.2:1b",
 ////                "llama3.2-vision", // Not enough memory
 ////                "llama3.2-vision:90b",// Not enough memory
 //                "llama3.1",
 ////                "llama3.1:405b",// Not enough memory
 //                "phi4",
-                "phi4-mini",
+//                "phi4-mini",
 //                "mistral",
 //                "moondream",
 //                "neural-chat",
