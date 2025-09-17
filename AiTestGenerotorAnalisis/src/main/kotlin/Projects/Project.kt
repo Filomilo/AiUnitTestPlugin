@@ -25,7 +25,8 @@ data class Project(
     private val projectRunner: ProjectRunner,
     private val reportExtractor: ReportExtractor,
     val testingFramework: String,
-    val codeFileExtension: String
+    val codeFileExtension: String,
+    val ignoredFiles: List<Path> = emptyList()
 
 ) :
     Serializable {
@@ -50,7 +51,8 @@ data class Project(
             this.projectRunner,
             this.reportExtractor,
             this.testingFramework,
-            this.codeFileExtension
+            this.codeFileExtension,
+            this.ignoredFiles
         )
     }
 

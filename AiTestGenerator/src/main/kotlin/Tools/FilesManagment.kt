@@ -24,6 +24,7 @@ import java.time.Instant
 import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name
+import kotlin.io.path.relativeTo
 
 
 @Serializable()
@@ -77,7 +78,7 @@ object FilesManagment {
     }
 
 
-    fun getFolderContent(path: Path): List<PathObject> {
+    fun getFolderContent(path: Path, ignoredPaths: List<Path>): List<PathObject> {
         var content: MutableList<PathObject> = emptyList<PathObject>().toMutableList()
 
         Files.walkFileTree(path, object : SimpleFileVisitor<Path?>() {
@@ -85,6 +86,9 @@ object FilesManagment {
 
             override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes): FileVisitResult {
                 if (depth > 0) {
+                    if (ignoredPaths.contains(dir)) {
+                        return FileVisitResult.SKIP_SUBTREE
+                    }
                     TODO("subdirectory gathere not implented")
                 }
                 depth++

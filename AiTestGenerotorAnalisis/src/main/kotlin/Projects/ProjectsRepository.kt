@@ -8,6 +8,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReport
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
 import Tools.PathResolver
+import kotlin.io.path.Path
 
 object ProjectsRepository {
     val projects: List<Project> = listOf(
@@ -27,7 +28,8 @@ object ProjectsRepository {
             reportExtractor = PytestReportExtractor(),
             testingFramework = "Pytest",
             codeParser = PythonParser(),
-            codeFileExtension = "py"
+            codeFileExtension = "py",
+            ignoredFiles = listOf(Path("tests").resolve("__pycache__"))
         ),
     )
 }

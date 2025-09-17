@@ -168,7 +168,7 @@ class PythonParser : CodeParser {
     }
 
     override fun getCodeSeparator(): CodeSeparator {
-        return CodeSeparator(CodeSectionStart = ":\n", bodyPartIndicator = "\t")
+        return CodeSeparator(CodeSectionStart = ":\n", bodyPartIndicator = CodePartIdicator("    ", "   "))
     }
 
     override fun parseCodeFile(path: Path): CodeFile {

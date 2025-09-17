@@ -9,7 +9,10 @@ import java.nio.file.Path
 class PythonRunner(val projectName: String) : ProjectRunner {
     override fun runTests(projectPath: Path): String {
         val result: String =
-            CommandExecutor.runCommand(" pytest tests/ --cov=${projectName} --cov-report json\n", projectPath)
+            CommandExecutor.runCommand(
+                " pytest tests/ --cov=${projectName} --continue-on-collection-errors --cov-report json\n",
+                projectPath
+            )
         return result
     }
 

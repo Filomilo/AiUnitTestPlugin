@@ -20,7 +20,9 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
+import java.nio.file.Path
 import java.util.Dictionary
+
 
 class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
@@ -160,7 +162,10 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             executionLogs = listOf(logs),
             promptResults = promptResults,
-            generatedFiles = FilesManagment.getFolderContent(project.getTestsPath()),
+            generatedFiles = FilesManagment.getFolderContent(
+                path = project.getTestsPath(),
+                ignoredPaths = project.ignoredFiles.map { x -> project.ProjectPath.resolve(x) }.toList()
+            ),
             failureReason = null
         )
     }

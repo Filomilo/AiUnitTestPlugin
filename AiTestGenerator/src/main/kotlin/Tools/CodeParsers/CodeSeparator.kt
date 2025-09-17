@@ -1,18 +1,26 @@
 package Tools.CodeParsers
 
+data class CodePartIdicator(
+    val characters: String,
+    val detphAppend: String
+)
+
 data class CodeSeparator(
     val CodeSectionStart: String = "",
     val CodeSectionEnd: String = "",
-    val bodyPartIndicator: String = ""
+    val bodyPartIndicator: CodePartIdicator = CodePartIdicator("", "")
 ) {
     fun increaseIndicator(): CodeSeparator {
-        if (bodyPartIndicator.isBlank()) {
+        if (bodyPartIndicator == null) {
             return this
         }
         return CodeSeparator(
             CodeSectionStart,
             CodeSectionEnd,
-            bodyPartIndicator + bodyPartIndicator[0]
+            CodePartIdicator(
+                bodyPartIndicator.characters + bodyPartIndicator.detphAppend,
+                bodyPartIndicator.detphAppend
+            )
         )
     }
 }

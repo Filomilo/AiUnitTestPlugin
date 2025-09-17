@@ -17,7 +17,7 @@ data class Code(var code: String? = null, var children: List<Code> = listOf(), v
         if (children.isNotEmpty()) {
             StringBuilder.append(codeSeparator.CodeSectionStart)
             for (child in children) {
-                StringBuilder.append(codeSeparator.bodyPartIndicator)
+                StringBuilder.append(codeSeparator.bodyPartIndicator.characters)
                 StringBuilder.append(child.getContent(codeSeparator.increaseIndicator()))
             }
             StringBuilder.append(codeSeparator.CodeSectionEnd)
