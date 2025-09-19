@@ -16,6 +16,11 @@ const routes = [
     name: 'RawPrompts',
     component: RawPromptCache,
   },
+  {
+    path: '/ModelAvgTimeView',
+    name: 'ModelAvgTimeView',
+    component: () => import('../views/ModelAvgTimeView.vue'),
+  },
 ]
 
 const router = createRouter({
