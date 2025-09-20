@@ -74,53 +74,61 @@ class PythonParser : CodeParser {
 
 
             override fun enterFuncdef(ctx: Python3Parser.FuncdefContext) {
-                val defintionStartInxes = ctx.start.startIndex
-                val definitionStopIndex = ctx.stop.stopIndex
-                val defintion = content.substring(defintionStartInxes, definitionStopIndex + 1)
-                val name = ctx.name().text
-                val params = ctx.parameters().text
-                val returnType = if (ctx.test() != null) " -> ${ctx.test().text}" else ""
-                val defHeader = "def $name$params$returnType"
-                val bodyStart: Token = ctx.block().start
-                val bodyStop: Token = ctx.block().stop
-                val startIdx = bodyStart.startIndex
-                val stopIdx = bodyStop.stopIndex
-                val indent: Int = ctx.block().INDENT().text.length
-                val body = content.substring(startIdx + 1, stopIdx + 1)
-                val lines: List<String> = body.split('\n')
-                val linesindentd: MutableList<String> = mutableListOf(lines[0])
-                linesindentd.addAll(
-                    lines.stream().filter { x -> x.isNotBlank() }.skip(1).map<String> { line: String ->
-                        line.substring(indent)
-                    }.toList()
-                )
-                val bodyParsed = linesindentd.joinToString("\n")
+                try {
+
+
+                    val defintionStartInxes = ctx.start.startIndex
+                    val definitionStopIndex = ctx.stop.stopIndex
+                    val defintion = content.substring(defintionStartInxes, definitionStopIndex + 1)
+                    val name = ctx.name().text
+                    val params = ctx.parameters().text
+                    val returnType = if (ctx.test() != null) " -> ${ctx.test().text}" else ""
+                    val defHeader = "def $name$params$returnType"
+
+                    val bodyStart: Token = ctx.block().start
+                    val bodyStop: Token = ctx.block().stop
+                    val startIdx = bodyStart.startIndex
+                    val stopIdx = bodyStop.stopIndex
+                    val indent: Int = ctx.block().INDENT().text.length
+                    val body = content.substring(startIdx + 1, stopIdx + 1)
+                    val lines: List<String> = body.split('\n')
+                    val linesindentd: MutableList<String> = mutableListOf(lines[0])
+                    linesindentd.addAll(
+                        lines.stream().filter { x -> x.isNotBlank() }.skip(1).map<String> { line: String ->
+                            line.substring(indent)
+                        }.toList()
+                    )
+                    val bodyParsed = linesindentd.joinToString("\n")
 //                val body: String = tokens.getText(bodyStart, bodyStop)
 
-                log.info("enter func def: $defHeader")
-                log.info("body: $body")
+                    log.info("enter func def: $defHeader")
+                    log.info("body: $body")
 
 //                var bodyTrimmed = body
 //                if (bodyTrimmed.startsWith(":")) {
 //                    bodyTrimmed = bodyTrimmed.substring(1).trim()
 //                }
-                log.info(ctx.ruleContext.toString())
+                    log.info(ctx.ruleContext.toString())
 
-                val functionBuilder: PythonFunctionBuilder =
-                    if (pythonClassBuilder != null) {
-                        pythonClassBuilder!!.addFunction()
-                    } else {
-                        pythonClassBuilder?.finishClass()
-                        pythonClassBuilder = null
-                        pythonfileBuilder.addFunction()
-                    }
+                    val functionBuilder: PythonFunctionBuilder =
+                        if (pythonClassBuilder != null) {
+                            pythonClassBuilder!!.addFunction()
+                        } else {
+                            pythonClassBuilder?.finishClass()
+                            pythonClassBuilder = null
+                            pythonfileBuilder.addFunction()
+                        }
 
 
 
-                functionBuilder
-                    .setDeclaration(defHeader)
-                    .setBody(bodyParsed)
-                    .finish()
+                    functionBuilder
+                        .setDeclaration(defHeader)
+                        .setBody(bodyParsed)
+                        .finish()
+                } catch (ex: Exception) {
+                    log.warn("erorr parsing method: ${ex.message}")
+
+                }
             }
 
 

@@ -59,3 +59,4 @@ AiTestGenerator/test.txt
 AiTestGenerator/LLMcache.cache
 AiTestGenerotorAnalisis/LLMcache.cache
 /.kotlin
+/ExampleProjects/PythonSimpleCalculator/calculator/.idea

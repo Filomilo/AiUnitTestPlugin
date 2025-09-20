@@ -89,6 +89,7 @@ class AnalysisRunnerTest {
         strategy: TestGenerationStrategy,
         project: Project
     ) {
+        AnalysisRunner.clear()
         llmProcessor.load()
         log.info(
             """

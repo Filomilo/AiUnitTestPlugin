@@ -119,4 +119,9 @@ object AnalysisRunner {
 
         this.analysisResults.save()
     }
+
+    fun clear() {
+        this.analysisResults.runs = hashSetOf<AnalysisRun>()
+        this.analysisResults.fails = hashSetOf<AnalysisRun>()
+    }
 }
