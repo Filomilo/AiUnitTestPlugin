@@ -11,7 +11,8 @@ import { ref } from 'vue';
 
 const links = ref([
   { name: 'Runs', path: '/RawRuns' },
-  { name: 'Prompts', path: '/RawPrompts' }
+  { name: 'Prompts', path: '/RawPrompts' },
+  { name: 'Prompt Tester', path: '/PromptTester' },
 ])
 </script>
 
