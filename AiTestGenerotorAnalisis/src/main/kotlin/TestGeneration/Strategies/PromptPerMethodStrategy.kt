@@ -167,7 +167,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             promptResults = promptResults,
             generatedFiles = FilesManagment.getFolderContent(
                 path = project.getTestsPath(),
-                ignoredPaths = project.ignoredFiles.map { x -> project.ProjectPath.resolve(x) }.toList()
+                ignoredPaths = project.ignoredPaths.map { x -> project.ProjectPath.resolve(x) }.toList()
             ),
             failureReason = null
         )
