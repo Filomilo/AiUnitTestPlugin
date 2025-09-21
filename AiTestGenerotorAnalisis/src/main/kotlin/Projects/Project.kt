@@ -13,6 +13,7 @@ import java.io.File
 import java.io.Serializable
 import java.nio.file.Files
 import java.nio.file.Path
+
 import java.nio.file.Paths
 import java.util.stream.Collectors
 import kotlin.io.path.exists
@@ -25,7 +26,8 @@ data class Project(
     private val projectRunner: ProjectRunner,
     private val reportExtractor: ReportExtractor,
     val testingFramework: String,
-    val codeFileExtension: String
+    val codeFileExtension: String,
+    val ignoredPaths: List<Path>
 
 ) :
     Serializable {
@@ -50,7 +52,8 @@ data class Project(
             this.projectRunner,
             this.reportExtractor,
             this.testingFramework,
-            this.codeFileExtension
+            this.codeFileExtension,
+            ignoredPaths = emptyList(),
         )
     }
 

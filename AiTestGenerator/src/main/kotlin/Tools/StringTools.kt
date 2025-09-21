@@ -1,5 +1,8 @@
 package org.filomilo.AiTestGenerator.Tools
 
+import Tools.PathResolver
+import java.lang.StringBuilder
+
 object StringTools {
     public fun trimStringToJustSymbols(a: String): String {
         return a.replace(Regex("\\s+"), " ").replace("\r\n", "").replace("\n", "")
@@ -18,4 +21,25 @@ object StringTools {
             .replace("\t", "\\t")
             .replace("\"", "\\\"")
     }
+
+    private fun parsePathObjectChildren(paths: List<PathObject>, depth: Int, stringBuilder: StringBuilder) {
+        for (path in paths) {
+            for (i in 0..depth) {
+                stringBuilder.append("-")
+            }
+            stringBuilder.append(path.name)
+            stringBuilder.append("\n")
+            parsePathObjectChildren(path.children, depth + 1, stringBuilder)
+        }
+
+
+    }
+
+    fun List<PathObject>.toParsedString(): String {
+        val stringBuilder: StringBuilder = StringBuilder()
+        parsePathObjectChildren(this, 0, stringBuilder)
+        return stringBuilder.toString()
+    }
+
+
 }

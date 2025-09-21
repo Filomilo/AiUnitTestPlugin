@@ -1,9 +1,9 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration
 
 import LLM.PromptInformationProvider
+import org.filomilo.AiTestGenerator.Tools.StringTools.toParsedString
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import java.util.*
-
 
 
 object PromptFormatter {
@@ -19,36 +19,31 @@ object PromptFormatter {
      *
      *  ##files## - files to ber replace by promop info provider
      */
-    fun resolveArguments( prompt:String, promptInformationProvider: PromptInformationProvider): String
-    {
+    fun resolveArguments(prompt: String, promptInformationProvider: PromptInformationProvider): String {
 
         val arguments: MutableMap<String, String> = mutableMapOf()
 
-        if(promptInformationProvider.getTestingFramework()!=null)
-        {
-            arguments["##framework##"]=promptInformationProvider.getTestingFramework()!!
+        if (promptInformationProvider.getTestingFramework() != null) {
+            arguments["##framework##"] = promptInformationProvider.getTestingFramework()!!
         }
 
 
-        if(promptInformationProvider.getFunctions()!=null) {
+        if (promptInformationProvider.getFunctions() != null) {
             arguments["##functions##"] = promptInformationProvider.getFunctions()!!
         }
 
-        if(promptInformationProvider.getClasses()!=null)
-        {
-            arguments["##classes##"]=promptInformationProvider.getClasses()!!
+        if (promptInformationProvider.getClasses() != null) {
+            arguments["##classes##"] = promptInformationProvider.getClasses()!!
         }
 
-        if(promptInformationProvider.getFiles()!=null)
-        {
-            arguments["##files##"]=promptInformationProvider.getFiles()!!
+        if (promptInformationProvider.getProjectTree() != null) {
+            arguments["##tree##"] = promptInformationProvider.getProjectTree()!!.toParsedString()
         }
 
 
-        var promptCopy:String=prompt
-        for (key:String in arguments.keys)
-        {
-            promptCopy=promptCopy.replace(key as String,arguments[key] as String,ignoreCase = true)
+        var promptCopy: String = prompt
+        for (key: String in arguments.keys) {
+            promptCopy = promptCopy.replace(key as String, arguments[key] as String, ignoreCase = true)
         }
 
 

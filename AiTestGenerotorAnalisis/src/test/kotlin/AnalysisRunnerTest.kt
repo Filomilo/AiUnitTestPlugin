@@ -39,7 +39,7 @@ class AnalysisRunnerTest {
         lateinit var LlmRepository: LlmRepository;
         lateinit var ollamaApi: OllamaApi
         lateinit var containerManager: ContainersManager;
-
+        
         @JvmStatic
         @BeforeAll
         fun setup(): Unit {

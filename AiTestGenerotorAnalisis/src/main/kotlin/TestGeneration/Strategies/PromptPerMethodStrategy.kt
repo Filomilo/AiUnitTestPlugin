@@ -8,10 +8,12 @@ import LLM.TestGenerationException
 import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
+import Tools.PathResolver
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
@@ -41,7 +43,8 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     data class SingleMethodProvider(
         val method: String,
-        val framework: String
+        val framework: String,
+        val _projectTree: List<PathObject>
     ) : PromptInformationProvider {
         override fun getTestingFramework(): String? {
             return framework
@@ -55,9 +58,10 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             return null
         }
 
-        override fun getFiles(): String? {
-            return null
+        override fun getProjectTree(): List<PathObject> {
+            return _projectTree
         }
+
 
     }
 
@@ -87,9 +91,8 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             this.promptBase,
             SingleMethodProvider(
                 method.getContent(project.codeParser.getCodeSeparator()),
-
-                project.testingFramework
-
+                project.testingFramework,
+                FilesManagment.getFolderContent(project.ProjectPath)
             )
         )
         var llmreponse: LLMResponse = llmProcessor.executePrompt(
