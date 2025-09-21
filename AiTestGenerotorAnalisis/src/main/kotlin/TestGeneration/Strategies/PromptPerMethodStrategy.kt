@@ -92,7 +92,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             SingleMethodProvider(
                 method.getContent(project.codeParser.getCodeSeparator()),
                 project.testingFramework,
-                FilesManagment.getFolderContent(project.ProjectPath)
+                FilesManagment.getFolderContent(project.ProjectPath, project.ignoredPaths)
             )
         )
         var llmreponse: LLMResponse = llmProcessor.executePrompt(
