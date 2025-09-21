@@ -27,7 +27,6 @@ import java.util.Stack
 import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name
-import kotlin.io.path.relativeTo
 
 
 @Serializable()
@@ -81,7 +80,7 @@ object FilesManagment {
     }
 
 
-    fun getFolderContent(path: Path, ignoredPaths: List<Path> = emptyList()): List<PathObject> {
+    fun getFolderContent(path: Path): List<PathObject> {
         var content: MutableList<PathObject> = emptyList<PathObject>().toMutableList()
         val pathStack: Stack<PathObject> = Stack()
         Files.walkFileTree(path, object : SimpleFileVisitor<Path?>() {

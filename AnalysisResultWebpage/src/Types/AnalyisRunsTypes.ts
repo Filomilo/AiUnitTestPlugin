@@ -8,6 +8,7 @@ export interface Run {
   llmModel: string
   project: string
   strategy: string
+  strategyDescription: string
   time: string
   report: Report
   deviceSpecification: DeviceSpecification

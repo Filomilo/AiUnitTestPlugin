@@ -13,7 +13,6 @@ import java.io.File
 import java.io.Serializable
 import java.nio.file.Files
 import java.nio.file.Path
-
 import java.nio.file.Paths
 import java.util.stream.Collectors
 import kotlin.io.path.exists
@@ -120,6 +119,10 @@ data class Project(
         return FilesManagment.getFilesRecursively(getTestsPath()).filter { x -> x.extension == this.codeFileExtension }
             .toList()
 
+    }
+
+    fun getLanguage(): String {
+        return codeParser.getLanguage()
     }
 
 

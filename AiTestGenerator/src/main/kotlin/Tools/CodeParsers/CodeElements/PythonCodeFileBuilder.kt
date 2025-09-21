@@ -32,8 +32,9 @@ class PythonFunctionBuilder() {
     }
 
     fun finish(): Any {
-        var bodyCode: Code = Code(body)
-        var delcartionCode: Code = Code(decleration, listOf(bodyCode))
+        var bodyCode: List<Code> = body.split("\n").map { x -> Code(x) }
+
+        var delcartionCode: Code = Code(decleration, bodyCode)
         if (pythonClassBuilder != null) {
             this.pythonClassBuilder!!.Function += (delcartionCode); return pythonClassBuilder!!
         } else this.PythonCodeFileBuilder!!.functions += (delcartionCode)

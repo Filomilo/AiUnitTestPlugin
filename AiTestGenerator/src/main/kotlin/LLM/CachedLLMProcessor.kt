@@ -81,7 +81,7 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
 
     override fun executePrompt(prompt: String): LLMResponse {
         var result: LLMResponse? =
-            retrievePromoterCache(prompt, getModelName(), this.llmProcessor.getDeviceSpecification())
+            retrievePromoterCache(prompt, this.llmProcessor.getName(), this.llmProcessor.getDeviceSpecification())
         if (result != null) {
             this.durationGeneratorBuffer.add(result.generationTime)
             return result

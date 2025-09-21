@@ -41,7 +41,7 @@ object ProjectsRepository {
             testingFramework = "Pytest",
             codeParser = PythonParser(),
             codeFileExtension = "py",
-            ignoredPaths = emptyList()
+            ignoredPaths = listOf(Path("tests").resolve("__pycache__"))
         ),
     )
 }

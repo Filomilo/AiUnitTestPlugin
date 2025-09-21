@@ -37,6 +37,7 @@ data class AnalysisRun(
     val llmModel: String,
     val project: String,
     val strategy: String,
+    val strategyDescription: String,
     @Serializable(with = InstantSerializer::class)
     val time: Instant = Instant.now(),
     val deviceSpecification: DeviceSpecification?,
@@ -71,6 +72,12 @@ data class AnalysisRun(
         result = 31 * result + strategy.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "AnalysisRun(\nfailureReason=$failureReason,\n llmModel='$llmModel',\n project='$project',\n strategy='$strategy',\n strategyDescription='$strategyDescription',\n time=$time,\n deviceSpecification=$deviceSpecification,\n executionLogs=$executionLogs,\n CodeMetrics=$CodeMetrics,\n warnings=$warnings,\n promptResults=$promptResults,\n generatedFiles=$generatedFiles,\n duration=$duration,\n report=$report\n)"
+    }
+
+
 }
 
 //@SerialName("failure")
