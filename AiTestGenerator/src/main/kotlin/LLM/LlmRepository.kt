@@ -26,25 +26,25 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
         this.ollamaApi!!.ensureActive()
         val Ollamamodels: Array<String> =
             arrayOf(
-//                "gemma3:1b",
-//                "gemma3",
+                "gemma3:1b",
+                "gemma3",
 ////                "gemma3:12b", // Not enough memory
 ////                "gemma3:27b",  // Not enough memory
 ////                "qwq",  // Not enough memory
-//                "deepseek-r1",
+                "deepseek-r1",
 //                "deepseek-r1:671b", // Not enough memory
 //                "llama4:scout", // Not enough memory
 //                "llama4:maverick", // Not enough memory
 //                "llama3.3", // Not enough memory
-//                "llama3.2",
-//                "llama3.2:1b",
+                "llama3.2",
+                "llama3.2:1b",
 ////                "llama3.2-vision", // Not enough memory
 ////                "llama3.2-vision:90b",// Not enough memory
 //                "llama3.1",
 ////                "llama3.1:405b",// Not enough memory
-//                "phi4",
-//                "phi4-mini",
-//                "mistral",
+                "phi4",
+                "phi4-mini",
+                "mistral",
                 "moondream",
                 "neural-chat",
                 "starling-lm",
