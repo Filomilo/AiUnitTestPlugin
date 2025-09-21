@@ -38,7 +38,7 @@ object ProjectsRepository {
             ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
             projectRunner = PythonRunner("calculator"),
             reportExtractor = PytestReportExtractor(),
-            testingFramework = "Pytest",
+            testingFramework = "unittest",
             codeParser = PythonParser(),
             codeFileExtension = "py",
             ignoredPaths = listOf(Path("tests").resolve("__pycache__"))
