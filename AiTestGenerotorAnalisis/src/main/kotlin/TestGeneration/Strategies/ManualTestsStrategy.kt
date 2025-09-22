@@ -2,6 +2,7 @@ package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
@@ -9,6 +10,9 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerati
 import kotlin.time.Duration
 
 class ManualTestsStrategy : TestGenerationStrategy {
+
+    var logs: String=""
+
     override fun getNameIdentifier(): String {
         return "Manual_Tests"
     }
@@ -18,13 +22,13 @@ class ManualTestsStrategy : TestGenerationStrategy {
     }
 
     override fun runTestGenerationStrategy(llmProcessor: LLMProcessor, project: Project): AnalysisRun {
-        val logs = project.runTests()
+        logs = project.runTests()
         var report: TestReport = project.getReport()
         return AnalysisRun(
             llmModel = "none",
             project = project.name,
-            strategy = getNameIdentifier(),
-            strategyDescription = getDescription(),
+            strategyName = this.getNameIdentifier(),
+            strategyDescription = this.getDescription(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             duration = Duration.ZERO,
@@ -38,9 +42,21 @@ class ManualTestsStrategy : TestGenerationStrategy {
         return emptyList()
     }
 
+    override fun getPromptResults(): HashSet<LLMResponse>? {
+       return null
+    }
+
 
     override fun clearBuffers() {
+    logs=""
+    }
 
+    override fun getGeneratedFiles(): List<PathObject>? {
+        return emptyList()
+    }
+
+    override fun getExecutionLogs(): List<String>? {
+      return listOf(logs)
     }
 
 }

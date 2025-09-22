@@ -11,6 +11,7 @@ import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
@@ -19,6 +20,7 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.DataPromptInformation
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
+import java.io.File
 import kotlin.text.replace
 
 abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGenerationStrategy {
@@ -28,8 +30,10 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
     }
 
     val promptBase: String = prompt
-    var exceptions: MutableList<Exception> = mutableListOf()
-   var promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
+  private  var exceptions: MutableList<Exception> = mutableListOf()
+  private  var promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
+  private  var generatedFiles: MutableList<PathObject> = mutableListOf()
+  private  var executionLogs: MutableList<String> = mutableListOf()
 
     override fun getWarnings(): Collection<Exception> {
         return exceptions
@@ -38,6 +42,8 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
     override fun clearBuffers() {
         exceptions = mutableListOf()
         promptResults= HashSet<LLMResponse>()
+        generatedFiles=mutableListOf()
+        executionLogs=mutableListOf()
     }
 
     fun generateTestFiles(tests: Collection<CodeFile>, project: Project) {
@@ -45,6 +51,10 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
             x.file = project.reolvePathToTestCodeFile(x).toFile()
             x.file?.createNewFile()
             x.file!!.writeText(x.getContent())
+            generatedFiles.add(PathObject(
+                name = x.file!!.name, content = x.getContent(),
+                children = mutableListOf()
+            ))
         }
 
     }
@@ -88,7 +98,7 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
 
         promptResults.add(response)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
-        codeFilesFromResult.forEach { x -> x.file = java.io.File("test_${section.code!!.replace(" ", "")}") }
+        codeFilesFromResult.forEach { x -> x.file = File("test_${section.code!!.replace(" ", "")}") }
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
         }
@@ -128,13 +138,14 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
         val tests: Collection<CodeFile> = this.generateTestsForSections(sections, llmProcessor, project )
         generateTestFiles(tests, project)
         val logs: String = project.runTests()
+        executionLogs.add(logs)
         val report: TestReport = project.getReport()
 
         return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
-            strategy = getNameIdentifier(),
-            strategyDescription = getDescription(),
+            strategyName = this.getNameIdentifier(),
+            strategyDescription = this.getDescription(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             executionLogs = listOf(logs),
@@ -146,6 +157,21 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
             failureReason = null
         )
     }
+
+
+
+    override fun getPromptResults(): HashSet<LLMResponse>? {
+        return this.promptResults
+    }
+
+    override fun getGeneratedFiles(): List<PathObject>? {
+        return generatedFiles
+    }
+
+    override fun getExecutionLogs(): List<String>? {
+       return executionLogs
+    }
+
 
 
 }

@@ -36,7 +36,7 @@ data class AnalysisRun(
     val failureReason: LlmProcessingException?,
     val llmModel: String,
     val project: String,
-    val strategy: String,
+    val strategyName: String,
     val strategyDescription: String,
     @Serializable(with = InstantSerializer::class)
     val time: Instant = Instant.now(),
@@ -57,7 +57,8 @@ data class AnalysisRun(
 
         if (llmModel != other.llmModel) return false
         if (project != other.project) return false
-        if (strategy != other.strategy) return false
+        if (strategyName != other.strategyName) return false
+        if (strategyDescription != other.strategyDescription) return false
 
         return true
     }
@@ -69,50 +70,17 @@ data class AnalysisRun(
 //        result = 31 * result + time.year.hashCode()
         result = 31 * result + llmModel.hashCode()
         result = 31 * result + project.hashCode()
-        result = 31 * result + strategy.hashCode()
+        result = 31 * result + strategyName.hashCode()
+        result = 31 * result + strategyDescription.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "AnalysisRun(\nfailureReason=$failureReason,\n llmModel='$llmModel',\n project='$project',\n strategy='$strategy',\n strategyDescription='$strategyDescription',\n time=$time,\n deviceSpecification=$deviceSpecification,\n executionLogs=$executionLogs,\n CodeMetrics=$CodeMetrics,\n warnings=$warnings,\n promptResults=$promptResults,\n generatedFiles=$generatedFiles,\n duration=$duration,\n report=$report\n)"
+        return "AnalysisRun(\nfailureReason=$failureReason,\n llmModel='$llmModel',\n project='$project',\n strategyName='$strategyName',\n strategyDescription='$strategyDescription',\n time=$time,\n deviceSpecification=$deviceSpecification,\n executionLogs=$executionLogs,\n CodeMetrics=$CodeMetrics,\n warnings=$warnings,\n promptResults=$promptResults,\n generatedFiles=$generatedFiles,\n duration=$duration,\n report=$report\n)"
     }
 
 
 }
-
-//@SerialName("failure")
-//@Serializable
-//data class AnalysisRunFailure(
-//    val failureReason: LlmProcessingException,
-//    override val llmModel: String,
-//    override val project: String,
-//    override val strategy: String,
-//    @Serializable(with = InstantSerializer::class)
-//    override val time: Instant = Instant.now(),
-//    override val deviceSpecification: DeviceSpecification?,
-//    override var executionLogs: List<String>? = null,
-//
-//    override val warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-//
-//    override var promptResults: HashSet<@Contextual LLMResponse>? = null,
-//    override var generatedFiles: List<PathObject>? = null,
-//) : AnalysisRun()
-//
-//@SerialName("success")
-//@Serializable
-//data class AnalysisRunSuccess(
-//    override val llmModel: String,
-//    override val project: String,
-//    override val strategy: String,
-//    @Serializable(with = InstantSerializer::class)
-//    override val time: Instant = Instant.now(),
-//    val report: TestReport, override val deviceSpecification: DeviceSpecification?,
-//    var duration: kotlin.time.Duration? = null,
-//    override val executionLogs: List<String>? = null,
-//    override var warnings: Collection<@Serializable(with = ExceptionSerializer::class) Exception> = emptyList(),
-//    override val promptResults: HashSet<@Contextual LLMResponse>?,
-//    override val generatedFiles: List<PathObject>? = null
-//) : AnalysisRun()
 
 
 @Serializable
