@@ -9,15 +9,20 @@ data class Code(var code: String? = null, var children: List<Code> = listOf(), v
 
     fun getContent(codeSeparator: CodeSeparator): String {
         var StringBuilder: StringBuilder = StringBuilder("")
-        StringBuilder.append(code)
+        val split: List<String> =
+            code!!.split("\n")
+        val join = split.joinToString("\n")
+        StringBuilder.append(join)
+
         if (children.isNotEmpty()) {
             StringBuilder.append(codeSeparator.CodeSectionStart)
             for (child in children) {
-                StringBuilder.append(child.getContent(codeSeparator))
+                StringBuilder.append(codeSeparator.bodyPartIndicator.characters)
+                StringBuilder.append(child.getContent(codeSeparator.increaseIndicator()))
             }
             StringBuilder.append(codeSeparator.CodeSectionEnd)
         }
-
+        StringBuilder.append("\n")
         return StringBuilder.toString()
     }
 

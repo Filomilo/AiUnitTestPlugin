@@ -24,14 +24,12 @@ class ManualTestsStrategy : TestGenerationStrategy {
             llmModel = "none",
             project = project.name,
             strategy = getNameIdentifier(),
+            strategyDescription = getDescription(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             duration = Duration.ZERO,
             executionLogs = listOf<String>(logs),
             promptResults = HashSet<LLMResponse>(),
-            time = TODO(),
-            warnings = TODO(),
-            generatedFiles = TODO(),
             failureReason = null,
         )
     }

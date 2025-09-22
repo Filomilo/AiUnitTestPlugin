@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerator.Tools
 
+import com.intellij.testFramework.statement
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -21,16 +22,19 @@ import java.nio.file.Path
 import java.nio.file.SimpleFileVisitor
 import java.nio.file.attribute.BasicFileAttributes
 import java.time.Instant
+import java.util.Collections.emptyList
+import java.util.Stack
 import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name
+import kotlin.io.path.relativeTo
 
 
 @Serializable()
 data class PathObject(
     @Contextual
     val name: String,
-    val children: List<PathObject>,
+    val children: MutableList<PathObject>,
     val content: String?
 )
 
@@ -77,24 +81,36 @@ object FilesManagment {
     }
 
 
-    fun getFolderContent(path: Path): List<PathObject> {
+    fun getFolderContent(path: Path, ignoredPaths: List<Path>): List<PathObject> {
         var content: MutableList<PathObject> = emptyList<PathObject>().toMutableList()
-
+        val pathStack: Stack<PathObject> = Stack()
         Files.walkFileTree(path, object : SimpleFileVisitor<Path?>() {
             private var depth = 0
 
             override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes): FileVisitResult {
-                if (depth > 0) {
-                    TODO("subdirectory gathere not implented")
+                if (ignoredPaths.contains(dir!!.relativeTo(path))) {
+                    return FileVisitResult.SKIP_SUBTREE
                 }
-                depth++
+                val pathObject: PathObject = PathObject(
+                    dir!!.name,
+                    children = mutableListOf(),
+                    content = null
+                )
+                if (pathStack.isNotEmpty()) {
+                    pathStack.peek().children.add(pathObject)
+                }
+                pathStack.push(
+                    pathObject
+                )
 
                 return FileVisitResult.CONTINUE
             }
 
             override fun visitFile(file: Path?, attrs: BasicFileAttributes?): FileVisitResult {
-
-                content.add(
+                if (ignoredPaths.contains(file!!.relativeTo(path))) {
+                    return FileVisitResult.SKIP_SUBTREE
+                }
+                pathStack.peek().children.add(
                     PathObject(
                         name = file!!.name,
                         children = emptyList(),
@@ -105,7 +121,10 @@ object FilesManagment {
             }
 
             override fun postVisitDirectory(dir: Path?, exc: IOException?): FileVisitResult {
-                depth--
+                val pathObject: PathObject = pathStack.pop()
+                if (pathStack.isEmpty()) {
+                    content = pathObject.children
+                }
                 return FileVisitResult.CONTINUE
             }
 

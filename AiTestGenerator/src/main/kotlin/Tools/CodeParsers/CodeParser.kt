@@ -6,5 +6,6 @@ import java.nio.file.Path
 interface CodeParser {
     fun getCodeSeparator(): CodeSeparator
     fun parseCodeFile(path: Path): CodeFile
-    fun parseContent(content:String) : CodeFile
+    fun parseContent(content: String): CodeFile
+    fun getLanguage(): String
 }

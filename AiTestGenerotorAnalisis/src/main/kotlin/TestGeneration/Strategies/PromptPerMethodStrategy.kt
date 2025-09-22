@@ -8,18 +8,23 @@ import LLM.TestGenerationException
 import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
+import Tools.PathResolver
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.File
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
+import java.nio.file.Path
 import java.util.Dictionary
+
 
 class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
@@ -41,7 +46,8 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
     data class SingleMethodProvider(
         val method: String,
-        val framework: String
+        val framework: String,
+        val _projectTree: List<PathObject>
     ) : PromptInformationProvider {
         override fun getTestingFramework(): String? {
             return framework
@@ -55,17 +61,19 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             return null
         }
 
-        override fun getFiles(): String? {
-            return null
+        override fun getProjectTree(): List<PathObject> {
+            return _projectTree
         }
+
 
     }
 
     fun getCodeFilesFromLlmResult(promptResult: String, project: Project): Collection<CodeFile> {
         var codeFiles: MutableList<CodeFile> = emptyList<CodeFile>().toMutableList()
         var codeParser: CodeParser = project.codeParser
-        var listings: Collection<String> = LlmParser.extractListingFromLlmResponse(promptResult)
-            .map { x -> StringTools.turnCharsIntoEscapeSequance(x) }.toList()
+        var listings: Collection<String> =
+            LlmParser.extractListingFromLlmResponse(promptResult, project.getLanguage())
+                .map { x -> StringTools.turnCharsIntoEscapeSequance(x) }.toList()
         for (listing in listings) {
             try {
                 val codeFile: CodeFile = codeParser.parseContent(listing)
@@ -87,9 +95,8 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
             this.promptBase,
             SingleMethodProvider(
                 method.getContent(project.codeParser.getCodeSeparator()),
-
-                project.testingFramework
-
+                project.testingFramework,
+                FilesManagment.getFolderContent(project.ProjectPath, project.ignoredPaths)
             )
         )
         var llmreponse: LLMResponse = llmProcessor.executePrompt(
@@ -100,6 +107,7 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
 
         promptResults.add(response)
         val codeFilesFromResult: Collection<CodeFile> = getCodeFilesFromLlmResult(promptResult, project)
+        codeFilesFromResult.forEach { x -> x.file = java.io.File("test_${method.code!!.replace(" ", "")}") }
         if (codeFilesFromResult.isEmpty()) {
             throw CodeRetrivalExcpetion("Couldn't extract any code file from llm result: \n[[\n $promptResult \n]]\n frotm project [[$project]]")
         }
@@ -151,12 +159,16 @@ class PromptPerMethodStrategy(prompt: String) : TestGenerationStrategy {
         return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
-            strategy = "prompt per method: $promptBase",
+            strategy = getNameIdentifier(),
+            strategyDescription = getDescription(),
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             executionLogs = listOf(logs),
             promptResults = promptResults,
-            generatedFiles = FilesManagment.getFolderContent(project.getTestsPath()),
+            generatedFiles = FilesManagment.getFolderContent(
+                path = project.getTestsPath(),
+                ignoredPaths = project.ignoredPaths.map { x -> project.ProjectPath.resolve(x) }.toList()
+            ),
             failureReason = null
         )
     }

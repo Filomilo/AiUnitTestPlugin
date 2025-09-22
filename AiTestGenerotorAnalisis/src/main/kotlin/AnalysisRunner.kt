@@ -68,6 +68,7 @@ object AnalysisRunner {
                 failureReason = ex,
                 llmModel = llmProcessor.getName(),
                 project = project.name,
+                strategyDescription = strategy.getDescription(),
                 strategy = strategy.getNameIdentifier(),
                 deviceSpecification = llmProcessor.getDeviceSpecification(),
                 warnings = strategy.getWarnings(),
@@ -117,5 +118,10 @@ object AnalysisRunner {
         }
 
         this.analysisResults.save()
+    }
+
+    fun clear() {
+        this.analysisResults.runs = hashSetOf<AnalysisRun>()
+        this.analysisResults.fails = hashSetOf<AnalysisRun>()
     }
 }

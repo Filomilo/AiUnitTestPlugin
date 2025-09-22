@@ -7,6 +7,8 @@ import org.filomilo.AiTestGenerator.LLM.Containers.ContainersManager
 import org.filomilo.AiTestGenerator.LLM.Containers.Docker.DockerConnection
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LlmRepository
+import org.filomilo.AiTestGenerotorAnalisis.AnalysisResults
+import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunner
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRunner.containerManager
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
@@ -68,10 +70,10 @@ class AnalysisRunnerTest {
     fun provideProjetLlmStratefyCombinations(): Stream<Arguments> {
         var argslist: MutableList<Arguments> = mutableListOf<Arguments>()
         for (llm: LLMProcessor in LlmRepository.ListOfLlmProcessors) {
-            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
+//            var cachedLLMProcessor: LLMProcessor = CachedLLMProcessor(llm)
             for (strategy: TestGenerationStrategy in TestGenerationStrategyRepository.strategies) {
                 for (project: Project in ProjectsRepository.projects) {
-                    argslist.add(Arguments.of(cachedLLMProcessor, strategy, project))
+                    argslist.add(Arguments.of(llm, strategy, project))
                 }
             }
         }
@@ -87,6 +89,7 @@ class AnalysisRunnerTest {
         strategy: TestGenerationStrategy,
         project: Project
     ) {
+        AnalysisRunner.clear()
         llmProcessor.load()
         log.info(
             """
@@ -111,6 +114,11 @@ class AnalysisRunnerTest {
 
         assertEquals(counFailsBeforeTest + countSucessBeforeTest + 1, countSucessAfterTest + counFailsAfterTest)
         llmProcessor.unload()
+        log.info("==============================================================================================RESULTS ==============================================================================================")
+        var runs: MutableList<AnalysisRun> = mutableListOf()
+        runs.addAll(AnalysisRunner.analysisResults.runs)
+        runs.addAll(AnalysisRunner.analysisResults.fails)
+        log.info(runs.map { x -> x.toString() }.joinToString("\n\n"))
 
     }
 }

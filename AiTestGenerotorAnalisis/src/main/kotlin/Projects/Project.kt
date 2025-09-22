@@ -25,7 +25,8 @@ data class Project(
     private val projectRunner: ProjectRunner,
     private val reportExtractor: ReportExtractor,
     val testingFramework: String,
-    val codeFileExtension: String
+    val codeFileExtension: String,
+    val ignoredPaths: List<Path>
 
 ) :
     Serializable {
@@ -50,7 +51,8 @@ data class Project(
             this.projectRunner,
             this.reportExtractor,
             this.testingFramework,
-            this.codeFileExtension
+            this.codeFileExtension,
+            ignoredPaths = emptyList(),
         )
     }
 
@@ -117,6 +119,10 @@ data class Project(
         return FilesManagment.getFilesRecursively(getTestsPath()).filter { x -> x.extension == this.codeFileExtension }
             .toList()
 
+    }
+
+    fun getLanguage(): String {
+        return codeParser.getLanguage()
     }
 
 
