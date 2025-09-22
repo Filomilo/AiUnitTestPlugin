@@ -18,17 +18,37 @@ object TestGenerationStrategyRepository {
 //                Create ##framework## tests for function ##functions## with project structure ##tree##
 //            """.trimIndent()
 //        ),
-        PromptPerFileStrategy(
-            """
-                Create ##framework## tests for file ##filename## ::
-                 ##filecontent## 
-            """.trimIndent()),
+//        PromptPerFileStrategy(
+//            """
+//                Create ##framework## tests for file ##filename## ::
+//                 ##filecontent##
+//            """.trimIndent()),
         PromptPerFileStrategy(
             """
                 Create ##framework## tests for file ##filename## ::
                  ##filecontent##
                   
-                  with project structure ##tree##
+                  with project structure 
+                  ##tree##
+            """.trimIndent()
+        ),
+        PromptPerFileStrategy(
+            """
+                Create ##framework## tests for file ##filename## ::
+                 ##filecontent##
+                  
+                  with project structure 
+                  ##tree##
+                  
+                  do not redefine code but import
+            """.trimIndent()
+        ),
+        PromptPerFileStrategy(
+            """
+                Create ##framework## tests for file ##filename## ::
+                 ##filecontent##
+
+                  do not redefine code but import
             """.trimIndent()
         )
     )
