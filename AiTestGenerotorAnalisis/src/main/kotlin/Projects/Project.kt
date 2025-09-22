@@ -9,11 +9,8 @@ import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.io.Serializable
-import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.stream.Collectors
 import kotlin.io.path.exists
 import kotlin.io.path.extension
@@ -98,6 +95,9 @@ data class Project(
     }
 
     fun clearTests() {
+
+        this.projectRunner.clearFiles(this)
+        this.reportExtractor.clearFiles(this)
         FilesManagment.deleteContentOfFolder(this.projectRunner.getPathForTestFolder(this.ProjectPath))
         FilesManagment.deleteFilse(this.reportExtractor.getReportFiles(this.ProjectPath))
     }
