@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration
 
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies.ManualTestsStrategy
+import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies.PromptPerFileStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies.PromptPerMethodStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 
@@ -12,9 +13,22 @@ object TestGenerationStrategyRepository {
 //                Create ##framework## tests for function ##functions##
 //            """.trimIndent()
 //        ),
-        PromptPerMethodStrategy(
+//        PromptPerMethodStrategy(
+//            """
+//                Create ##framework## tests for function ##functions## with project structure ##tree##
+//            """.trimIndent()
+//        ),
+        PromptPerFileStrategy(
             """
-                Create ##framework## tests for function ##functions## with project structure ##tree##
+                Create ##framework## tests for file ##filename## ::
+                 ##filecontent## 
+            """.trimIndent()),
+        PromptPerFileStrategy(
+            """
+                Create ##framework## tests for file ##filename## ::
+                 ##filecontent##
+                  
+                  with project structure ##tree##
             """.trimIndent()
         )
     )
