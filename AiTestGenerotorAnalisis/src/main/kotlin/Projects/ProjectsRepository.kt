@@ -41,7 +41,7 @@ object ProjectsRepository {
             testingFramework = "unittest",
             codeParser = PythonParser(),
             codeFileExtension = "py",
-            ignoredPaths = listOf(Path("tests").resolve("__pycache__"))
+            ignoredPaths = listOf(Path("tests").resolve("__pycache__"),Path(".idea"),Path(".gitignore"))
         ),
     )
 }
