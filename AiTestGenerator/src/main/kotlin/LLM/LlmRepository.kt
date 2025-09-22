@@ -31,7 +31,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "gemma3:12b", // Not enough memory
 ////                "gemma3:27b",  // Not enough memory
 ////                "qwq",  // Not enough memory
-//                "deepseek-r1",
+                "deepseek-r1",
 //                "deepseek-r1:671b", // Not enough memory
 //                "llama4:scout", // Not enough memory
 //                "llama4:maverick", // Not enough memory

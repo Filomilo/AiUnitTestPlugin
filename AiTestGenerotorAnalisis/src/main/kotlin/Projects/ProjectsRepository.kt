@@ -23,16 +23,16 @@ object ProjectsRepository {
     }
 
     val projects: List<Project> = listOf(
-        Project(
-            name = "JavaCalculator",
-            ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
-            projectRunner = MavenRunner(),
-            reportExtractor = JacocoReportExtractor(),
-            codeParser = JavaParser,
-            testingFramework = "Junit5",
-            codeFileExtension = "java",
-            ignoredPaths = listOf(Path(".idea"), Path("target"), Path(".gitignore"))
-        ),
+//        Project(
+//            name = "JavaCalculator",
+//            ProjectPath = PathResolver.resolveExampleProject("JavaCalculator"),
+//            projectRunner = MavenRunner(),
+//            reportExtractor = JacocoReportExtractor(),
+//            codeParser = JavaParser,
+//            testingFramework = "Junit5",
+//            codeFileExtension = "java",
+//            ignoredPaths = listOf(Path(".idea"), Path("target"), Path(".gitignore"))
+//        ),
         Project(
             name = "PythonCalculator",
             ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),

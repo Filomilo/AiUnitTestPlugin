@@ -59,9 +59,12 @@ const Fails = computed(() => filterProjects(analysisRunsData.fails));
 
 
 const filterProjects = (runs: (Run | Fail)[]): (Run | Fail)[] => {
+  if (runs === undefined) {
+    return [];
+  }
   return runs
     .filter(r => selectedProjects.value === undefined || selectedProjects.value.length === 0 || selectedProjects.value.includes(r.project)).sort((a, b) => a.project.localeCompare(b.project))
-    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy)).sort((a, b) => a.strategy.localeCompare(b.strategy))
+    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategyName)).sort((a, b) => a.strategyName.localeCompare(b.strategyName))
     .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel));
 }
 
@@ -69,7 +72,10 @@ const selectedProjects: Ref<string[] | undefined> = ref();
 
 const projects: ComputedRef<string[]> = computed(() => {
   const projs = new Set<string>();
-  analysisRunsData.runs.forEach(r => projs.add(r.project));
+  console.log("analysisRunsData", analysisRunsData);
+  if (analysisRunsData.runs !== undefined) {
+    analysisRunsData.runs.forEach(r => projs.add(r.project));
+  }
   analysisRunsData.fails.forEach(r => projs.add(r.project));
   return Array.from(projs).sort((a, b) => a.localeCompare(b));
 })
@@ -79,8 +85,11 @@ const selectedStrategy: Ref<string[] | undefined> = ref();
 
 const strategies: ComputedRef<string[]> = computed(() => {
   const strats = new Set<string>();
-  analysisRunsData.runs.forEach(r => strats.add(r.strategy));
-  analysisRunsData.fails.forEach(r => strats.add(r.strategy));
+  if (analysisRunsData.runs !== undefined) {
+    analysisRunsData.runs.forEach(r => strats.add(r.strategyName));
+  }
+
+  analysisRunsData.fails.forEach(r => strats.add(r.strategyName));
   return Array.from(strats).sort((a: string, b: string) => a.localeCompare(b));
 })
 
@@ -88,7 +97,9 @@ const selectedModels: Ref<string[] | undefined> = ref();
 
 const models: ComputedRef<string[]> = computed(() => {
   const mdls = new Set<string>();
-  analysisRunsData.runs.forEach(r => mdls.add(r.llmModel));
+  if (analysisRunsData.runs !== undefined) {
+    analysisRunsData.runs.forEach(r => mdls.add(r.llmModel));
+  }
   analysisRunsData.fails.forEach(r => mdls.add(r.llmModel));
   return Array.from(mdls).sort((a: string, b: string) => a.localeCompare(b));
 })

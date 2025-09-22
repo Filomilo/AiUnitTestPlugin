@@ -24,7 +24,7 @@ class PythonRunner(val projectName: String) : ProjectRunner {
         projectPath: Path
     ): Path {
         val basePath: Path = getPathForTestFolder(projectPath)
-        val fileName: String = codeFile.file?.name + ".py"
+        val fileName: String = codeFile.file?.nameWithoutExtension + ".py"
         var path: Path = PathResolver.ensureUniqeIncramentalFileName(basePath, fileName)
 
         return path
