@@ -7,22 +7,33 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerati
 
 object TestGenerationStrategyRepository {
     val strategies: Collection<TestGenerationStrategy> = mutableListOf(
-//        ManualTestsStrategy(),
-//        PromptPerMethodStrategy(
-//            """
-//                Create ##framework## tests for function ##functions##
-//            """.trimIndent()
-//        ),
-//        PromptPerMethodStrategy(
-//            """
-//                Create ##framework## tests for function ##functions## with project structure ##tree##
-//            """.trimIndent()
-//        ),
-//        PromptPerFileStrategy(
-//            """
-//                Create ##framework## tests for file ##filename## ::
-//                 ##filecontent##
-//            """.trimIndent()),
+        ManualTestsStrategy(),
+        PromptPerMethodStrategy(
+            """
+                Create ##framework## tests for function ##functions##
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_METHOD)
+        ),
+        PromptPerMethodStrategy(
+            """
+                Create ##framework## tests for function 
+                
+                ##functions## 
+                
+                with project structure 
+                
+                ##tree##
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_METHOD, TestGenerationStrategy.Tags.WITH_PROJECT_TREE
+            )
+        ),
+        PromptPerFileStrategy(
+            """
+                Create ##framework## tests for file ##filename## ::
+                 ##filecontent##
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_FILE
+            )),
         PromptPerFileStrategy(
             """
                 Create ##framework## tests for file ##filename## ::
@@ -30,7 +41,9 @@ object TestGenerationStrategyRepository {
                   
                   with project structure 
                   ##tree##
-            """.trimIndent()
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_FILE, TestGenerationStrategy.Tags.WITH_PROJECT_TREE
+            )
         ),
         PromptPerFileStrategy(
             """
@@ -41,7 +54,9 @@ object TestGenerationStrategyRepository {
                   ##tree##
                   
                   do not redefine code but import
-            """.trimIndent()
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_FILE, TestGenerationStrategy.Tags.WITH_PROJECT_TREE, TestGenerationStrategy.Tags.IMPORT_SPECIFICATION
+            )
         ),
         PromptPerFileStrategy(
             """
@@ -49,7 +64,9 @@ object TestGenerationStrategyRepository {
                  ##filecontent##
 
                   do not redefine code but import
-            """.trimIndent()
+            """.trimIndent(),listOf(
+                TestGenerationStrategy.Tags.PER_FILE, TestGenerationStrategy.Tags.IMPORT_SPECIFICATION
+            )
         )
     )
 }

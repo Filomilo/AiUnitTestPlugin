@@ -13,7 +13,7 @@ import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerati
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 
-class PromptPerFileStrategy(prompt: String) : PromptPerSectionAbstractStrategy(prompt) {
+class PromptPerFileStrategy(prompt: String,tags: List<TestGenerationStrategy.Tags>) : PromptPerSectionAbstractStrategy(prompt,tags) {
 
 
     companion object {
@@ -30,9 +30,7 @@ class PromptPerFileStrategy(prompt: String) : PromptPerSectionAbstractStrategy(p
         return "Prompt per file for test generation formatted from :: \n[[ $promptBase ]\n]]\n"
     }
 
-    override fun getTags(): List<TestGenerationStrategy.Tags> {
-        TODO("Not yet implemented")
-    }
+
 
 
     override fun GetPromptInformationProviderFromCodeSection(

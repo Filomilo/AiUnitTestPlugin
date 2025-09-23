@@ -33,7 +33,7 @@ import java.nio.file.Path
 interface TestGenerationStrategy {
 
     enum class Tags{
-        DUMMY,
+        DUMMY, PER_METHOD, PER_FILE, WITH_PROJECT_TREE, IMPORT_SPECIFICATION
     }
 
     @JsonProperty("Name")

@@ -23,13 +23,14 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.text.replace
 
-abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGenerationStrategy {
+abstract class PromptPerSectionAbstractStrategy(prompt: String, tags: List<TestGenerationStrategy.Tags>) : TestGenerationStrategy {
 
     companion object {
         val log = LoggerFactory.getLogger(PromptPerSectionAbstractStrategy.javaClass)
     }
 
     val promptBase: String = prompt
+    private val tags: List<TestGenerationStrategy.Tags> = tags
   private  var exceptions: MutableList<Exception> = mutableListOf()
   private  var promptResults: HashSet<LLMResponse> = HashSet<LLMResponse>()
   private  var generatedFiles: MutableList<PathObject> = mutableListOf()
@@ -44,6 +45,10 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
         promptResults= HashSet<LLMResponse>()
         generatedFiles=mutableListOf()
         executionLogs=mutableListOf()
+    }
+
+    override fun getTags(): List<TestGenerationStrategy.Tags> {
+       return tags
     }
 
     fun generateTestFiles(tests: Collection<CodeFile>, project: Project) {
