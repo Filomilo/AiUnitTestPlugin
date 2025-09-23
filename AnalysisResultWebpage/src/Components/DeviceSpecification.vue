@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DeviceSpecification } from '@/Types/AnalyisRunsTypes';
+import type { DeviceSpecification } from '@/Types/AnalysisRunsTypes';
 
 const props = defineProps({
   report: {

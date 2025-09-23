@@ -1,4 +1,4 @@
-import type { GeneratedFile } from '@/Types/AnalyisRunsTypes'
+import type { GeneratedFile } from '@/Types/AnalysisRunsTypes'
 import type { TreeNode } from 'primevue/treenode'
 
 export const mapToTreeNode = (file: GeneratedFile, keyPrefix = '0'): TreeNode => {

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 
 import Tree, { type TreeSelectionKeys } from 'primevue/tree'
-import type { GeneratedFile } from '@/Types/AnalyisRunsTypes';
+import type { GeneratedFile } from '@/Types/AnalysisRunsTypes';
 import { ref, onMounted, type ComputedRef, computed, type Ref } from 'vue';
 import type { TreeNode } from 'primevue/treenode';
 import { mapToTreeNode } from '@/Tools/Mapper';

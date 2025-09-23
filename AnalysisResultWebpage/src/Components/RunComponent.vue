@@ -6,9 +6,10 @@
         <h3 class="project-name">
           {{ run.project }}
         </h3>
-        <h4>
-          {{ run.strategy }}
-        </h4>
+
+        <div>
+          <StrategyComponent :strategy="run.strategy" />
+        </div>
         <h4>
           {{ run.llmModel }}
         </h4>
@@ -39,12 +40,13 @@
       </AccordionTab>
 
 
-      <AccordionTab header="Generated files" v-if="generatedFiles !== undefined">
+      <AccordionTab header="Generated files" v-if="generatedFiles !== undefined && generatedFiles.length > 0">
+
         <GenratedFiles :generated-files="generatedFiles" />
 
       </AccordionTab>
 
-      <AccordionTab header="Prompt results" v-if="promptResults !== undefined">
+      <AccordionTab header="Prompt results" v-if="promptResults !== undefined" && promptResults.length> 0>
 
         <PromptResponsesList :responses="promptResults" />
       </AccordionTab>
@@ -66,18 +68,18 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { formatDuration, isoToDate } from "@/Tools/StringTools";
-import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, Warning as WarningType, FailureReason } from "@/Types/AnalyisRunsTypes";
+import type { Run, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, Warning as WarningType, FailureReason } from "@/Types/AnalysisRunsTypes";
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Report from '@/Components/Report.vue';
 import Warning from '@/Components/Warning.vue';
 import DeviceSpecification from '@/Components/DeviceSpecification.vue';
-import GenratedFiles from "./GenratedFiles.vue";
-import PrompResult from "./PrompResult.vue";
+import StrategyComponent from '@/Components/StrategyComponent.vue';
 import PromptResponsesList from "./PromptResponsesList.vue";
+import GenratedFiles from "./GeneratedFiles.vue";
 const props = defineProps({
   run: {
-    type: Object as () => Run | Fail,
+    type: Object as () => Run,
     required: true,
   },
 });
@@ -95,7 +97,7 @@ const deviceSpec: DeviceSpecificationType | undefined = (props.run as Run).devic
 const generatedFiles: GeneratedFile[] | undefined = (props.run as Run).generatedFiles
 const promptResults: PromptResult[] | undefined = (props.run as Run).promptResults
 const warnings: WarningType[] | undefined = (props.run as Run).warnings
-const failureReasaon: FailureReason | undefined = (props.run as Fail).failureReason
+const failureReasaon: FailureReason | undefined = (props.run).failureReason
 
 console.log(JSON.stringify(deviceSpec));
 </script>

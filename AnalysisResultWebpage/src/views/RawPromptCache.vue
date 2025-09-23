@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import PromptResponsesList from '@/Components/PromptResponsesList.vue';
 import { LLMCache } from '@/Data/PromptCache'
-import type { PromptResult } from '@/Types/AnalyisRunsTypes';
+import type { PromptResult } from '@/Types/AnalysisRunsTypes';
 import { ref } from 'vue'
 
 const prompts: PromptResult[] = LLMCache as unknown as PromptResult[];

@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import PrompResult from './PrompResult.vue'
-import type { PromptResult } from '@/Types/AnalyisRunsTypes';
+import type { PromptResult } from '@/Types/AnalysisRunsTypes';
 const props = defineProps({
   responses: {
     type: Array as () => PromptResult[],

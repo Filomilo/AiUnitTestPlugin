@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PromptResult, Report } from '@/Types/AnalyisRunsTypes';
+import type { PromptResult, Report } from '@/Types/AnalysisRunsTypes';
 import DeviceSpecification from './DeviceSpecification.vue';
 import { computed } from 'vue';
 import { FormatEscapeSequences } from '@/Tools/StringTools';

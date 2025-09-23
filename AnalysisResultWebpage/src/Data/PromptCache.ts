@@ -1,4 +1,4 @@
 import cache from '../../../LLMcache.cache?raw'
-import type { PromptResult } from '@/Types/AnalyisRunsTypes'
+import type { PromptResult } from '@/Types/AnalysisRunsTypes'
 const LLMCache: PromptResult[] = JSON.parse(cache as string) as unknown as PromptResult[]
 export { LLMCache }

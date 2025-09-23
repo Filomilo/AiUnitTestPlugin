@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PromptResult, Report, Warning } from '@/Types/AnalyisRunsTypes';
+import type { PromptResult, Report, Warning } from '@/Types/AnalysisRunsTypes';
 
 const props = defineProps({
   warning: {

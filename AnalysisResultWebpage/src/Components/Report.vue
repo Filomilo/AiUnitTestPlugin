@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Report } from '@/Types/AnalyisRunsTypes';
+import type { Report } from '@/Types/AnalysisRunsTypes';
 
 const props = defineProps({
   report: {
