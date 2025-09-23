@@ -16,6 +16,8 @@ import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.PathObject
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
+import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
+import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategySerializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -36,8 +38,8 @@ data class AnalysisRun(
     val failureReason: LlmProcessingException?,
     val llmModel: String,
     val project: String,
-    val strategyName: String,
-    val strategyDescription: String,
+    @Serializable(with = TestGenerationStrategySerializer::class)
+    val strategy: TestGenerationStrategy,
     @Serializable(with = InstantSerializer::class)
     val time: Instant = Instant.now(),
     val deviceSpecification: DeviceSpecification?,
@@ -57,8 +59,7 @@ data class AnalysisRun(
 
         if (llmModel != other.llmModel) return false
         if (project != other.project) return false
-        if (strategyName != other.strategyName) return false
-        if (strategyDescription != other.strategyDescription) return false
+        if (strategy != other.strategy) return false
 
         return true
     }
@@ -70,13 +71,12 @@ data class AnalysisRun(
 //        result = 31 * result + time.year.hashCode()
         result = 31 * result + llmModel.hashCode()
         result = 31 * result + project.hashCode()
-        result = 31 * result + strategyName.hashCode()
-        result = 31 * result + strategyDescription.hashCode()
+        result = 31 * result + strategy.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "AnalysisRun(\nfailureReason=$failureReason,\n llmModel='$llmModel',\n project='$project',\n strategyName='$strategyName',\n strategyDescription='$strategyDescription',\n time=$time,\n deviceSpecification=$deviceSpecification,\n executionLogs=$executionLogs,\n CodeMetrics=$CodeMetrics,\n warnings=$warnings,\n promptResults=$promptResults,\n generatedFiles=$generatedFiles,\n duration=$duration,\n report=$report\n)"
+        return "AnalysisRun(\nfailureReason=$failureReason,\n llmModel='$llmModel',\n project='$project',\n strategy='$strategy,\n time=$time,\n deviceSpecification=$deviceSpecification,\n executionLogs=$executionLogs,\n CodeMetrics=$CodeMetrics,\n warnings=$warnings,\n promptResults=$promptResults,\n generatedFiles=$generatedFiles,\n duration=$duration,\n report=$report\n)"
     }
 
 

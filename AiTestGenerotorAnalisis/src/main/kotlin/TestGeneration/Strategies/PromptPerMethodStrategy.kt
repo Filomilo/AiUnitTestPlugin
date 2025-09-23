@@ -27,12 +27,12 @@ import java.nio.file.Path
 import java.util.Dictionary
 
 
-class PromptPerMethodStrategy(prompt: String) : PromptPerSectionAbstractStrategy(prompt) {
+class PromptPerMethodStrategy(prompt: String,tags: List<TestGenerationStrategy.Tags>) : PromptPerSectionAbstractStrategy(prompt) {
 
     companion object {
         val log = LoggerFactory.getLogger(PromptPerMethodStrategy.javaClass)
     }
-
+    private val tags: List<TestGenerationStrategy.Tags> = tags
 
 
     override fun getNameIdentifier(): String {
@@ -41,6 +41,10 @@ class PromptPerMethodStrategy(prompt: String) : PromptPerSectionAbstractStrategy
 
     override fun getDescription(): String {
         return "Prompt per method for test generation formatted from :: \n[[ $promptBase ]\n]]\n"
+    }
+
+    override fun getTags(): List<TestGenerationStrategy.Tags> {
+    return tags
     }
 
     override fun GetPromptInformationProviderFromCodeSection(

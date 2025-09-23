@@ -17,7 +17,8 @@ class PromptPerMethodStrategyTest {
                 Create ##framework## for function 
                 
                 ##functions##
-            """.trimIndent()
+            """.trimIndent(),
+            tags = emptyList()
         )
 
 

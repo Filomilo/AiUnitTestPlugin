@@ -27,8 +27,7 @@ class ManualTestsStrategy : TestGenerationStrategy {
         return AnalysisRun(
             llmModel = "none",
             project = project.name,
-            strategyName = this.getNameIdentifier(),
-            strategyDescription = this.getDescription(),
+            strategy= this,
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             duration = Duration.ZERO,
@@ -57,6 +56,10 @@ class ManualTestsStrategy : TestGenerationStrategy {
 
     override fun getExecutionLogs(): List<String>? {
       return listOf(logs)
+    }
+
+    override fun getTags(): List<TestGenerationStrategy.Tags> {
+        TODO("Not yet implemented")
     }
 
 }

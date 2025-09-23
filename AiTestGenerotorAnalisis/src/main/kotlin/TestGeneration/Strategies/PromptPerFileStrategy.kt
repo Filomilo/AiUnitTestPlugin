@@ -30,6 +30,10 @@ class PromptPerFileStrategy(prompt: String) : PromptPerSectionAbstractStrategy(p
         return "Prompt per file for test generation formatted from :: \n[[ $promptBase ]\n]]\n"
     }
 
+    override fun getTags(): List<TestGenerationStrategy.Tags> {
+        TODO("Not yet implemented")
+    }
+
 
     override fun GetPromptInformationProviderFromCodeSection(
         code: Code,

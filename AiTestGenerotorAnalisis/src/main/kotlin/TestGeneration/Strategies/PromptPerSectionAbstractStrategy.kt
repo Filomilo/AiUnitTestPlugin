@@ -144,8 +144,7 @@ abstract class PromptPerSectionAbstractStrategy(prompt: String) : TestGeneration
         return AnalysisRun(
             llmModel = llmProcessor.toString(),
             project = project.name,
-            strategyName = this.getNameIdentifier(),
-            strategyDescription = this.getDescription(),
+            strategy= this,
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             executionLogs = listOf(logs),
