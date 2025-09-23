@@ -8,9 +8,20 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReport
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner
 import Tools.PathResolver
+import java.nio.file.Files
+import java.nio.file.Path
 import kotlin.io.path.Path
+import kotlin.io.path.name
 
 object ProjectsRepository {
+
+    fun getPathsFromGitIgnore(gitIgnorePath: Path): List<Path> {
+        val list: MutableList<Path> = mutableListOf()
+        Files.readAllLines(gitIgnorePath).forEach { x -> list.add(Path(x)) }
+        list.add(Path(gitIgnorePath.name))
+        return list
+    }
+
     val projects: List<Project> = listOf(
         Project(
             name = "JavaCalculator",
@@ -19,7 +30,8 @@ object ProjectsRepository {
             reportExtractor = JacocoReportExtractor(),
             codeParser = JavaParser,
             testingFramework = "Junit5",
-            codeFileExtension = "java"
+            codeFileExtension = "java",
+            ignoredPaths = listOf(Path(".idea"), Path("target"), Path(".gitignore"))
         ),
         Project(
             name = "PythonCalculator",
@@ -29,7 +41,7 @@ object ProjectsRepository {
             testingFramework = "unittest",
             codeParser = PythonParser(),
             codeFileExtension = "py",
-            ignoredFiles = listOf(Path("tests").resolve("__pycache__"))
+            ignoredPaths = listOf(Path("tests").resolve("__pycache__"),Path(".idea"),Path(".gitignore"))
         ),
     )
 }

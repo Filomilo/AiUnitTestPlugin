@@ -13,6 +13,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectsRepository
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.TestGenerationStrategyRepository
 import Tools.PathResolver
+import nl.adaptivity.xmlutil.core.internal.isNameStartChar
 import org.filomilo.AiTestGenerator.LLM.CachedLLMProcessor
 import org.filomilo.AiTestGenerator.LLM.Processors.OllamaProcessors
 import org.filomilo.AiTestGenerator.Tools.System
@@ -68,17 +69,16 @@ object AnalysisRunner {
                 failureReason = ex,
                 llmModel = llmProcessor.getName(),
                 project = project.name,
-                strategyDescription = strategy.getDescription(),
-                strategy = strategy.getNameIdentifier(),
+                strategy = strategy,
                 deviceSpecification = llmProcessor.getDeviceSpecification(),
                 warnings = strategy.getWarnings(),
-                report = null
+                report = null,
             )
-            if (AnalysisRun != null) {
-                AnalysisRunFailure.promptResults = AnalysisRun!!.promptResults
-                AnalysisRunFailure.executionLogs = AnalysisRun!!.executionLogs
-                AnalysisRunFailure.generatedFiles = AnalysisRun!!.generatedFiles
-            }
+
+                AnalysisRunFailure.promptResults = strategy.getPromptResults()
+                AnalysisRunFailure.executionLogs = strategy.getExecutionLogs()
+                AnalysisRunFailure.generatedFiles = strategy.getGeneratedFiles()
+
 
 
             this.analysisResults.addRunFailure(

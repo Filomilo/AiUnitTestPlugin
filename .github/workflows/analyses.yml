@@ -2,15 +2,14 @@ name: analyses
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-
-
-
   perfrom_analyses:
     permissions:
       contents: write
+      id-token: write
+      pages: write
     uses: ./.github/workflows/CI-env.yml
     with:
       folder: AiTestGenerotorAnalisis

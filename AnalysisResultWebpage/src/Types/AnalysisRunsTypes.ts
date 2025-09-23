@@ -1,19 +1,14 @@
 export interface AnalysisRunsData {
   runs: Run[]
-  fails: Run[]
-}
-
-export interface strategy {
-  name: string
-  description: string
-  tags: string[]
+  fails: Fail[]
 }
 
 export interface Run {
   type: string
   llmModel: string
   project: string
-  strategy: strategy
+  strategyName: string
+  strategyDescription: string
   time: string
   report: Report
   deviceSpecification: DeviceSpecification
@@ -21,8 +16,8 @@ export interface Run {
   executionLogs: string[]
   promptResults: PromptResult[]
   generatedFiles: GeneratedFile[]
+  fails: Fail[]
   warnings?: Warning[]
-  failureReason?: FailureReason
 }
 
 export interface Report {

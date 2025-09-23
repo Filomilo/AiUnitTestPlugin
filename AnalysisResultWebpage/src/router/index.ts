@@ -16,6 +16,11 @@ const routes = [
     name: 'RawPrompts',
     component: RawPromptCache,
   },
+  {
+    path: '/PromptTester',
+    name: 'PromptTester',
+    component: () => import('@/views/PromptTester.vue'),
+  },
 ]
 
 const router = createRouter({

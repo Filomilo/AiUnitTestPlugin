@@ -6,9 +6,11 @@
         <h3 class="project-name">
           {{ run.project }}
         </h3>
-
+        <h4>
+          {{ run.strategyName }}
+        </h4>
         <div>
-          <StrategyComponent :strategy="run.strategy" />
+          {{ run.strategyDescription }}
         </div>
         <h4>
           {{ run.llmModel }}
@@ -25,12 +27,16 @@
 
 
     </div>
+    <div v-if="failureReasaon !== undefined" style="color: red; font-weight: bold; margin-top: 1rem;">
+      Failure Reason: {{ failureReasaon.message }}
+
+    </div>
     <Accordion :activeIndex="0">
       <AccordionTab header="Report" v-if="report !== undefined">
         <Report :report="report" />
       </AccordionTab>
 
-      <AccordionTab header="Execution Logs" v-if="logs !== undefined">
+      <AccordionTab header="Execution Logs" v-if="logs !== undefined && logs.length > 0">
         <pre>{{ logs.join("\n") }}</pre>
       </AccordionTab>
 
@@ -41,12 +47,11 @@
 
 
       <AccordionTab header="Generated files" v-if="generatedFiles !== undefined && generatedFiles.length > 0">
-
         <GenratedFiles :generated-files="generatedFiles" />
 
       </AccordionTab>
 
-      <AccordionTab header="Prompt results" v-if="promptResults !== undefined" && promptResults.length> 0>
+      <AccordionTab header="Prompt results" v-if="promptResults !== undefined">
 
         <PromptResponsesList :responses="promptResults" />
       </AccordionTab>
@@ -68,18 +73,18 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { formatDuration, isoToDate } from "@/Tools/StringTools";
-import type { Run, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, Warning as WarningType, FailureReason } from "@/Types/AnalysisRunsTypes";
+import type { Run, Fail, Report as ReportType, DeviceSpecification as DeviceSpecificationType, GeneratedFile, PromptResult, Warning as WarningType, FailureReason } from "@/Types/AnalyisRunsTypes";
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Report from '@/Components/Report.vue';
 import Warning from '@/Components/Warning.vue';
 import DeviceSpecification from '@/Components/DeviceSpecification.vue';
-import StrategyComponent from '@/Components/StrategyComponent.vue';
+import GenratedFiles from "./GenratedFiles.vue";
+import PrompResult from "./PrompResult.vue";
 import PromptResponsesList from "./PromptResponsesList.vue";
-import GenratedFiles from "./GeneratedFiles.vue";
 const props = defineProps({
   run: {
-    type: Object as () => Run,
+    type: Object as () => Run | Fail,
     required: true,
   },
 });
@@ -97,7 +102,7 @@ const deviceSpec: DeviceSpecificationType | undefined = (props.run as Run).devic
 const generatedFiles: GeneratedFile[] | undefined = (props.run as Run).generatedFiles
 const promptResults: PromptResult[] | undefined = (props.run as Run).promptResults
 const warnings: WarningType[] | undefined = (props.run as Run).warnings
-const failureReasaon: FailureReason | undefined = (props.run).failureReason
+const failureReasaon: FailureReason | undefined = (props.run as Fail).failureReason
 
 console.log(JSON.stringify(deviceSpec));
 </script>
