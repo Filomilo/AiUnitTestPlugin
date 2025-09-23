@@ -80,7 +80,6 @@ class AnalysisRunnerTest {
         return argslist.stream()
     }
 
-
     @ParameterizedTest
     @Timeout(120, unit = TimeUnit.MINUTES)
     @MethodSource("provideProjetLlmStratefyCombinations")
