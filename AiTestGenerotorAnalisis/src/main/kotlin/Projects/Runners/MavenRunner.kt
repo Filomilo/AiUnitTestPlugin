@@ -4,6 +4,8 @@ import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CommandExecutor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.ProjectRunner
 import Tools.PathResolver
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import java.nio.file.Path
 
 class MavenRunner() : ProjectRunner {
@@ -27,6 +29,11 @@ class MavenRunner() : ProjectRunner {
 
     override fun getPathForTestFolder(projectPath: Path): Path {
         return projectPath.resolve("src").resolve("test").resolve("java")
+    }
+
+    override fun clearFiles(project: Project) {
+        FilesManagment.deleteContentOfFolder(this.getPathForTestFolder(project.ProjectPath))
+
     }
 
 

@@ -32,8 +32,11 @@ object PromptFormatter {
             arguments["##functions##"] = promptInformationProvider.getFunctions()!!
         }
 
-        if (promptInformationProvider.getClasses() != null) {
-            arguments["##classes##"] = promptInformationProvider.getClasses()!!
+        if (promptInformationProvider.getFileName() != null) {
+            arguments["##filename##"] = promptInformationProvider.getFileName()!!
+        }
+        if (promptInformationProvider.getFileContent() != null) {
+            arguments["##filecontent##"] = promptInformationProvider.getFileContent()!!
         }
 
         if (promptInformationProvider.getProjectTree() != null) {

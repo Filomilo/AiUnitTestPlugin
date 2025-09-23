@@ -3,6 +3,8 @@ package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest
 import Exceptions.ReportNotFoundException
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReport
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
@@ -31,5 +33,9 @@ class PytestReportExtractor : ReportExtractor {
 
     override fun getReportFiles(projectPath: Path): Collection<Path> {
         return listOf(projectPath.resolve("htmlcov"), projectPath.resolve("coverage.json"))
+    }
+
+    override fun clearFiles(project: Project) {
+        FilesManagment.deleteFilse(this.getReportFiles(project.ProjectPath))
     }
 }

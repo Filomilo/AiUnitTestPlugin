@@ -27,7 +27,6 @@ class FilesManagmentTest {
             -----filomilo
             ------AiTestGenerotorAnalisis
             -------Calculator.java
-            ---resources
             --test
             ---java
             ----org

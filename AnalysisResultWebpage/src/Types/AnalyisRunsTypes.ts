@@ -7,7 +7,7 @@ export interface Run {
   type: string
   llmModel: string
   project: string
-  strategy: string
+  strategyName: string
   strategyDescription: string
   time: string
   report: Report
@@ -61,10 +61,17 @@ export interface Fail {
   failureReason: FailureReason
   llmModel: string
   project: string
-  strategy: string
+  strategyName: string
   time: string
   deviceSpecification: DeviceSpecification
   warnings?: Warning[]
+  strategyDescription: string
+  report: Report
+  duration: string
+  executionLogs: string[]
+  promptResults: PromptResult[]
+  generatedFiles: GeneratedFile[]
+  fails: Fail[]
 }
 
 export interface FailureReason {

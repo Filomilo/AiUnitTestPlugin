@@ -2,6 +2,8 @@ package org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco
 
 import Exceptions.ReportNotFoundException
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import org.filomilo.AiTestGenerator.Tools.FilesManagment
+import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import java.nio.file.Path
@@ -28,5 +30,9 @@ class JacocoReportExtractor : ReportExtractor {
 
     override fun getReportFiles(projectPath: Path): Collection<Path> {
         return listOf<Path>(projectPath.resolve("target"))
+    }
+
+    override fun clearFiles(project: Project) {
+        FilesManagment.deleteFilse(this.getReportFiles(project.ProjectPath))
     }
 }

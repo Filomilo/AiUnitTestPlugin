@@ -7,8 +7,11 @@
           {{ run.project }}
         </h3>
         <h4>
-          {{ run.strategy }}
+          {{ run.strategyName }}
         </h4>
+        <div>
+          {{ run.strategyDescription }}
+        </div>
         <h4>
           {{ run.llmModel }}
         </h4>
@@ -24,12 +27,16 @@
 
 
     </div>
+    <div v-if="failureReasaon !== undefined" style="color: red; font-weight: bold; margin-top: 1rem;">
+      Failure Reason: {{ failureReasaon.message }}
+
+    </div>
     <Accordion :activeIndex="0">
       <AccordionTab header="Report" v-if="report !== undefined">
         <Report :report="report" />
       </AccordionTab>
 
-      <AccordionTab header="Execution Logs" v-if="logs !== undefined">
+      <AccordionTab header="Execution Logs" v-if="logs !== undefined && logs.length > 0">
         <pre>{{ logs.join("\n") }}</pre>
       </AccordionTab>
 
@@ -39,7 +46,7 @@
       </AccordionTab>
 
 
-      <AccordionTab header="Generated files" v-if="generatedFiles !== undefined">
+      <AccordionTab header="Generated files" v-if="generatedFiles !== undefined && generatedFiles.length > 0">
         <GenratedFiles :generated-files="generatedFiles" />
 
       </AccordionTab>
