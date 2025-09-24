@@ -65,7 +65,8 @@ const filterProjects = (runs: (Run)[]): (Run)[] => {
   return runs
     .filter(r => selectedProjects.value === undefined || selectedProjects.value.length === 0 || selectedProjects.value.includes(r.project)).sort((a, b) => a.project.localeCompare(b.project))
     .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy.name)).sort((a, b) => a.strategy.name.localeCompare(b.strategy.name))
-    .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel));
+    .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel))
+    .sort((a, b) => (new Date(b.time).getTime()) - (new Date(a.time).getTime()));
 }
 
 const selectedProjects: Ref<string[] | undefined> = ref();

@@ -25,7 +25,7 @@
 
 
     </div>
-    <div v-if="failureReasaon !== undefined" style="color: red; font-weight: bold; margin-top: 1rem;">
+    <div v-if="failureReasaon !== undefined && failureReasaon!==null" style="color: red; font-weight: bold; margin-top: 1rem;">
       Failure Reason: {{ failureReasaon.message }}
 
     </div>
@@ -80,6 +80,7 @@ import DeviceSpecification from '@/Components/DeviceSpecification.vue';
 import GenratedFiles from "@/Components/GeneratedFiles.vue";
 import PrompResult from "./PrompResult.vue";
 import PromptResponsesList from "./PromptResponsesList.vue";
+import StrategyComponent from "./StrategyComponent.vue";
 const props = defineProps({
   run: {
     type: Object as () => Run,
@@ -101,7 +102,8 @@ const generatedFiles: GeneratedFile[] | undefined = (props.run as Run).generated
 const promptResults: PromptResult[] | undefined = (props.run as Run).promptResults
 const warnings: WarningType[] | undefined = (props.run as Run).warnings
 const failureReasaon: FailureReason | undefined = (props.run as Run).failureReason
-
+console.log("failureReasaon");
+console.log(failureReasaon);
 console.log(JSON.stringify(deviceSpec));
 </script>
 <style scoped>
