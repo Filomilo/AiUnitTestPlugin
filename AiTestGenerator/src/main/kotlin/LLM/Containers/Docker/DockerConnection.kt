@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream
 import java.nio.charset.StandardCharsets
 import java.time.Duration
 
+
 object DockerConnection : ContainersManager {
     private val log: Logger = LoggerFactory.getLogger(DockerConnection::class.java)
 
@@ -142,6 +143,16 @@ object DockerConnection : ContainersManager {
                         .withTarget(x.interalPath)
                 }.toList()
             )
+        }
+
+        if(containerConfiguration.gpus)
+        {
+            val gpuRequest = DeviceRequest()
+                .withDriver("nvidia")
+                .withCount(-1)
+                .withCapabilities(mutableListOf<MutableList<String?>?>(mutableListOf<String?>("gpu")))
+
+            hostConfig.withDeviceRequests (listOf(gpuRequest))
         }
 
         var response: CreateContainerResponse

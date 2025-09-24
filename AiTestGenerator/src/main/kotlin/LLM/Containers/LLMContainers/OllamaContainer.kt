@@ -17,7 +17,8 @@ class OllamaContainer(
         image = "ollama/ollama",
         ramBytes = ramBytes,
         portConfiguration = arrayListOf(ExposedPort(11434, port)),
-        mountVolumes = arrayListOf(MountVolume("ollama", "/root/.ollama"))
+        mountVolumes = arrayListOf(MountVolume("ollama", "/root/.ollama")),
+        gpus = true
     )
 ) {
 
