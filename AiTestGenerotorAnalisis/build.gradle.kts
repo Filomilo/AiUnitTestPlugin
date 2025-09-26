@@ -9,6 +9,7 @@ plugins {
 
 application {
     mainClass.set("org.filomilo.AiTestGenerotorAnalisis.Main")
+    applicationDefaultJvmArgs = listOf("-Djna.nosys=true")
 }
 group = "org.filomilo.AiTestGenerotorAnalisis"
 version = "1.0-SNAPSHOT"
@@ -46,6 +47,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf("-Djna.nosys=true")
+
 }
 kotlin {
     jvmToolchain(17)
