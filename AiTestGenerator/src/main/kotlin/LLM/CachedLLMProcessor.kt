@@ -58,11 +58,12 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
         private fun retrievePromoterCache(
             prompt: String,
             modelName: String,
-            device: DeviceSpecification?
+            device: DeviceSpecification?,
+            jsonFormat: String?
         ): LLMResponse? {
             log.info("attmpet to retrive prompt: \n prompt: $prompt \n model name: $modelName, \n device: $device")
-            var retrived: LLMResponse? = this.cachedData.find { x -> x.compareConfig(prompt, modelName, device) }
-            log.info(" retrive prompt foe : \n prompt: $prompt \n model name: $modelName, \n device: $device \n\n:: $retrived")
+            var retrived: LLMResponse? = this.cachedData.find { x -> x.compareConfig(prompt, modelName, device,jsonFormat) }
+            log.info(" retrive prompt foe : \n prompt:\n\n $prompt \n model name: $modelName, \n device: $device \n jsonFormat: \n\n$jsonFormat \n\n:: $retrived")
             return retrived
         }
 
@@ -79,14 +80,14 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
     }
 
 
-    override fun executePrompt(prompt: String): LLMResponse {
+    override fun executePrompt(prompt: String   ,     jsonSchema: String?): LLMResponse {
         var result: LLMResponse? =
-            retrievePromoterCache(prompt, this.llmProcessor.getName(), this.llmProcessor.getDeviceSpecification())
+            retrievePromoterCache(prompt, this.llmProcessor.getName(), this.llmProcessor.getDeviceSpecification(), jsonFormat = jsonSchema)
         if (result != null) {
             this.durationGeneratorBuffer.add(result.generationTime)
             return result
         }
-        result = this.llmProcessor.executePrompt(prompt)
+        result = this.llmProcessor.executePrompt(prompt,jsonSchema)
         addPromptToCache(result)
         return result
     }
@@ -101,6 +102,8 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
 
 
     }
+
+
 
 
     override fun load() {
@@ -119,6 +122,7 @@ class CachedLLMProcessor(llmProcessor: LLMProcessor) : LLMProcessor {
     override fun getDeviceSpecification(): DeviceSpecification? {
         return this.llmProcessor.getDeviceSpecification()
     }
+
 
     override fun toString(): String {
         return this.llmProcessor.toString() + "-cached"

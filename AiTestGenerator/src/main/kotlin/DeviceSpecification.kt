@@ -35,6 +35,7 @@ data class DeviceSpecification(
 
 
         fun getCurrentDeviceSpecification(): DeviceSpecification {
+            System.setProperty("jna.nosys", "false");
             val si: SystemInfo = SystemInfo();
             val hal: HardwareAbstractionLayer = si.getHardware();
             val cpu: CentralProcessor = hal.getProcessor();
