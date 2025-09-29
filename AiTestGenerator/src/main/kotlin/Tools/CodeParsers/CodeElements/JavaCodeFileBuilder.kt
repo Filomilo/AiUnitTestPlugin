@@ -2,7 +2,6 @@ package org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements
 
 import Tools.CodeParsers.CodeElements.JavaCodeFile
 import Tools.CodeParsers.ParsingException
-import com.intellij.codeInsight.hints.codeVision.CodeVision
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 
 class JavaFunctionBuilder(javaClassBuilder: JavaClassBuilder) {
@@ -103,7 +102,7 @@ class JavaCodeFileBuilder {
         return JavaCodeFile(
             packageDelaration = this.packageName,
             dependecies = this.imports,
-            codes = classes
+            codes = classes,
         )
     }
 }

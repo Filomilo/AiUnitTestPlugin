@@ -9,6 +9,7 @@ import org.filomilo.AiTestGenerator.Tools.FilesManagment
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.ReportExtractor
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.Serializable
 import java.nio.file.Path
 import java.util.stream.Collectors
@@ -49,7 +50,7 @@ data class Project(
             this.reportExtractor,
             this.testingFramework,
             this.codeFileExtension,
-            ignoredPaths = emptyList(),
+            ignoredPaths = this.ignoredPaths,
         )
     }
 
@@ -98,7 +99,7 @@ data class Project(
 
         this.projectRunner.clearFiles(this)
         this.reportExtractor.clearFiles(this)
-        }
+    }
 
     fun destroy() {
         FilesManagment.deleteDirecotry(this.ProjectPath)
@@ -121,6 +122,10 @@ data class Project(
 
     fun getLanguage(): String {
         return codeParser.getLanguage()
+    }
+
+    fun createCodeFile(dependecies: List<String>, codes: MutableList<String>, file: File): CodeFile {
+        return codeParser.createCodeFile(dependecies, codes, file)
     }
 
 

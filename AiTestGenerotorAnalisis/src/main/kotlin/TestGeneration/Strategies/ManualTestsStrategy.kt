@@ -7,11 +7,12 @@ import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
+import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy.Tags
 import kotlin.time.Duration
 
 class ManualTestsStrategy : TestGenerationStrategy {
 
-    var logs: String=""
+    var logs: String = ""
 
     override fun getNameIdentifier(): String {
         return "Manual_Tests"
@@ -27,7 +28,7 @@ class ManualTestsStrategy : TestGenerationStrategy {
         return AnalysisRun(
             llmModel = "none",
             project = project.name,
-            strategy= this,
+            strategy = this,
             report = report,
             deviceSpecification = llmProcessor.getDeviceSpecification(),
             duration = Duration.ZERO,
@@ -42,12 +43,12 @@ class ManualTestsStrategy : TestGenerationStrategy {
     }
 
     override fun getPromptResults(): HashSet<LLMResponse>? {
-       return null
+        return null
     }
 
 
     override fun clearBuffers() {
-    logs=""
+        logs = ""
     }
 
     override fun getGeneratedFiles(): List<PathObject>? {
@@ -55,11 +56,11 @@ class ManualTestsStrategy : TestGenerationStrategy {
     }
 
     override fun getExecutionLogs(): List<String>? {
-      return listOf(logs)
+        return listOf(logs)
     }
 
     override fun getTags(): List<TestGenerationStrategy.Tags> {
-        TODO("Not yet implemented")
+        return listOf(Tags.MANUAL)
     }
 
 }

@@ -2,13 +2,15 @@ package Tools.CodeParsers.CodeElements
 
 import Tools.CodeParsers.CodeSeparator
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
+import java.io.File
 
 
 class JavaCodeFile(
     val packageDelaration: String?,
     override val dependecies: Set<String> = setOf(),
-    override val codes: MutableList<Code> = mutableListOf()
-) : CodeFile(dependecies, codes) {
+    override val codes: MutableList<Code> = mutableListOf(),
+    file: File? = null
+) : CodeFile(dependecies, codes, file) {
     var packageDedlaration: String? = null;
 
     init {

@@ -14598,7 +14598,7 @@
     "prompt": "   Create Junit5 tests for file Calculator.java ::\npublic class Calculator{public static int add(inta,intb){\n        return a + b;\n    \n}\npublic static int subtract(inta,intb){\n        return a - b;\n    \n}\npublic static int multiply(inta,intb){\n        return a * b;\n    \n}\npublic static int divide(inta,intb){\n        if (b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static float multiply(floata,floatb){\n        return a * b;\n    \n}\npublic static float divide(floata,floatb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static float add(floata,floatb){\n        return a + b;\n    \n}\npublic static float subtract(floata,floatb){\n        return a - b;\n    \n}\npublic static double multiply(doublea,doubleb){\n        return a * b;\n    \n}\npublic static double divide(doublea,doubleb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static double add(doublea,doubleb){\n        return a + b;\n    \n}\npublic static double subtract(doublea,doubleb){\n        return a - b;\n    \n}\n}\n\n \n with project structure \n -pom.xml\n-src\n--main\n---java\n----org\n-----filomilo\n------AiTestGenerotorAnalisis\n-------Calculator.java\n---resources\n--test\n---java\n",
     "response": "{\"file_name\": \"calculator\", \"file_content\": \"\",\"imports\":[] }",
     "modelName": "Ollama-moondream",
-    "generationTime": "1m 26.262665200s",
+    "generationTime": "1m 27.657248800s",
     "deviceSpecification": {
       "ramBytes": 17112657920,
       "system": "Windows 11",
@@ -14613,7 +14613,8 @@
           "VRamBytes": 3221225472
         }
       ]
-    }
+    },
+    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
   },
   {
     "prompt": "Create Pytest tests for function class Calculator:\ndef add(a,b):\n return a+b\n    ",

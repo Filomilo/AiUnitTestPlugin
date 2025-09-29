@@ -46,8 +46,8 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 
-import type { AnalysisRunsData, Fail } from '@/Types/AnalyisRunsTypes';
-import type { Run } from '@/Types/AnalyisRunsTypes';
+import type { AnalysisRunsData } from '@/Types/AnalysisRunsTypes';
+import type { Run } from '@/Types/AnalysisRunsTypes';
 import RunComponent from '@/Components/RunComponent.vue';
 import { analysisRunsData } from '@/Data/AnalysisResults';
 import { factory } from 'typescript';
@@ -58,14 +58,15 @@ const Successes = computed(() => filterProjects(analysisRunsData.runs));
 const Fails = computed(() => filterProjects(analysisRunsData.fails));
 
 
-const filterProjects = (runs: (Run | Fail)[]): (Run | Fail)[] => {
+const filterProjects = (runs: (Run)[]): (Run)[] => {
   if (runs === undefined) {
     return [];
   }
   return runs
     .filter(r => selectedProjects.value === undefined || selectedProjects.value.length === 0 || selectedProjects.value.includes(r.project)).sort((a, b) => a.project.localeCompare(b.project))
-    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategyName)).sort((a, b) => a.strategyName.localeCompare(b.strategyName))
-    .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel));
+    .filter(r => selectedStrategy.value === undefined || selectedStrategy.value.length === 0 || selectedStrategy.value.includes(r.strategy.name)).sort((a, b) => a.strategy.name.localeCompare(b.strategy.name))
+    .filter(r => selectedModels.value === undefined || selectedModels.value.length === 0 || selectedModels.value.includes(r.llmModel)).sort((a, b) => a.llmModel.localeCompare(b.llmModel))
+    .sort((a, b) => (new Date(b.time).getTime()) - (new Date(a.time).getTime()));
 }
 
 const selectedProjects: Ref<string[] | undefined> = ref();
@@ -76,7 +77,9 @@ const projects: ComputedRef<string[]> = computed(() => {
   if (analysisRunsData.runs !== undefined) {
     analysisRunsData.runs.forEach(r => projs.add(r.project));
   }
+  if (analysisRunsData.fails !== undefined) {
   analysisRunsData.fails.forEach(r => projs.add(r.project));
+  }
   return Array.from(projs).sort((a, b) => a.localeCompare(b));
 })
 
@@ -86,10 +89,12 @@ const selectedStrategy: Ref<string[] | undefined> = ref();
 const strategies: ComputedRef<string[]> = computed(() => {
   const strats = new Set<string>();
   if (analysisRunsData.runs !== undefined) {
-    analysisRunsData.runs.forEach(r => strats.add(r.strategyName));
+    analysisRunsData.runs.forEach(r => strats.add(r.strategy.name));
   }
+if (analysisRunsData.fails !== undefined) {
+  analysisRunsData.fails.forEach(r => strats.add(r.strategy.name));
+}
 
-  analysisRunsData.fails.forEach(r => strats.add(r.strategyName));
   return Array.from(strats).sort((a: string, b: string) => a.localeCompare(b));
 })
 
@@ -100,7 +105,10 @@ const models: ComputedRef<string[]> = computed(() => {
   if (analysisRunsData.runs !== undefined) {
     analysisRunsData.runs.forEach(r => mdls.add(r.llmModel));
   }
+  if (analysisRunsData.fails !== undefined) {
   analysisRunsData.fails.forEach(r => mdls.add(r.llmModel));
+  }
+
   return Array.from(mdls).sort((a: string, b: string) => a.localeCompare(b));
 })
 

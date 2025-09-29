@@ -26,6 +26,7 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
         element<String>("modelName")
         element<String>("generationTime") // store as String
         element<DeviceSpecification?>("deviceSpecification", isOptional = true)
+        element<String?>("jsonFormat", isOptional = true)
     }
 
 
@@ -38,6 +39,9 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
             if (value.deviceSpecification != null) {
                 encodeSerializableElement(descriptor, 4, DeviceSpecification.serializer(), value.deviceSpecification)
             }
+            if (value.jsonFormat != null) {
+                encodeStringElement(descriptor, 5, value.jsonFormat)
+            }
         }
     }
 
@@ -48,7 +52,7 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
         var modelName = ""
         var generationTime: Duration = Duration.ZERO
         var deviceSpecification: DeviceSpecification? = null
-        var jsonFormat: String?=null
+        var jsonFormat: String? = null
         DeviceSpecification.serializer()
 
         decoder.decodeStructure(descriptor) {
@@ -59,20 +63,23 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
                     1 -> response = StringTools.turnCharsIntoEscapeSequance(decodeStringElement(descriptor, 1))
                     2 -> modelName = decodeStringElement(descriptor, 2)
                     3 -> generationTime = Duration.parse(decodeStringElement(descriptor, 3))
-                    4 -> deviceSpecification =  decodeSerializableElement(
+                    4 -> deviceSpecification = decodeSerializableElement(
                         descriptor,
                         4,
                         DeviceSpecification.serializer(),
                         null
                     )
-                    5 ->  jsonFormat = decodeNullableSerializableElement(descriptor,5,serializer<String?>())
+
+                    5 -> {
+                        jsonFormat = decodeStringElement(descriptor, 5)
+                    }
 
                     else -> throw IllegalStateException("Unexpected index: $index")
                 }
             }
         }
 
-        return LLMResponse(prompt, response, modelName, generationTime, deviceSpecification, jsonFormat )
+        return LLMResponse(prompt, response, modelName, generationTime, deviceSpecification, jsonFormat)
     }
 }
 
@@ -88,9 +95,9 @@ data class LLMResponse(
 ) {
     fun compareConfig(prompt: String, modelName: String, device: DeviceSpecification?, jsonFormat: String?): Boolean {
         return prompt == this.prompt &&
-        modelName == this.modelName &&
-        this.deviceSpecification!!.equals(device) &&
-        this.jsonFormat ==  jsonFormat
+                modelName == this.modelName &&
+                this.deviceSpecification!!.equals(device) &&
+                this.jsonFormat == jsonFormat
     }
 
     override fun equals(other: Any?): Boolean {
@@ -115,14 +122,24 @@ data class LLMResponse(
         return result
     }
 
+    override fun toString(): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("\n=======================================LLMResponse========================================\n")
+        stringBuilder.append(prompt)
+        stringBuilder.append("\n=========================================================================================\n")
+        stringBuilder.append(StringTools.turnCharsIntoEscapeSequance(response))
+        stringBuilder.append("\n=========================================================================================\n\n")
+        return stringBuilder.toString()
+    }
+
 
 }
 
 
 interface LLMProcessor {
-    fun executePrompt(prompt: String,jsonSchema:String?=null): LLMResponse
+    fun executePrompt(prompt: String, jsonSchema: String? = null): LLMResponse
     fun load()
     fun unload()
     fun getName(): String
     fun getDeviceSpecification(): DeviceSpecification?
- }
+}

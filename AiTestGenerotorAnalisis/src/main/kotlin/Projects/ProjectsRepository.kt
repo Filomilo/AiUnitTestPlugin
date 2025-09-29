@@ -38,10 +38,18 @@ object ProjectsRepository {
             ProjectPath = PathResolver.resolveExampleProject("PythonSimpleCalculator"),
             projectRunner = PythonRunner("calculator"),
             reportExtractor = PytestReportExtractor(),
-            testingFramework = "unittest",
+            testingFramework = "pytest",
             codeParser = PythonParser(),
             codeFileExtension = "py",
-            ignoredPaths = listOf(Path("tests").resolve("__pycache__"),Path(".idea"),Path(".gitignore"))
+            ignoredPaths = listOf(
+                Path("tests").resolve("__pycache__"),
+                Path(".idea"),
+                Path(".gitignore"),
+                Path(".pytest_cache"),
+                Path("__pycache__"),
+                Path("calculator").resolve("__pycache__"),
+                Path("calculator").resolve(".idea")
+            )
         ),
     )
 }
