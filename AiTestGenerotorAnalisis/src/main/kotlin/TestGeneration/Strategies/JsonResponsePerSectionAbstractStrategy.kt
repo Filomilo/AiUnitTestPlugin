@@ -1,5 +1,6 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
+import Exceptions.LlmProcessingException
 import LLM.CodeRetrivalExcpetion
 import LLM.JsonResponses.FileNameImportContentAndContent
 import LLM.LlmParser
@@ -86,22 +87,31 @@ abstract class JsonResponsePerSectionAbstractStrategy(prompt: String, tags: List
         section: Code, llmProcessor: LLMProcessor, project: Project,
 
         ): Collection<CodeFile> {
-        val prompt: String = PromptFormatter.resolveArguments(
-            this.promptBase,
-            GetPromptInformationProviderFromCodeSection(section, project)
+        try {
+            val prompt: String = PromptFormatter.resolveArguments(
+                this.promptBase,
+                GetPromptInformationProviderFromCodeSection(section, project)
 
-        )
-        var llmreponse: LLMResponse = llmProcessor.executePrompt(
-            prompt,
-            FileNameImportContentAndContent.getEmpty().getJsonFormat()
-        )
-        var response: LLMResponse = llmreponse
-        var promptResult: String = response.response
-        val jsonObject: FileNameImportContentAndContent =
-            Json.decodeFromString<FileNameImportContentAndContent>(promptResult)
-        val codeFilesFromResult: CodeFile = getCodeFilesFromJsonObject(jsonObject, project)
+            )
+            var llmreponse: LLMResponse = llmProcessor.executePrompt(
+                prompt,
+                FileNameImportContentAndContent.getEmpty().getJsonFormat()
+            )
+            var response: LLMResponse = llmreponse
+            var promptResult: String = response.response
+            val jsonObject: FileNameImportContentAndContent =
+                Json.decodeFromString<FileNameImportContentAndContent>(promptResult)
+            val codeFilesFromResult: CodeFile = getCodeFilesFromJsonObject(jsonObject, project)
 
-        return listOf<CodeFile>(codeFilesFromResult)
+            return listOf<CodeFile>(codeFilesFromResult)
+        }
+        catch (ex: Exception){
+            log.error("Error while henrating test for section wit json reposne: ${ex.message} :: ${ex.stackTrace}")
+            this.exceptions.add(ex)
+            return emptyList()
+        }
+
+
     }
 
     fun generateTestsForSections(
