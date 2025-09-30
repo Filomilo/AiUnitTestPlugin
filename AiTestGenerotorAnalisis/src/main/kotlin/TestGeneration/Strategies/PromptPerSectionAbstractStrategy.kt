@@ -1,12 +1,17 @@
 package org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategies
 
+
+import Exceptions.LlmProcessingException
 import LLM.CodeRetrivalExcpetion
+import LLM.JsonResponses.FileNameImportContentAndContent
 import LLM.LlmParser
 import LLM.PromptInformationProvider
 import LLM.TestGenerationException
 import Tools.CodeParsers.CodeElements.CodeFile
 import Tools.CodeParsers.CodeParser
 import Tools.CodeParsers.ParsingException
+import com.fasterxml.jackson.databind.JsonSerializer
+import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.LLMProcessor
 import org.filomilo.AiTestGenerator.LLM.LLMResponse
 import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
@@ -16,11 +21,11 @@ import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.filomilo.AiTestGenerotorAnalisis.AnalysisRun
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Project
 import org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.TestReport
-import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.DataPromptInformationProvider
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.PromptFormatter
 import org.filomilo.AiTestGenerotorAnalisis.TestGeneration.Strategy.TestGenerationStrategy
 import org.slf4j.LoggerFactory
 import java.io.File
+import kotlin.collections.forEach
 import kotlin.text.replace
 
 abstract class PromptPerSectionAbstractStrategy(prompt: String, tags: List<TestGenerationStrategy.Tags>) : TestGenerationStrategy {

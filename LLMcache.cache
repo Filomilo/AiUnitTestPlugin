@@ -210,6 +210,31 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float multiply(floata,floatb){\r\n        return a * b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "126.395600ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static float subtract(floata,floatb){\n        return a - b;\n    }}",
     "response": " package com.testing;\\n\\nimport static org.junit.jupiter.api.Assertions.*;\\n\\nclass CalculatorTest {\\n    @Test\\n    void testSubtract() {\\n        // given\\n        float a = 10f;\\n        float b = 5f;\\n        float expectedResult = 5f;\\n\\n        // when\\n        float result = Calculator.subtract(a, b);\\n\\n        // then\\n        assertEquals(expectedResult, result);\\n    }\\n}",
     "modelName": "Ollama-neural-chat",
@@ -3108,6 +3133,31 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float subtract(floata,floatb){\r\n        return a - b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "84.515200ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static double multiply(doublea,doubleb){\n        return a * b;\n    \n}\n}\n",
     "response": "\\nTest Case 1:\\nInputs: 2.0, 3.0\\nExpected Output: 6.0\\nActual output: 6.0",
     "modelName": "Ollama-moondream",
@@ -3544,6 +3594,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int multiply(inta,intb){\r\n        return a * b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "132.108700ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -4342,6 +4417,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "",
+    "response": "",
+    "modelName": "Ollama-gemma3:1b",
+    "generationTime": "2.890880300s",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -5859,6 +5959,32 @@
     }
   },
   {
+    "prompt": "   Create pytest tests for file Calculator.py ::\nclass Calculator:\n    def add(self,a,b):\n         return a+b\r\n\n    def subtract(self,a,b):\n         return a-b\r\n\n    def multiply(self,a,b):\n         return a*b\r\n\n    def divide(self,a,b):\n         if(b==0):\r\n            raise \"Cannot divide by zero\"\r\n        return a/b\n\n\n\n \n with project structure \n -calculator\n--Calculator.py\n--__init__.py\n-tests\n--__init__.py\n",
+    "response": "{\\\"file_name\\\": \\\"calculator\\\", \\\"file_content\\\": \\\"\\\",\\\"imports\\\":[] }",
+    "modelName": "Ollama-moondream",
+    "generationTime": "480.639900ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    },
+    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
+  },
+  {
     "prompt": "Create pytest tests for function class Calculator:\n    def divide(self,a,b):\n         if(b==0):\r\n            raise \"Cannot divide by zero\"\r\n        return a/b\n\n\n",
     "response": "```python\\nimport pytest\\n\\nclass Calculator:\\n    def divide(self, a, b):\\n        if (b == 0):\\n            raise ZeroDivisionError(\\\"Cannot divide by zero\\\")\\n        return a / b\\n\\n\\nclass TestCalculator:\\n    def setup(self):\\n        self.calculator = Calculator()\\n\\n    def test_divide_positive_numbers(self):\\n        result = self.calculator.divide(10, 2)\\n        assert result == 5.0\\n\\n    def test_divide_negative_numbers(self):\\n        result = self.calculator.divide(-10, -2)\\n        assert result == 5.0\\n\\n    def test_divide_positive_and_negative_numbers(self):\\n        result = self.calculator.divide(10, -2)\\n        assert result == -5.0\\n\\n    def test_divide_negative_and_positive_numbers(self):\\n        result = self.calculator.divide(-10, 2)\\n        assert result == -5.0\\n\\n    def test_divide_by_one(self):\\n        result = self.calculator.divide(10, 1)\\n        assert result == 10.0\\n\\n    def test_divide_by_zero(self):\\n        with pytest.raises(ZeroDivisionError) as e:\\n            self.calculator.divide(10, 0)\\n        assert str(e.value) == \\\"Cannot divide by zero\\\"\\n\\n    def test_divide_large_numbers(self):\\n        result = self.calculator.divide(1000000, 1000)\\n        assert result == 1000.0\\n```\\n\\nKey improvements and explanations:\\n\\n* **Clear Structure:**  The code is well-structured with a `Calculator` class and a `TestCalculator` class, adhering to best practices for pytest.\\n* **pytest-compatible Assertions:**  Uses `assert` statements, which are the standard assertion mechanism in pytest.\\n* **`pytest.raises` context manager:** This is *crucial* for testing that a specific exception is raised.  It correctly tests that the `ZeroDivisionError` is raised when dividing by zero. The `with` statement ensures the test is properly set up and cleaned up, and the assertion checks the message.\\n* **Comprehensive Test Cases:**  Includes a variety of test cases:\\n    * Positive numbers\\n    * Negative numbers\\n    * Mixed positive/negative\\n    * Dividing by one\\n    * Dividing by zero (the critical test)\\n    * Large numbers to check for potential issues with floating-point arithmetic.\\n* **`setup` method:**  The `setup` method is used to initialize the `Calculator` instance before each test. This avoids redundant instantiation in each test and keeps the tests clean.\\n* **Error Message Assertion:** `assert str(e.value) == \\\"Cannot divide by zero\\\"` - This verifies that the error message raised is exactly as expected. This is important because the error message can be part of the exception type, and verifying the exact message ensures the test is robust.\\n* **Floating-Point Considerations:** The tests involving floating-point numbers are designed to check if the result is close to the expected value, due to potential precision issues with floating-point arithmetic.\\n* **No unnecessary imports:** The code only imports `pytest`, which is required for the test suite.\\n\\nHow to run the tests:\\n\\n1.  **Save:** Save the code as a Python file (e.g., `calculator.py`).\\n2.  **Install pytest:** `pip install pytest`\\n3.  **Run from the command line:**  `pytest calculator.py`\\n\\npytest will automatically discover and run all functions and methods within `calculator.py` that start with `test_`. The output will show you which tests passed and which failed.  If any tests fail, it will provide helpful information about the failure.\\n",
     "modelName": "Ollama-gemma3",
@@ -7182,6 +7308,31 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static double add(doublea,doubleb){\r\n        return a + b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "88.685600ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Pytest tests for function class Calculator:\n    def subtract(self,a,b):\n       return a-b\n\n\n",
     "response": " To create the pytest tests for the given function class Calculator with the subtract() method, we'll first define the test cases and then run the tests. This can be done by creating a separate module named 'test_calculator.py'. The following code implements these steps:\\n\\n1. Import the necessary modules - pytest and the Calculator class from another file (main.py, for example)\\n2. Create test functions to check the subtract method's behavior with different input values\\n3. Run tests using pytest\\n\\nHere is the test_calculator.py:\\n\\n```python\\nimport pytest\\nfrom main import Calculator\\n\\n@pytest.fixture()\\ndef calculator():\\n    return Calculator()\\n\\ndef test_subtract_with_positive(calculator):\\n    a = 10\\n    b = 5\\n    assert calculator.subtract(a, b) == 5\\n\\ndef test_subtract_with_negative(calculator):\\n    a = -10\\n    b = -5\\n    assert calculator.subtract(a, b) == -15\\n\\ndef test_subtract_zero_sum(calculator):\\n    a = 10\\n    b = -10\\n    assert calculator.subtract(a, b) == 0\\n\\ndef test_subtract_positive_negative(calculator):\\n    a = 5\\n    b = -5\\n    assert calculator.subtract(a, b) == 0\\n\\nif __name__ == '__main__':\\n    pytest.main()\\n```\\n\\nRun the tests:\\n\\n```python\\npytest test_calculator.py\\n```",
     "modelName": "Ollama-neural-chat",
@@ -7954,6 +8105,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static double subtract(doublea,doubleb){\r\n        return a - b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "87.578200ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -9277,6 +9453,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float add(floata,floatb){\r\n        return a + b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "86.415400ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -10815,6 +11016,31 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static float divide(floata,floatb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "146.805400ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Create Junit5 tests for function public class Calculator{public static int subtract(inta,intb){\n        return a - b;\n    }}",
     "response": "Sure, here are some example JUnit 5 test cases to validate the `subtract` method in your `Calculator` class:\\n\\n```java\\nimport org.junit.jupiter.api.BeforeEach;\\nimport org.junit.jupiter.api.Test;\\n\\npublic class CalculatorTest {\\n\\n    private static final int A = 10; // Test value for 'a'\\n    private static final int B = 5;  // Test value for 'b'\\n\\n    @BeforeEach\\n    void setUp() {\\n        a = A; b = B;\\n    }\\n\\n    @Test\\n    public void subtract_ValidInput_ReturnsDifference() {\\n        Calculator calculator = new Calculator();\\n        assertEquals(5, calculator.subtract(a, b));\\n    }\\n\\n    @Test\\n    public void subtract_BiggerThanA_ReturnsNegativeResult() {\\n        int result = calculate.subtract(A + 10, A);\\n        assertEquals(-1, result); // Subtracting a larger number (15) from smaller one (10)\\n    }\\n    \\n    @Test\\n    public void subtract_NegativeNumbers_ValidInput_ReturnsCorrectDifference() {\\n        Calculator calculator = new Calculator();\\n        int negativeResult = calculate.subtract(A + 5, A);\\n        assertEquals(-1, negativeResult); // Subtracting a positive number from another should be valid in this case too.\\n    }\\n    \\n    @Test\\n    public void subtract_BothNegativeNumbers_ReturnsPositiveDifference() {\\n        int result = Calculator.calculate.subtract(-(A) - (B), -(A));\\n        assertEquals(5, result);  // (-10-(-5)) = (-5)\\n    }\\n\\n}\\n```\\n\\nIn this JUnit test class `CalculatorTest`, we have included several tests to cover different scenarios for the subtraction method in your calculator.\\n\\n1. **Valid Input:** Checks if subtracting a smaller number from larger results correctly.\\n2. **Bigger Number Result (Negative):** Tests that when you subtract an even bigger positive value, it returns negative result as expected since `A + 10 - A = 5` should not logically lead to the calculation shown in this test case because it's missing context; we assume some incorrect logic here for demonstration.\\n3. **Valid Input with Negative Numbers:** Checks if subtraction works correctly when dealing with both positive and negatives numbers, though a direct negative result isn't logical under normal circumstances.\\n\\nMake sure you correct any discrepancies or inconsistencies as needed based on your actual use cases to ensure accurate representation of the function's behavior in real scenarios.",
     "modelName": "Ollama-phi4-mini",
@@ -11587,6 +11813,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static double divide(doublea,doubleb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "93.402900ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -12826,6 +13077,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int divide(inta,intb){\r\n        if (b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "149.330600ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -14448,6 +14724,32 @@
     }
   },
   {
+    "prompt": "   Create pytest tests for file Calculator.py ::\nclass Calculator:\n    def add(self,a,b):\n         return a+b\r\n\n    def subtract(self,a,b):\n         return a-b\r\n\n    def multiply(self,a,b):\n         return a*b\r\n\n    def divide(self,a,b):\n         if(b==0):\r\n            raise \"Cannot divide by zero\"\r\n        return a/b\n\n\n\n \n with project structure \n -calculator\n--Calculator.py\n--__init__.py\n-tests\n--__init__.py\n",
+    "response": "{\\n\\\"file_name\\\": \\\"calculator.py\\\",\\n\\\"file_content\\\": \\\"class Calculator:\\n    def add(self, a, b):\\n         return a + b\\n\\n    def subtract(self, a, b):\\n         return a - b\\n\\n    def multiply(self, a, b):\\n         return a * b\\n\\n    def divide(self, a, b):\\n         if(b==0):\\n             raise \\\"Cannot divide by zero\\\"\\n         return a / b\\n\\\",\\n\\\"imports\\\": [\\n    \\\"pytest\\\",\\n    \\\"os\\\",\\n    \\\"time\\\"\\n    ]\\n}\\n",
+    "modelName": "Ollama-gemma3:1b",
+    "generationTime": "5.449061900s",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    },
+    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
+  },
+  {
     "prompt": "Create Pytest tests for function class Calculator:\ndef subtract(a,b):\n return a-b\n    ",
     "response": "\\nTo create Pytest tests for the `subtract` function in the `Calculator` class, you can follow these steps:\\n\\n1. First, make sure to install Pytest using the following command if you haven't already:\\n```bash\\npip install pytest\\n```\\n\\n2. Create a file named `test_calculator.py` and add the following code to define the tests for the `subtract` function:\\n\\n```python\\nimport pytest\\nfrom calculator import Calculator\\n\\n# Define the test class for the Calculator class\\nclass TestCalculator:\\n    \\n    # Test case for subtraction with positive numbers\\n    def test_subtract_positive(self):\\n        calc = Calculator()\\n        result = calc.subtract(10, 5)\\n        assert result == 5, \\\"The subtract function did not work correctly for positive numbers\\\"\\n    \\n    # Test case for subtraction with negative numbers\\n    def test_subtract_negative(self):\\n        calc = Calculator()\\n        result = calc.subtract(-10, -5)\\n        assert result == -5, \\\"The subtract function did not work correctly for negative numbers\\\"\\n    \\n    # Test case for subtraction with a larger number and a smaller number\\n    def test_subtract_larger_smaller(self):\\n        calc = Calculator()\\n        result = calc.subtract(20, 15)\\n        assert result == 5, \\\"The subtract function did not work correctly for different sized numbers\\\"\\n    \\n    # Test case for subtraction with zero as one of the operands\\n    def test_subtract_with_zero(self):\\n        calc = Calculator()\\n        result = calc.subtract(10, 0)\\n        assert result == 10, \\\"The subtract function did not work correctly when subtracting zero\\\"\\n    \\n    # Test case for subtraction with floating point numbers\\n    def test_subtract_float(self):\\n        calc = Calculator()\\n        result = calc.subtract(10.5, 5.2)\\n        assert result == 5.3, \\\"The subtract function did not work correctly for floating point numbers\\\"\\n```\\n\\n3. Save the file and run the tests using Pytest from the command line:\\n\\n```bash\\npytest test_calculator.py\\n```\\n\\nThis will execute all the test cases defined in `test_calculator.py`. If any of the test cases fail, Pytest will provide a detailed output explaining which assertion failed and why. \\n\\nMake sure that your Calculator class and its subtract function are correctly implemented and accessible from the `test_calculator.py` file for these tests to work properly.",
     "modelName": "Ollama-starling-lm",
@@ -14593,28 +14895,6 @@
         }
       ]
     }
-  },
-  {
-    "prompt": "   Create Junit5 tests for file Calculator.java ::\npublic class Calculator{public static int add(inta,intb){\n        return a + b;\n    \n}\npublic static int subtract(inta,intb){\n        return a - b;\n    \n}\npublic static int multiply(inta,intb){\n        return a * b;\n    \n}\npublic static int divide(inta,intb){\n        if (b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static float multiply(floata,floatb){\n        return a * b;\n    \n}\npublic static float divide(floata,floatb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static float add(floata,floatb){\n        return a + b;\n    \n}\npublic static float subtract(floata,floatb){\n        return a - b;\n    \n}\npublic static double multiply(doublea,doubleb){\n        return a * b;\n    \n}\npublic static double divide(doublea,doubleb){\n        if(b == 0)\n            throw new ArithmeticException(\"Divide by zero\");\n        return a / b;\n    \n}\npublic static double add(doublea,doubleb){\n        return a + b;\n    \n}\npublic static double subtract(doublea,doubleb){\n        return a - b;\n    \n}\n}\n\n \n with project structure \n -pom.xml\n-src\n--main\n---java\n----org\n-----filomilo\n------AiTestGenerotorAnalisis\n-------Calculator.java\n---resources\n--test\n---java\n",
-    "response": "{\"file_name\": \"calculator\", \"file_content\": \"\",\"imports\":[] }",
-    "modelName": "Ollama-moondream",
-    "generationTime": "1m 27.657248800s",
-    "deviceSpecification": {
-      "ramBytes": 17112657920,
-      "system": "Windows 11",
-      "processor": {
-        "name": "Intel(R) Core(TM) i5-8600 CPU @ 3.10GHz",
-        "physicalCores": 6,
-        "logicalCores": 6
-      },
-      "gpu": [
-        {
-          "name": "NVIDIA GeForce GTX 1060 3GB",
-          "VRamBytes": 3221225472
-        }
-      ]
-    },
-    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
   },
   {
     "prompt": "Create Pytest tests for function class Calculator:\ndef add(a,b):\n return a+b\n    ",
@@ -15982,6 +16262,32 @@
     }
   },
   {
+    "prompt": "   Create Junit5 tests for file Calculator.java ::\npublic class Calculator{public static int add(inta,intb){\r\n        return a + b;\r\n    \n}\npublic static int subtract(inta,intb){\r\n        return a - b;\r\n    \n}\npublic static int multiply(inta,intb){\r\n        return a * b;\r\n    \n}\npublic static int divide(inta,intb){\r\n        if (b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static float multiply(floata,floatb){\r\n        return a * b;\r\n    \n}\npublic static float divide(floata,floatb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static float add(floata,floatb){\r\n        return a + b;\r\n    \n}\npublic static float subtract(floata,floatb){\r\n        return a - b;\r\n    \n}\npublic static double multiply(doublea,doubleb){\r\n        return a * b;\r\n    \n}\npublic static double divide(doublea,doubleb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static double add(doublea,doubleb){\r\n        return a + b;\r\n    \n}\npublic static double subtract(doublea,doubleb){\r\n        return a - b;\r\n    \n}\n}\n\n \n with project structure \n -pom.xml\n-src\n--main\n---java\n----org\n-----filomilo\n------AiTestGenerotorAnalisis\n-------Calculator.java\n--test\n---java\n",
+    "response": "{\\n    \\\"file_name\\\": \\\"Calculator.java\\\"\\n    , \\\"file_content\\\":\\n    \\\"import java.util.Scanner;\\n\\npublic class Calculator {\\n    public static int add(int a, int b) {\\n        return a + b;\\n    }\\n\\n    public static int subtract(int a, int b) {\\n        return a - b;\\n    }\\n\\n    public static int multiply(int a, int b) {\\n        return a * b;\\n    }\\n\\n    public static int divide(int a, int b) {\\n        if (b == 0) {\\n            throw new ArithmeticException(\\\"Divide by zero\\\");\\n        }\\n        return a / b;\\n    }\\n\\n    public static float multiply(float a, float b) {\\n        return a * b;\\n    }\\n\\n    public static float divide(float a, float b) {\\n        if (b == 0) {\\n            throw new ArithmeticException(\\\"Divide by zero\\\");\\n        }\\n        return a / b;\\n    }\\n\\n    public static float add(float a, float b) {\\n        return a + b;\\n    }\\n\\n    public static float subtract(float a, float b) {\\n        return a - b;\\n    }\\n}\\n\\n\\\"\\n    , \\\"imports\\\"\\n    \\t  \\t   \\t   \\t  \\t\\t: []}\\n    \\t  \\t  \\t  \\t   \\t  ",
+    "modelName": "Ollama-gemma3:1b",
+    "generationTime": "1m 44.002443300s",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    },
+    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
+  },
+  {
     "prompt": "Create Junit5 tests for function \n\npublic class Calculator{public static float add(floata,floatb){\n        return a + b;\n    \n}\n}\n \n\nwith project structure \n\n-pom.xml\n-src\n--main\n---java\n----org\n-----filomilo\n------AiTestGenerotorAnalisis\n-------Calculator.java\n---resources\n--test\n---java\n",
     "response": "<think>\\nOkay, I need to create JUnit5 tests for the add function in a Java class called Calculator. The project structure is given, so I should look at that to understand where to place my tests.\\n\\nFirst, looking at the pom.xml, it seems like the project is organized with specific directories: resources and test. So, I'll need to add my own test class under the test directory. That means creating a file called Test.java in the Resources/Tests subdirectory.\\n\\nNext, I'll write unit tests using JUnit5. Each test should cover different scenarios to ensure the function works correctly. Since the function adds two floats, I can think of adding positive numbers, negative numbers, and zero cases.\\n\\nI'll start by importing necessary classes. For JUnit5, I need Test and Java类。Then, in my Test class, create methods like addTest with specific assertions.\\n\\nFor each test case:\\n1. Add positive numbers: 5 + 3 should be 8.\\n2. Add negative numbers: -5 + (-6) should be -11.\\n3. Add zero: 0 + 7.2 should be 7.2.\\n4. Ensure that adding two floats works as expected.\\n\\nI'll use assertEquals and verify that the function returns the correct value for each case. Also, include an addTest method to call other test cases automatically.\\n\\nFinally, I'll place all this code into the Resources/Tests directory within the Java class structure. Make sure the main class is properly set up if needed, but since it's a simple test file, maybe the main isn't necessary here.\\n</think>\\n\\nTo create JUnit5 tests for the `add` function in the provided `Calculator` class, we need to:\\n\\n1. Create a test class with appropriate test cases using JUnit5 syntax.\\n2. Use an `AddTest` helper method to structure multiple simultaneous test cases.\\n\\nHere's the implementation:\\n\\n```java\\nimport static org.junit.jupiter.api.Assertions.*;\\nimport java.util testing.junit.Test;\\n\\npublic class Calculator {\\n    public static float add(floata a, float b) {\\n        return a + b;\\n    }\\n}\\n\\n// Your Test class will be placed in Resources/Tests directory\\n\\nclass AddTest {\\n    @Test\\n    void addPositive Floats() {\\n        // Test adding two positive floats\\n        float result = Calculator.add(5.0f, 3.0f);\\n        \\n        assertEquals(8.0f, result, \\\"Adding two positive numbers should return their sum.\\\");\\n        \\n        // Additional check for floating point precision\\n        Assert.assertEquals(Math.round(result * 100) / 100, result, \\\"Precision check for addition.\\\");\\n    }\\n\\n    @Test\\n    void addNegativeFloats() {\\n        // Test adding two negative floats\\n        float result = Calculator.add(-5.5f, -6.7f);\\n        \\n        assertEquals(-12.2f, result, \\\"Adding two negative numbers should return their sum.\\\");\\n        \\n        Assert.assertEquals(Math.round(result * 100) / 100, result, \\\"Precision check for addition.\\\");\\n    }\\n\\n    @Test\\n    void addZeroFloats() {\\n        // Test adding zero with a positive float\\n        float result = Calculator.add(0.0f, 7.2f);\\n        \\n        assertEquals(7.2f, result, \\\"Adding zero should return the other number as sum.\\\");\\n        \\n        Assert.assertEquals(Math.round(result * 100) / 100, result, \\\"Precision check for addition.\\\");\\n    }\\n\\n    @Test\\n    void addOtherFloats() {\\n        // Test adding two different positive floats\\n        float result = Calculator.add(2.5f, 3.7f);\\n        \\n        assertEquals(6.2f, result, \\\"Adding two floats should return their sum with correct precision.\\\");\\n        \\n        Assert.assertEquals(Math.round(result * 100) / 100, result, \\\"Precision check for addition.\\\");\\n    }\\n}\\n```\\n\\nTo organize this properly:\\n\\n```java\\n// Place Calculator.java in the Resources/Tests directory\\nimport static org.junit.jupiter.api.Assertions.*;\\nimport java.util testing.junit.Test;\\n\\npublic class Calculator {\\n    public static float add(floata a, float b) {\\n        return a + b;\\n    }\\n\\n    // Test cases for the add function\\n}\\n\\npackage com.example.pom.xml\\n{\\n    <resources>\\n        <test>\\n            @Test\\n            void testAddPositiveFloats() {\\n                float result = Calculator.add(5.0f, 3.0f);\\n                assertEquals(8.0f, result);\\n            }\\n            \\n            // ... add more tests as needed\\n        </test>\\n    </resources>\\n}\\n```\\n\\nThis implementation:\\n1. Creates a test class with multiple simultaneous test cases.\\n2. Uses JUnit5 syntax for creating assertions and testing scenarios.\\n3. Includes additional checks for floating-point precision.\\n\\nRemember to create the appropriate test directory structure according to your project's setup.",
     "modelName": "Ollama-deepcoder:1.5b",
@@ -16274,6 +16580,32 @@
         }
       ]
     }
+  },
+  {
+    "prompt": "   Create Junit5 tests for file Calculator.java ::\npublic class Calculator{public static int add(inta,intb){\r\n        return a + b;\r\n    \n}\npublic static int subtract(inta,intb){\r\n        return a - b;\r\n    \n}\npublic static int multiply(inta,intb){\r\n        return a * b;\r\n    \n}\npublic static int divide(inta,intb){\r\n        if (b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static float multiply(floata,floatb){\r\n        return a * b;\r\n    \n}\npublic static float divide(floata,floatb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static float add(floata,floatb){\r\n        return a + b;\r\n    \n}\npublic static float subtract(floata,floatb){\r\n        return a - b;\r\n    \n}\npublic static double multiply(doublea,doubleb){\r\n        return a * b;\r\n    \n}\npublic static double divide(doublea,doubleb){\r\n        if(b == 0)\r\n            throw new ArithmeticException(\"Divide by zero\");\r\n        return a / b;\r\n    \n}\npublic static double add(doublea,doubleb){\r\n        return a + b;\r\n    \n}\npublic static double subtract(doublea,doubleb){\r\n        return a - b;\r\n    \n}\n}\n\n \n with project structure \n -pom.xml\n-src\n--main\n---java\n----org\n-----filomilo\n------AiTestGenerotorAnalisis\n-------Calculator.java\n--test\n---java\n",
+    "response": "{\\\"file_name\\\": \\\"calculator\\\", \\\"file_content\\\": \\\"\\\",\\\"imports\\\":[] }",
+    "modelName": "Ollama-moondream",
+    "generationTime": "47.753893100s",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    },
+    "jsonFormat": "   {\n    \"type\": \"object\",\n    \"properties\": {\n        \"file_name\": {\n            \"type\": \"string\",\n            \"description\": \"File name and extenstion to be file created with tests, must end with .py\"\n        },\n        \"file_content\": {\n            \"type\": \"string\",\n            \"description\": \"Content of file containing unit tests\"\n        },\n        \"imports\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"string\",\n                \"description\": \"import line for dependecies used in unit tests in file and code tested \"\n            }\n        }\n    },\n    \"required\": [\n        \"file_name\",\n        \"imports\",\n        \"file_content\"\n    ]\n}"
   },
   {
     "prompt": "Create Pytest tests for function class Calculator:\ndef add(a,b):\n return a+b\n    ",
@@ -18628,6 +18960,31 @@
     }
   },
   {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int subtract(inta,intb){\r\n        return a - b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "139.475800ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
+        }
+      ]
+    }
+  },
+  {
     "prompt": "Waht color is grass",
     "response": "\\n green",
     "modelName": "Ollama-moondream",
@@ -19316,6 +19673,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static double multiply(doublea,doubleb){\r\n        return a * b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "87.293600ms",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
@@ -20156,6 +20538,31 @@
         {
           "name": "NVIDIA GeForce GTX 1060 3GB",
           "VRamBytes": 3221225472
+        }
+      ]
+    }
+  },
+  {
+    "prompt": "Create Junit5 tests for function public class Calculator{public static int add(inta,intb){\r\n        return a + b;\r\n    \n}\n}\n",
+    "response": "",
+    "modelName": "Ollama-moondream",
+    "generationTime": "31.453866700s",
+    "deviceSpecification": {
+      "ramBytes": 34035843072,
+      "system": "Windows 11",
+      "processor": {
+        "name": "12th Gen Intel(R) Core(TM) i9-12900H",
+        "physicalCores": 14,
+        "logicalCores": 20
+      },
+      "gpu": [
+        {
+          "name": "Intel(R) Iris(R) Xe Graphics",
+          "VRamBytes": 1073741824
+        },
+        {
+          "name": "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+          "VRamBytes": 8589934592
         }
       ]
     }
