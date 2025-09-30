@@ -29,8 +29,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Dropdown from 'primevue/dropdown';
-import { LlmModels } from '@/Data/llmModels';
 import { createOllamaPromptRequest } from '@/Tools/OllamaApiTools';
+import { LlmModels } from '@/Data/LlmModels';
 
 const apiUrl = ref('http://localhost:11434/api/generate')
 const prompt = ref('')
@@ -57,7 +57,7 @@ async function sendPrompt() {
     const data = await response.json()
     console.log("Ollama Data:", data);
     result.value = (data as any).response
-  } catch (e) {
+  } catch (e: any) {
     error.value = e.message
   } finally {
     loading.value = false
