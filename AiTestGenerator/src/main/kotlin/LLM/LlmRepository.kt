@@ -31,7 +31,7 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "gemma3:12b", // Not enough memory
 ////                "gemma3:27b",  // Not enough memory
 ////                "qwq",  // Not enough memory
-                "deepseek-r1",
+//                "deepseek-r1",
 //                "deepseek-r1:671b", // Not enough memory
 //                "llama4:scout", // Not enough memory
 //                "llama4:maverick", // Not enough memory
@@ -42,8 +42,8 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "llama3.2-vision:90b",// Not enough memory
 //                "llama3.1",
 ////                "llama3.1:405b",// Not enough memory
-                "phi4",
-                "phi4-mini",
+//                "phi4",
+//                "phi4-mini",
                 "mistral",
                 "moondream",
 //                "neural-chat",
