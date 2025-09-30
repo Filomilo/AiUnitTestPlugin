@@ -2,6 +2,48 @@
   "fails": [
     {
       "failureReason": {
+        "message": "no code generated for tests on project Project(name=PythonCalculator, ProjectPath=/__w/AiUnitTestPlugin/AiUnitTestPlugin/tmp/PythonCalculator, codeParser=Tools.CodeParsers.PythonParser@34780cd9, projectRunner=org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner@623ebac7, reportExtractor=org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor@7c8c70d6, testingFramework=pytest, codeFileExtension=py, ignoredPaths=[tests/__pycache__, .idea, .gitignore, .pytest_cache, __pycache__, calculator/__pycache__, calculator/.idea]) using OllamaProcessors(model='gemma3:1b', ollamaApi=OllamaApi(urlBase='http:/ollama:11434/'))-cached"
+      },
+      "llmModel": "cache-Ollama-gemma3:1b",
+      "project": "PythonCalculator",
+      "strategy": {
+        "name": "Json_Response_per_file",
+        "description": "TODO",
+        "tags": [
+          "PER_FILE",
+          "WITH_PROJECT_TREE",
+          "JSON_RESPONSE"
+        ]
+      },
+      "time": "2025-09-30T18:02:54.887123411Z",
+      "deviceSpecification": {
+        "ramBytes": 16772579328,
+        "system": "Linux",
+        "processor": {
+          "name": "AMD EPYC 7763 64-Core Processor",
+          "physicalCores": 2,
+          "logicalCores": 4
+        },
+        "gpu": [
+          {
+            "name": "unknown",
+            "VRamBytes": 0
+          }
+        ]
+      },
+      "executionLogs": [],
+      "warnings": [
+        {
+          "type": "java.lang.Exception",
+          "message": "kotlinx.serialization.json.internal.JsonDecodingException: Unexpected JSON token at offset 1: Expected beginning of the string, but got \\ at path: $\nJSON input: {\\n\\\"file_name\\\": \\\"calculator/....."
+        }
+      ],
+      "promptResults": [],
+      "generatedFiles": [],
+      "report": null
+    },
+    {
+      "failureReason": {
         "message": "no code generated for tests on project Project(name=JavaCalculator, ProjectPath=/__w/AiUnitTestPlugin/AiUnitTestPlugin/tmp/JavaCalculator, codeParser=org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser@14982a82, projectRunner=org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner@4ee5b2d9, reportExtractor=org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReportExtractor@72f8ae0c, testingFramework=Junit5, codeFileExtension=java, ignoredPaths=[.idea, target, .gitignore]) using OllamaProcessors(model='gemma3:1b', ollamaApi=OllamaApi(urlBase='http:/ollama:11434/'))-cached"
       },
       "llmModel": "cache-Ollama-gemma3:1b",
@@ -34,6 +76,48 @@
       "executionLogs": [],
       "warnings": [
         {
+          "type": "java.lang.Exception",
+          "message": "kotlinx.serialization.json.internal.JsonDecodingException: Unexpected JSON token at offset 1: Expected beginning of the string, but got \\ at path: $\nJSON input: {\\n    \\t  \\\"file_name\\\": \\\"Cal....."
+        }
+      ],
+      "promptResults": [],
+      "generatedFiles": [],
+      "report": null
+    },
+    {
+      "failureReason": {
+        "message": "no code generated for tests on project Project(name=JavaCalculator, ProjectPath=/__w/AiUnitTestPlugin/AiUnitTestPlugin/tmp/JavaCalculator, codeParser=org.filomilo.AiTestGenerator.Tools.CodeParsers.JavaParser@7c36db44, projectRunner=org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.MavenRunner@65c33b92, reportExtractor=org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Jacoco.JacocoReportExtractor@7903d448, testingFramework=Junit5, codeFileExtension=java, ignoredPaths=[.idea, target, .gitignore]) using OllamaProcessors(model='gemma3:1b', ollamaApi=OllamaApi(urlBase='http:/ollama:11434/'))-cached"
+      },
+      "llmModel": "cache-Ollama-gemma3:1b",
+      "project": "JavaCalculator",
+      "strategy": {
+        "name": "Json_Response_per_file",
+        "description": "TODO",
+        "tags": [
+          "PER_FILE",
+          "WITH_PROJECT_TREE",
+          "JSON_RESPONSE"
+        ]
+      },
+      "time": "2025-09-30T18:44:13.669594807Z",
+      "deviceSpecification": {
+        "ramBytes": 16772579328,
+        "system": "Linux",
+        "processor": {
+          "name": "AMD EPYC 7763 64-Core Processor",
+          "physicalCores": 2,
+          "logicalCores": 4
+        },
+        "gpu": [
+          {
+            "name": "unknown",
+            "VRamBytes": 0
+          }
+        ]
+      },
+      "executionLogs": [],
+      "warnings": [
+        {
           "type": "kotlinx.serialization.json.internal.JsonDecodingException",
           "message": "Unexpected JSON token at offset 1: Expected beginning of the string, but got \\ at path: $\nJSON input: {\\n    \\t  \\\"file_name\\\": \\\"Cal....."
         }
@@ -44,7 +128,7 @@
     },
     {
       "failureReason": {
-        "message": "no code generated for tests on project Project(name=PythonCalculator, ProjectPath=/__w/AiUnitTestPlugin/AiUnitTestPlugin/tmp/PythonCalculator, codeParser=Tools.CodeParsers.PythonParser@34780cd9, projectRunner=org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner@623ebac7, reportExtractor=org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor@7c8c70d6, testingFramework=pytest, codeFileExtension=py, ignoredPaths=[tests/__pycache__, .idea, .gitignore, .pytest_cache, __pycache__, calculator/__pycache__, calculator/.idea]) using OllamaProcessors(model='gemma3:1b', ollamaApi=OllamaApi(urlBase='http:/ollama:11434/'))-cached"
+        "message": "no code generated for tests on project Project(name=PythonCalculator, ProjectPath=/__w/AiUnitTestPlugin/AiUnitTestPlugin/tmp/PythonCalculator, codeParser=Tools.CodeParsers.PythonParser@1c26273d, projectRunner=org.filomilo.AiTestGenerotorAnalisis.Projects.Runners.PythonRunner@3a37a501, reportExtractor=org.filomilo.AiTestGenerotorAnalisis.Projects.Reports.Pytest.PytestReportExtractor@7a583586, testingFramework=pytest, codeFileExtension=py, ignoredPaths=[tests/__pycache__, .idea, .gitignore, .pytest_cache, __pycache__, calculator/__pycache__, calculator/.idea]) using OllamaProcessors(model='gemma3:1b', ollamaApi=OllamaApi(urlBase='http:/ollama:11434/'))-cached"
       },
       "llmModel": "cache-Ollama-gemma3:1b",
       "project": "PythonCalculator",
@@ -57,7 +141,7 @@
           "JSON_RESPONSE"
         ]
       },
-      "time": "2025-09-30T18:02:54.887123411Z",
+      "time": "2025-09-30T18:44:13.857603186Z",
       "deviceSpecification": {
         "ramBytes": 16772579328,
         "system": "Linux",
