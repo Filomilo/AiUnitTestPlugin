@@ -46,12 +46,12 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 
-import type { AnalysisRunsData } from '@/Types/AnalysisRunsTypes';
-import type { Run } from '@/Types/AnalysisRunsTypes';
+
 import RunComponent from '@/Components/RunComponent.vue';
 import { analysisRunsData } from '@/Data/AnalysisResults';
 import { factory } from 'typescript';
 import MultiSelect from 'primevue/multiselect';
+import type { Run } from '@/Types/AnalyisRunsTypes';
 
 
 const Successes = computed(() => filterProjects(analysisRunsData.runs));
