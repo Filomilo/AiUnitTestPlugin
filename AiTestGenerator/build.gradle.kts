@@ -1,3 +1,5 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
+
 plugins {
     kotlin("jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
@@ -13,7 +15,8 @@ repositories {
 }
 
 dependencies {
-
+    implementation("net.java.dev.jna:jna:5.18.0")
+    implementation("net.java.dev.jna:jna-platform:5.18.0")
     implementation("com.github.docker-java:docker-java:3.5.3")
     implementation("com.github.docker-java:docker-java-transport-httpclient5:3.5.3")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
@@ -39,6 +42,7 @@ sourceSets {
     test {
         java.srcDirs("src/test/java")
         kotlin.srcDirs("src/test/kotlin")
+        systemProperty("jna.nosys", "true")
     }
 }
 
@@ -80,5 +84,11 @@ tasks {
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+configurations.all {
+    resolutionStrategy {
+        force ("com.github.oshi:oshi-core:6.6.0")
+        force ("net.java.dev.jna:jna:5.13.0")
     }
 }

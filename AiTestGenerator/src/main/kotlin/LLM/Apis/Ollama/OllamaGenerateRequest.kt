@@ -37,7 +37,7 @@ data class OllamaGenerateRequest(
     /**
      * the format to return a response in. Format can be json or a JSON schema
      */
-    @Contextual val format: String? = null,
+    @Contextual var format: String? = null,
 
     /**
      * additional model parameters listed in the documentation for the Modelfile such as temperature

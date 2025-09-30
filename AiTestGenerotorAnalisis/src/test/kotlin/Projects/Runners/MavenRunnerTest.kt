@@ -25,7 +25,7 @@ class MavenRunnerTest {
         val javaCodeFile: JavaCodeFile = JavaCodeFile(
             packageDelaration = "",
             dependecies = emptySet(),
-            codes = mutableListOf(Code(""))
+            codes = mutableListOf(Code("")),
         )
         javaCodeFile.file = File(fileName)
 

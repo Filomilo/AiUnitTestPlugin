@@ -15,6 +15,7 @@ import org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements.JavaC
 import org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements.JavaCodeFileBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.nio.file.*
 import java.util.stream.Collectors
 
@@ -96,7 +97,7 @@ object JavaParser : CodeParser {
                     val stop: Token = m.methodBody().getStop()
                     val body = tokens.getText(start, stop)
                     var bodyTrim = ""
-                    if (!body.isEmpty()) {
+                    if (!body.isEmpty() && body.length > 2) {
                         bodyTrim = body.subSequence(1, body.length - 1).toString()
                     }
 
@@ -138,6 +139,19 @@ object JavaParser : CodeParser {
 
     override fun getLanguage(): String {
         return "java"
+    }
+
+    override fun createCodeFile(
+        dependecies: List<String>,
+        codes: MutableList<String>,
+        file: File
+    ): CodeFile {
+        return JavaCodeFile(
+            packageDelaration = "",
+            dependecies = dependecies.toSet(),
+            codes = codes.map { x -> Code(x) }.toMutableList(),
+            file = file
+        )
     }
 
 

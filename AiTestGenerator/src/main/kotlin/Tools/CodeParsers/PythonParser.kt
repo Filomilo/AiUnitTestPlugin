@@ -27,8 +27,11 @@ import org.filomilo.AiTestGenerator.Tools.CodeParsers.CodeElements.Code
 import org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements.JavaClassBuilder
 import org.filomilo.AiTestGenerotorAnalisis.Tools.CodeParsers.CodeElements.JavaCodeFileBuilder
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.nio.file.Files
 import java.util.stream.Collectors
+import kotlin.String
+import kotlin.collections.toMutableList
 
 class PythonParser : CodeParser {
 
@@ -191,6 +194,18 @@ class PythonParser : CodeParser {
 
     override fun getLanguage(): String {
         return "python"
+    }
+
+    override fun createCodeFile(
+        dependecies: List<String>,
+        codes: MutableList<String>,
+        file: File
+    ): CodeFile {
+        return PythonCodeFile(
+            dependecies = dependecies.toSet(),
+            codes = codes.map { x -> Code(x) }.toMutableList(),
+            file = file
+        )
     }
 }
 

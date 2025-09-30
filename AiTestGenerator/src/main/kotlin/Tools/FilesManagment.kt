@@ -34,7 +34,7 @@ import kotlin.io.path.relativeTo
 data class PathObject(
     @Contextual
     val name: String,
-    val children: MutableList<PathObject>,
+    var children: MutableList<PathObject>,
     val content: String?
 )
 
@@ -122,6 +122,7 @@ object FilesManagment {
 
             override fun postVisitDirectory(dir: Path?, exc: IOException?): FileVisitResult {
                 val pathObject: PathObject = pathStack.pop()
+                pathObject.children=pathObject.children.sortedBy { it.name }.toMutableList()
                 if (pathStack.isEmpty()) {
                     content = pathObject.children
                 }
@@ -130,7 +131,7 @@ object FilesManagment {
 
 
         })
-
+        content=content.sortedBy { it-> it.name }.toMutableList()
         return content
     }
 

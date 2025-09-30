@@ -6,6 +6,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.filomilo.AiTestGenerator.LLM.Apis.ApiConnectionFactory
 import org.filomilo.AiTestGenerator.Tools.Awaiters
+import org.filomilo.AiTestGenerator.Tools.StringTools
 import org.slf4j.LoggerFactory
 import java.time.Duration
 
@@ -32,10 +33,23 @@ class OllamaApi(urlBase: String) {
     fun generate(OllamaRequest: OllamaGenerateRequest): OllamaGenerateResponse {
         var resultString: String = ""
         log.info("Ollama generate request:\n\n ${OllamaRequest}\n\n")
+
+        var jsonRequest:String=Json.encodeToString(OllamaRequest)
+        if(!OllamaRequest.format.isNullOrEmpty())
+        {
+            val OllamaRequestCopy: OllamaGenerateRequest=OllamaRequest.copy()
+            OllamaRequestCopy.format="***FORMAT***"
+            jsonRequest=Json.encodeToString(OllamaRequestCopy)
+            log.info("replace: \n\n \"${StringTools.turnCharsIntoEscapeSequance(OllamaRequest.format!!) }\" \n\n")
+
+            jsonRequest=jsonRequest.replace("\"***FORMAT***\"",OllamaRequest.format!!)
+
+        }
+        log.info("Ollama generate request schema:\n\n ${ StringTools.turnCharsIntoEscapeSequance(jsonRequest)}\n\n")
         try {
             resultString = ApiConnectionFactory.getApiConnector().sendPost(
                 "${this.urlBase}api/generate",
-                Json.encodeToString(OllamaRequest)
+                jsonRequest
             );
             val resultParsed: OllamaGenerateResponse = Json.decodeFromString<OllamaGenerateResponse>(resultString)
             return resultParsed

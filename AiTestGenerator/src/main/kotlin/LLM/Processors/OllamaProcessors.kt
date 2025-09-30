@@ -23,7 +23,7 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
 
     }
 
-    override fun executePrompt(prompt: String): LLMResponse {
+    override fun executePrompt(prompt: String, jsonFormat: String?): LLMResponse {
 
         var ollamaGenerateResponse: OllamaGenerateResponse?
         val duration: Duration = measureTime {
@@ -31,7 +31,9 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
                 OllamaGenerateRequest(
                     prompt = prompt,
                     model = this.model,
-                    stream = false
+                    stream = false,
+                    format= jsonFormat
+
                 )
             )
         }
@@ -42,7 +44,8 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
             response = ollamaGenerateResponse!!.response,
             generationTime = duration,
             deviceSpecification = this.getDeviceSpecification(),
-            modelName = this.getName()
+            modelName = this.getName(),
+            jsonFormat = jsonFormat
         );
     }
 
@@ -67,6 +70,8 @@ class OllamaProcessors(model: String, ollamaApi: OllamaApi) : LLMProcessor {
     override fun getDeviceSpecification(): DeviceSpecification? {
         return DeviceSpecification.getCurrentDeviceSpecification()
     }
+
+
 
     override fun toString(): String {
         return "OllamaProcessors(model='$model', ollamaApi=$ollamaApi)"

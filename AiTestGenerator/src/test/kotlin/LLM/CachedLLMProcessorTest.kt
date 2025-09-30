@@ -17,13 +17,19 @@ import kotlin.time.Duration.Companion.seconds
 
 
 class ExampleLlmWithResult : LLMProcessor {
-    override fun executePrompt(prompt: String): LLMResponse {
+
+
+    override fun executePrompt(
+        prompt: String,
+        jsonSchema: String?
+    ): LLMResponse {
         return LLMResponse(
             prompt = prompt,
             response = "Result",
             modelName = "None",
             generationTime = 10.seconds,
-            deviceSpecification = null
+            deviceSpecification = null,
+            jsonFormat = jsonSchema
         )
     }
 
@@ -50,13 +56,19 @@ class ExampleLlmWithResult : LLMProcessor {
 }
 
 class ExampleLlmWithoutResult : LLMProcessor {
-    override fun executePrompt(prompt: String): LLMResponse {
+
+
+    override fun executePrompt(
+        prompt: String,
+        jsonSchema: String?
+    ): LLMResponse {
         return LLMResponse(
             prompt = "",
             response = TODO(),
             modelName = TODO(),
             generationTime = TODO(),
-            deviceSpecification = TODO()
+            deviceSpecification = TODO(),
+            jsonFormat = TODO()
         )
     }
 

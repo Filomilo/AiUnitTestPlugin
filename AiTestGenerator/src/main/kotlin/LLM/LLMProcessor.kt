@@ -1,6 +1,7 @@
 package org.filomilo.AiTestGenerator.LLM
 
 import DeviceSpecification
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
@@ -12,8 +13,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
+import kotlinx.serialization.serializer
 import org.filomilo.AiTestGenerator.Tools.StringTools
-import org.jdom.filter2.Filters.element
 import kotlin.time.Duration
 
 
@@ -25,6 +26,7 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
         element<String>("modelName")
         element<String>("generationTime") // store as String
         element<DeviceSpecification?>("deviceSpecification", isOptional = true)
+        element<String?>("jsonFormat", isOptional = true)
     }
 
 
@@ -37,15 +39,21 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
             if (value.deviceSpecification != null) {
                 encodeSerializableElement(descriptor, 4, DeviceSpecification.serializer(), value.deviceSpecification)
             }
+            if (value.jsonFormat != null) {
+                encodeStringElement(descriptor, 5, value.jsonFormat)
+            }
         }
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun deserialize(decoder: Decoder): LLMResponse {
         var prompt = ""
         var response = ""
         var modelName = ""
         var generationTime: Duration = Duration.ZERO
         var deviceSpecification: DeviceSpecification? = null
+        var jsonFormat: String? = null
+        DeviceSpecification.serializer()
 
         decoder.decodeStructure(descriptor) {
             loop@ while (true) {
@@ -55,15 +63,23 @@ object LLMResponseSerializer : KSerializer<LLMResponse> {
                     1 -> response = StringTools.turnCharsIntoEscapeSequance(decodeStringElement(descriptor, 1))
                     2 -> modelName = decodeStringElement(descriptor, 2)
                     3 -> generationTime = Duration.parse(decodeStringElement(descriptor, 3))
-                    4 -> deviceSpecification =
-                        decodeSerializableElement(descriptor, 4, DeviceSpecification.serializer())
+                    4 -> deviceSpecification = decodeSerializableElement(
+                        descriptor,
+                        4,
+                        DeviceSpecification.serializer(),
+                        null
+                    )
+
+                    5 -> {
+                        jsonFormat = decodeStringElement(descriptor, 5)
+                    }
 
                     else -> throw IllegalStateException("Unexpected index: $index")
                 }
             }
         }
 
-        return LLMResponse(prompt, response, modelName, generationTime, deviceSpecification)
+        return LLMResponse(prompt, response, modelName, generationTime, deviceSpecification, jsonFormat)
     }
 }
 
@@ -74,10 +90,14 @@ data class LLMResponse(
     var response: String,
     val modelName: String,
     val generationTime: Duration,
-    val deviceSpecification: DeviceSpecification?
+    val deviceSpecification: DeviceSpecification?,
+    val jsonFormat: String?
 ) {
-    fun compareConfig(prompt: String, modelName: String, device: DeviceSpecification?): Boolean {
-        return prompt == this.prompt && modelName == this.modelName && this.deviceSpecification!!.equals(device)
+    fun compareConfig(prompt: String, modelName: String, device: DeviceSpecification?, jsonFormat: String?): Boolean {
+        return prompt == this.prompt &&
+                modelName == this.modelName &&
+                this.deviceSpecification!!.equals(device) &&
+                this.jsonFormat == jsonFormat
     }
 
     override fun equals(other: Any?): Boolean {
@@ -102,12 +122,22 @@ data class LLMResponse(
         return result
     }
 
+    override fun toString(): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("\n=======================================LLMResponse========================================\n")
+        stringBuilder.append(prompt)
+        stringBuilder.append("\n=========================================================================================\n")
+        stringBuilder.append(StringTools.turnCharsIntoEscapeSequance(response))
+        stringBuilder.append("\n=========================================================================================\n\n")
+        return stringBuilder.toString()
+    }
+
 
 }
 
 
 interface LLMProcessor {
-    fun executePrompt(prompt: String): LLMResponse
+    fun executePrompt(prompt: String, jsonSchema: String? = null): LLMResponse
     fun load()
     fun unload()
     fun getName(): String
