@@ -44,8 +44,8 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 ////                "llama3.1:405b",// Not enough memory
 //                "phi4",
 //                "phi4-mini",
-                "mistral",
-                "moondream",
+//                "mistral",
+//                "moondream",
 //                "neural-chat",
 //                "starling-lm",
 //                "codellama",
