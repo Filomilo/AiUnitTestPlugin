@@ -36,8 +36,8 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "llama4:scout", // Not enough memory
 //                "llama4:maverick", // Not enough memory
 //                "llama3.3", // Not enough memory
-//                "llama3.2",
-//                "llama3.2:1b",
+                "llama3.2",
+                "llama3.2:1b",
 ////                "llama3.2-vision", // Not enough memory
 ////                "llama3.2-vision:90b",// Not enough memory
 //                "llama3.1",
@@ -49,9 +49,9 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "neural-chat",
 //                "starling-lm",
 //                "codellama",
-//                "llama2-uncensored",
-//                "llava",
-//                "granite3.3"
+                "llama2-uncensored",
+                "llava",
+                "granite3.3"
             )
 
 
