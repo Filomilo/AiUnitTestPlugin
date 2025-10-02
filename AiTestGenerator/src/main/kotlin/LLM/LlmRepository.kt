@@ -26,8 +26,8 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
         this.ollamaApi!!.ensureActive()
         val Ollamamodels: Array<String> =
             arrayOf(
-                "gemma3:1b",
-                "gemma3",
+//                "gemma3:1b",
+//                "gemma3",
 ////                "gemma3:12b", // Not enough memory
 ////                "gemma3:27b",  // Not enough memory
 ////                "qwq",  // Not enough memory
@@ -36,8 +36,8 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "llama4:scout", // Not enough memory
 //                "llama4:maverick", // Not enough memory
 //                "llama3.3", // Not enough memory
-                "llama3.2",
-                "llama3.2:1b",
+//                "llama3.2",
+//                "llama3.2:1b",
 ////                "llama3.2-vision", // Not enough memory
 ////                "llama3.2-vision:90b",// Not enough memory
 //                "llama3.1",
@@ -45,13 +45,13 @@ class LlmRepository(containerManger: ContainersManager, ApiConnection: ApiConnec
 //                "phi4",
 //                "phi4-mini",
 //                "mistral",
-//                "moondream",
+                "moondream",
 //                "neural-chat",
 //                "starling-lm",
 //                "codellama",
-                "llama2-uncensored",
-                "llava",
-                "granite3.3"
+//                "llama2-uncensored",
+//                "llava",
+//                "granite3.3"
             )
 
 
